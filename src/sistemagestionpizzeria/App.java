@@ -42,7 +42,7 @@ public class App extends Application {
         
         try {
             // Vamos a inflar (inflate) el FXML para llevarlo a memoria v:
-            Parent root = FXMLLoader.load(getClass().getResource("/fxml/FXMLPrueba.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("/fxml/FXMLLogin.fxml"));
             // Crear Scene y asociar FXML ya "inflado"
             Scene escena = new Scene(root);
             primaryStage.setScene(escena);

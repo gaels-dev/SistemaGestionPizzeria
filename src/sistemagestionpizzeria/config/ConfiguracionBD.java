@@ -2,6 +2,7 @@ package sistemagestionpizzeria.config;
 
 import java.io.InputStream;
 import java.util.Properties;
+import sistemagestionpizzeria.exception.ConexionException;
 
 /**
  *
@@ -15,13 +16,13 @@ public class ConfiguracionBD {
                 .getResourceAsStream("/db.properties")) {
 
             if (input == null) {
-                throw new RuntimeException("No se encontró el archivo db.properties");
+                throw new ConexionException("No se encontró el archivo db.properties");
             }
 
             props.load(input);
 
         } catch (Exception e) {
-            throw new RuntimeException("Error cargando configuración de BD", e);
+            throw new ConexionException("Error cargando configuración de BD", e);
         }
     }
 
