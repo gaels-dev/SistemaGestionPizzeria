@@ -12,7 +12,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.Menu;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -52,7 +51,7 @@ public class FXMLLoginController implements Initializable {
     private void handleLogin(ActionEvent event) {
         ocultarError();
  
-        String username   = txtUsername.getText();
+        String username = txtUsername.getText();
         String contrasenia = txtContrasenia.getText();
  
         if (username.trim().isEmpty()|| contrasenia.trim().isEmpty()) {
@@ -74,10 +73,10 @@ public class FXMLLoginController implements Initializable {
             mostrarError("Error al conectar con la base de datos. Intenta de nuevo.");
  
         } catch (ConexionException e) {
-            mostrarError("No se pudo conectar a la base de datos. Verifica la configuración.");
+            mostrarError("No se pudo conectar a la base de datos.");
  
         } catch (IOException e) {
-            mostrarError("Error al abrir el sistema. Contacta al administrador.");
+            mostrarError("Error al abrir el sistema.");
  
         } finally {
             btnLogin.setDisable(false);
@@ -85,14 +84,13 @@ public class FXMLLoginController implements Initializable {
     }
     
     private void abrirMenuPrincipal(UsuarioDTO usuario) throws IOException {
-        FXMLLoader loader = new FXMLLoader(
-                getClass().getResource("/fxml/FXMLMenuPrincipal.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/FXMLMenuPrincipal.fxml"));
  
         Parent root = loader.load();
  
-        // Pasar el usuario al controller del menú ANTES de mostrarlo
-        //FXMLMenuPrincipalController menuController = loader.getController();
-        //menuController.inicializarConUsuario(usuario);
+        // Pasar el usuario al controller del menu antes de mostrarlo
+        FXMLMenuPrincipalController menuController = loader.getController();
+        menuController.inicializarConUsuario(usuario);
  
         // Obtener el Stage actual desde cualquier componente del FXML
         Stage stage = (Stage) btnLogin.getScene().getWindow();

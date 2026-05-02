@@ -46,7 +46,7 @@ public class App extends Application {
             // Crear Scene y asociar FXML ya "inflado"
             Scene escena = new Scene(root);
             primaryStage.setScene(escena);
-            primaryStage.setTitle("VentanaSaludo");
+            primaryStage.setTitle("Iniciar sesión - Italia Pizza");
             primaryStage.show();
         } catch (IOException ex) {
             Logger.getLogger(App.class.getName()).log(Level.SEVERE, null, ex);
