@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package sistemagestionpizzeria.dto;
 
 /**
@@ -24,7 +20,8 @@ public class UsuarioDTO {
     private String  contrasenia;   // Hash SHA-256 (CHAR 64)
     private RolDTO  rol;          // Objeto completo del rol asociado
     
-    public UsuarioDTO() {}
+    public UsuarioDTO() {
+    }
     
     //Constructor para cliente
     public UsuarioDTO(int idUsuario, String nombre, String apellidos,

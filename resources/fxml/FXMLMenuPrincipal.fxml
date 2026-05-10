@@ -9,7 +9,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane prefHeight="600.0" prefWidth="820.0" style="-fx-background-color: #C7D3EB;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sistemagestionpizzeria.controller.FXMLMenuPrincipalController">
+<BorderPane prefHeight="600.0" prefWidth="890.0" style="-fx-background-color: #C7D3EB;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sistemagestionpizzeria.controller.FXMLMenuPrincipalController">
    <top>
       <VBox prefHeight="145.0" prefWidth="820.0" BorderPane.alignment="CENTER">
          <children>
@@ -45,7 +45,7 @@
                         <MenuItem mnemonicParsing="false" onAction="#abrirGestionInventario" text="Gestión Inventarios" />
                      </items>
                   </Menu>
-                  <Menu fx:id="menuPedidos" mnemonicParsing="false" onAction="#abrirAcercaDe" text="Pedidos">
+                  <Menu fx:id="menuPedidos" mnemonicParsing="false" text="Pedidos">
                      <items>
                         <MenuItem mnemonicParsing="false" onAction="#abrirPedidos" text="Pedidos" />
                      </items>
@@ -57,7 +57,7 @@
                   </Menu>
                   <Menu fx:id="menuAyuda" mnemonicParsing="false" text="Ayuda">
                      <items>
-                        <MenuItem mnemonicParsing="false" text="Acerca de" />
+                        <MenuItem mnemonicParsing="false" onAction="#abrirAcercaDe" text="Acerca de" />
                      </items>
                   </Menu>
                </menus>

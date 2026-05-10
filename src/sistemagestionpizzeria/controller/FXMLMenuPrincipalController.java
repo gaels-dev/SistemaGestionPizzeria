@@ -41,17 +41,24 @@ public class FXMLMenuPrincipalController implements Initializable {
     @FXML
     private Menu menuAyuda;
     @FXML
-    private StackPane contenidoPrincipal;
-    @FXML
     private Menu menuSesionCajero;
+    @FXML
+    private StackPane contenidoPrincipal;
+
 
     private UsuarioDTO usuarioActual;
     
+    /**
+     * Initializes the controller class.
+     */
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+        // TODO
+    }
+    
     public void inicializarConUsuario(UsuarioDTO usuario) {
         this.usuarioActual = usuario;
- 
         lblBienvenido.setText("Bienvenido, " + usuario.getNombreCompleto());
- 
         configurarMenusPorRol(usuario.getRol().getNombre());
     }
     
@@ -60,22 +67,46 @@ public class FXMLMenuPrincipalController implements Initializable {
  
         menuAdministracion.setVisible(esAdministrador);
         menuInventarios.setVisible(esAdministrador);
- 
         menuSesionCajero.setVisible(!esAdministrador);
     }
 
-    /**
-     * Initializes the controller class.
-     */
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        // TODO
-    }
-
-    
-
     @FXML
     private void abrirUsuarios(ActionEvent event) {
+        cargarVista("FXMLPrueba.fxml");
+    }
+    
+    @FXML
+    private void abrirProductos(ActionEvent event) {
+        cargarVista("FXMLProductos.fxml");
+    }
+
+    @FXML
+    private void abrirRecetas(ActionEvent event) {
+        cargarVista("FXMLRecetas.fxml");
+    }
+
+    @FXML
+    private void abrirGestionInventario(ActionEvent event) {
+        cargarVista("FXMLGestionInventario.fxml");
+    }
+
+    @FXML
+    private void abrirPedidos(ActionEvent event) {
+        System.out.println("Holaaaa");
+        cargarVista("FXMLPedidos.fxml");
+    }
+
+    @FXML
+    private void abrirAcercaDe(ActionEvent event) {
+        Alert info = new Alert(AlertType.INFORMATION);
+        info.setTitle("Acerca de");
+        info.setHeaderText("Sistema de Gestión Pizzería \"Italia Pizza\"");
+        info.setContentText(
+                "Por ahora está así pero más adelante será una vista completa" + 
+                "Versión 1.0\n" +
+                "Desarrollado con Java 8 + JavaFX\n\n" +
+                "Programación para Aplicaciones de Escritorio");
+        info.showAndWait();
     }
 
     @FXML
@@ -89,6 +120,28 @@ public class FXMLMenuPrincipalController implements Initializable {
  
         if (resultado.isPresent() && resultado.get() == ButtonType.OK) {
             regresarALogin();
+        }
+    }
+
+    private void cargarVista(String nombreFxml) {
+        try {
+            URL url = getClass().getResource("/fxml/" + nombreFxml);
+
+            if (url == null) {
+                throw new IOException("Archivo no encontrado: " + nombreFxml);
+            }
+        
+            FXMLLoader loader = new FXMLLoader(url);
+            Parent vista = loader.load();
+            contenidoPrincipal.getChildren().setAll(vista);
+ 
+        } catch (IOException e) {
+            Alert error = new Alert(AlertType.ERROR);
+            error.setTitle("Error");
+            error.setHeaderText("No se pudo cargar la pantalla.");
+            error.setContentText("Módulo: " + nombreFxml + "\nIntente de nuevo.");
+            error.initOwner(contenidoPrincipal.getScene().getWindow());
+            error.showAndWait();
         }
     }
     
@@ -111,24 +164,6 @@ public class FXMLMenuPrincipalController implements Initializable {
         }
     }
 
-    @FXML
-    private void abrirProductos(ActionEvent event) {
-    }
 
-    @FXML
-    private void abrirRecetas(ActionEvent event) {
-    }
-
-    @FXML
-    private void abrirGestionInventario(ActionEvent event) {
-    }
-
-    @FXML
-    private void abrirPedidos(ActionEvent event) {
-    }
-
-    @FXML
-    private void abrirAcercaDe(ActionEvent event) {
-    }
     
 }
