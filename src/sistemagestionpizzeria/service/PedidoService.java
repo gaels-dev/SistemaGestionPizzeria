@@ -1,0 +1,82 @@
+package sistemagestionpizzeria.service;
+
+import java.sql.SQLException;
+import java.util.List;
+import sistemagestionpizzeria.dao.PedidoDAO;
+import sistemagestionpizzeria.dto.DetallePedidoDTO;
+import sistemagestionpizzeria.dto.PedidoDTO;
+import sistemagestionpizzeria.exception.NegocioException;
+
+/**
+ *
+ * @author gaels
+ */
+public class PedidoService {
+    private final PedidoDAO pedidoDAO = new PedidoDAO();
+    private final DetallePedidoService detalleService = new DetallePedidoService();
+ 
+    public PedidoDTO obtenerPorId(int idPedido) throws NegocioException, SQLException {
+        if (idPedido <= 0) {
+            throw new NegocioException("El id del pedido no es válido.");
+        }
+ 
+        PedidoDTO pedido = pedidoDAO.buscarPorId(idPedido);
+        if (pedido == null) {
+            throw new NegocioException("No se encontró pedido con id " + idPedido);
+        }
+ 
+        List<DetallePedidoDTO> detalles = detalleService.obtenerPorPedido(idPedido);
+        pedido.setDetalles(detalles);
+ 
+        return pedido;
+    }
+ 
+    public List<PedidoDTO> obtenerTodos() throws SQLException {
+        return pedidoDAO.listarTodos();
+    }
+ 
+    public List<PedidoDTO> obtenerPorCliente(int idCliente) throws NegocioException, SQLException {
+        if (idCliente <= 0) {
+            throw new NegocioException("El id del cliente no es válido.");
+        }
+        return pedidoDAO.buscarPorCliente(idCliente);
+    }
+ 
+    public List<PedidoDTO> obtenerPorEstatus(String estatus) throws NegocioException, SQLException {
+        if (estatus == null || estatus.trim().isEmpty()) {
+            throw new NegocioException("El estatus no puede estar vacío.");
+        }
+        return pedidoDAO.buscarPorEstatus(estatus.trim());
+    }
+ 
+    public int registrar(PedidoDTO pedido) throws NegocioException, SQLException {
+        if (pedido.getIdCliente() <= 0) {
+            throw new NegocioException("El pedido debe tener un cliente asignado.");
+        }
+        if (pedido.getIdEmpleado() <= 0) {
+            throw new NegocioException("El pedido debe tener un empleado asignado.");
+        }
+        if (pedido.getDetalles() == null || pedido.getDetalles().isEmpty()) {
+            throw new NegocioException("El pedido debe tener al menos un producto.");
+        }
+ 
+        int idGenerado = pedidoDAO.insertar(pedido);
+ 
+        for (DetallePedidoDTO detalle : pedido.getDetalles()) {
+            detalle.setIdPedido(idGenerado);
+            detalleService.registrar(detalle);
+        }
+ 
+        return idGenerado;
+    }
+ 
+    public void actualizarEstatus(int idPedido, String estatus) throws NegocioException, SQLException {
+        if (idPedido <= 0) {
+            throw new NegocioException("El id del pedido no es válido.");
+        }
+        if (estatus == null || estatus.trim().isEmpty()) {
+            throw new NegocioException("El estatus no puede estar vacío.");
+        }
+        pedidoDAO.actualizarEstatus(idPedido, estatus.trim());
+    }
+}

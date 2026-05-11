@@ -13,12 +13,12 @@ public class UsuarioDTO {
     private String calleNumero;
     private String codigoPostal;
     private String ciudad;
-    private String tipo;       // "Cliente" o "Empleado"
-    private int activo;        // 1 = activo, 0 = eliminado lógicamente
+    private String tipo;    
+    private int activo;   
     
     private String  username;
-    private String  contrasenia;   // Hash SHA-256 (CHAR 64)
-    private RolDTO  rol;          // Objeto completo del rol asociado
+    private String  contrasenia;  
+    private RolDTO  rol;          
     
     public UsuarioDTO() {
     }
@@ -43,20 +43,20 @@ public class UsuarioDTO {
     public UsuarioDTO(int idUsuario, String nombre, String apellidos,
                       String telefono, String email, String calleNumero,
                       String codigoPostal, String ciudad, String tipo,
-                      String username, String contrasena, RolDTO rol, int activo) {
-        this.idUsuario   = idUsuario;
-        this.nombre      = nombre;
-        this.apellidos   = apellidos;
-        this.telefono    = telefono;
-        this.email       = email;
+                      String username, String contrasena, int activo, RolDTO rol) {
+        this.idUsuario = idUsuario;
+        this.nombre = nombre;
+        this.apellidos = apellidos;
+        this.telefono = telefono;
+        this.email = email;
         this.calleNumero = calleNumero;
         this.codigoPostal = codigoPostal;
-        this.ciudad      = ciudad;
-        this.tipo        = tipo;
-        this.activo      = activo;
-        this.username   = username;
+        this.ciudad = ciudad;
+        this.tipo = tipo;
+        this.activo = activo;
+        this.username = username;
         this.contrasenia = contrasena;
-        this.rol        = rol;
+        this.rol = rol;
     }
     
     public int getIdUsuario() {

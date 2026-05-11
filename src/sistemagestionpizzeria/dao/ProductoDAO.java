@@ -50,7 +50,6 @@ public class ProductoDAO {
             "UPDATE Producto SET nombre=?, descripcion=?, precio=?, restriccion=?, " +
             "cantidad=?, unidad=?, foto=?, tipo=? " +
             "WHERE id_producto=?";
-    // Nota: el codigo no se actualiza por requerimiento del proyecto.
  
     private static final String SQL_BAJA_LOGICA =
             "UPDATE Producto SET activo = 0 WHERE id_producto = ?";

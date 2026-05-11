@@ -99,7 +99,7 @@ public class RecetaDAO {
         }
     }
  
-    /** Elimina un ingrediente específico de una receta. */
+    // Elimina un ingrediente específico de una receta
     public void eliminar(int idReceta) throws SQLException {
         try (Connection con = ConexionBD.getConexion();
              PreparedStatement ps = con.prepareStatement(SQL_ELIMINAR)) {
@@ -109,7 +109,7 @@ public class RecetaDAO {
         }
     }
  
-    /** Elimina toda la receta de un producto (útil al eliminar el producto). */
+    //Eliminar la receta a partir del id_producto_venta
     public void eliminarPorProducto(int idProductoVenta) throws SQLException {
         try (Connection con = ConexionBD.getConexion();
              PreparedStatement ps = con.prepareStatement(SQL_ELIMINAR_POR_PRODUCTO)) {

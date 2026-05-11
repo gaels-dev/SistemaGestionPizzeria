@@ -17,11 +17,11 @@ public class DetallePedidoDAO {
  
     private static final String SQL_BUSCAR_POR_PEDIDO =
             "SELECT id_detalle, id_pedido, id_producto, cantidad, precio_unitario, subtotal " +
-            "FROM Detalle_Pedido " +
+            "FROM detalle_pedido " +
             "WHERE id_pedido = ?";
  
     private static final String SQL_INSERTAR =
-            "INSERT INTO Detalle_Pedido (id_pedido, id_producto, cantidad, precio_unitario, subtotal) " +
+            "INSERT INTO detalle_pedido (id_pedido, id_producto, cantidad, precio_unitario, subtotal) " +
             "VALUES (?, ?, ?, ?, ?)";
  
     public List<DetallePedidoDTO> buscarPorPedido(int idPedido) throws SQLException {
