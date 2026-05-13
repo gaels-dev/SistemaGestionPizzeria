@@ -109,9 +109,13 @@ public class PedidoDAO {
     }
  
     public int insertar(PedidoDTO p) throws SQLException {
-        try (Connection con = ConexionBD.getConexion();
-             PreparedStatement ps = con.prepareStatement(
-                     SQL_INSERTAR, PreparedStatement.RETURN_GENERATED_KEYS)) {
+        try (Connection con = ConexionBD.getConexion()) {
+            return insertar(p, con);
+        }
+    }
+ 
+    public int insertar(PedidoDTO p, Connection con) throws SQLException {
+        try (PreparedStatement ps = con.prepareStatement(SQL_INSERTAR, PreparedStatement.RETURN_GENERATED_KEYS)) {
  
             ps.setDouble(1, p.getTotal());
             ps.setInt(2, p.getIdCliente());
@@ -137,6 +141,10 @@ public class PedidoDAO {
             ps.setInt(2, idPedido);
             ps.executeUpdate();
         }
+    }
+
+    public void confirmarEntrega(int idPedido) throws SQLException {
+        actualizarEstatus(idPedido, "ENTREGADO");
     }
  
     private PedidoDTO mapearPedido(ResultSet rs) throws SQLException {

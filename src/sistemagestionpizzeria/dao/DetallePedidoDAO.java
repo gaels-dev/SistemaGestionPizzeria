@@ -42,8 +42,13 @@ public class DetallePedidoDAO {
     }
  
     public void insertar(DetallePedidoDTO d) throws SQLException {
-        try (Connection con = ConexionBD.getConexion();
-             PreparedStatement ps = con.prepareStatement(SQL_INSERTAR)) {
+        try (Connection con = ConexionBD.getConexion()) {
+            insertar(d, con);
+        }
+    }
+ 
+    public void insertar(DetallePedidoDTO d, Connection con) throws SQLException {
+        try (PreparedStatement ps = con.prepareStatement(SQL_INSERTAR)) {
  
             ps.setInt(1, d.getIdPedido());
             ps.setInt(2, d.getIdProducto());

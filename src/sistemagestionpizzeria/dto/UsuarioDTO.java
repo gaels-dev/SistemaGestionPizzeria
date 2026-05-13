@@ -43,7 +43,7 @@ public class UsuarioDTO {
     public UsuarioDTO(int idUsuario, String nombre, String apellidos,
                       String telefono, String email, String calleNumero,
                       String codigoPostal, String ciudad, String tipo,
-                      String username, String contrasena, int activo, RolDTO rol) {
+                      String username, String contrasenia, int activo, RolDTO rol) {
         this.idUsuario = idUsuario;
         this.nombre = nombre;
         this.apellidos = apellidos;
@@ -55,7 +55,7 @@ public class UsuarioDTO {
         this.tipo = tipo;
         this.activo = activo;
         this.username = username;
-        this.contrasenia = contrasena;
+        this.contrasenia = contrasenia;
         this.rol = rol;
     }
     

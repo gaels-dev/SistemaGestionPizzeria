@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package sistemagestionpizzeria.dao;
 
 import java.sql.Connection;
@@ -77,13 +73,16 @@ public class RecetaDAO {
     }
  
     public void insertar(RecetaDTO r) throws SQLException {
-        try (Connection con = ConexionBD.getConexion();
-             PreparedStatement ps = con.prepareStatement(SQL_INSERTAR)) {
- 
+        try (Connection con = ConexionBD.getConexion()) {
+            insertar(r, con);
+        }
+    }
+
+    public void insertar(RecetaDTO r, Connection con) throws SQLException {
+        try (PreparedStatement ps = con.prepareStatement(SQL_INSERTAR)) {
             ps.setInt(1, r.getIdProductoVenta());
             ps.setInt(2, r.getIdInsumo());
             ps.setDouble(3, r.getCantidadRequerida());
- 
             ps.executeUpdate();
         }
     }
@@ -91,29 +90,28 @@ public class RecetaDAO {
     public void actualizar(RecetaDTO r) throws SQLException {
         try (Connection con = ConexionBD.getConexion();
              PreparedStatement ps = con.prepareStatement(SQL_ACTUALIZAR)) {
- 
             ps.setDouble(1, r.getCantidadRequerida());
             ps.setInt(2, r.getIdReceta());
- 
             ps.executeUpdate();
         }
     }
  
-    // Elimina un ingrediente específico de una receta
     public void eliminar(int idReceta) throws SQLException {
         try (Connection con = ConexionBD.getConexion();
              PreparedStatement ps = con.prepareStatement(SQL_ELIMINAR)) {
- 
             ps.setInt(1, idReceta);
             ps.executeUpdate();
         }
     }
  
-    //Eliminar la receta a partir del id_producto_venta
     public void eliminarPorProducto(int idProductoVenta) throws SQLException {
-        try (Connection con = ConexionBD.getConexion();
-             PreparedStatement ps = con.prepareStatement(SQL_ELIMINAR_POR_PRODUCTO)) {
- 
+        try (Connection con = ConexionBD.getConexion()) {
+            eliminarPorProducto(idProductoVenta, con);
+        }
+    }
+
+    public void eliminarPorProducto(int idProductoVenta, Connection con) throws SQLException {
+        try (PreparedStatement ps = con.prepareStatement(SQL_ELIMINAR_POR_PRODUCTO)) {
             ps.setInt(1, idProductoVenta);
             ps.executeUpdate();
         }

@@ -22,6 +22,16 @@ public class DetallePedidoService {
     }
  
     public void registrar(DetallePedidoDTO detalle) throws NegocioException, SQLException {
+        validarDetalle(detalle);
+        detallePedidoDAO.insertar(detalle);
+    }
+
+    public void registrar(DetallePedidoDTO detalle, java.sql.Connection con) throws NegocioException, SQLException {
+        validarDetalle(detalle);
+        detallePedidoDAO.insertar(detalle, con);
+    }
+
+    private void validarDetalle(DetallePedidoDTO detalle) throws NegocioException {
         if (detalle.getIdPedido() <= 0) {
             throw new NegocioException("El id del pedido no es válido.");
         }
@@ -31,6 +41,5 @@ public class DetallePedidoService {
         if (detalle.getCantidad() <= 0) {
             throw new NegocioException("La cantidad debe ser mayor a cero.");
         }
-        detallePedidoDAO.insertar(detalle);
     }
 }

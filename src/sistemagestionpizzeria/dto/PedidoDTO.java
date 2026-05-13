@@ -17,6 +17,9 @@ public class PedidoDTO {
     
     private List<DetallePedidoDTO> detalles;
 
+    public PedidoDTO() {
+    }
+    
     public PedidoDTO(int idPedido, Date fechaPedido, double total, int idCliente, int idEmpleado, String estatus) {
         this.idPedido = idPedido;
         this.fechaPedido = fechaPedido;
