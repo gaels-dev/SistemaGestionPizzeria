@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.effect.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
@@ -9,11 +10,11 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane prefHeight="600.0" prefWidth="890.0" style="-fx-background-color: #C7D3EB;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sistemagestionpizzeria.controller.FXMLMenuPrincipalController">
+<BorderPane prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: #C7D3EB;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sistemagestionpizzeria.controller.FXMLMenuPrincipalController">
    <top>
-      <VBox prefHeight="145.0" prefWidth="820.0" BorderPane.alignment="CENTER">
+      <VBox prefHeight="150.0" prefWidth="820.0" BorderPane.alignment="CENTER">
          <children>
-            <AnchorPane prefHeight="110.0" prefWidth="820" style="-fx-background-color: #D9D9D9;">
+            <AnchorPane prefHeight="115.0" prefWidth="820" style="-fx-background-color: #D9D9D9;">
                <children>
                   <Label layoutX="20.0" layoutY="16.0" text="Menu Principal">
                      <font>

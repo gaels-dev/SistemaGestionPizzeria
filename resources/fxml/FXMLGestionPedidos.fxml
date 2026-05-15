@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="570.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sistemagestionpizzeria.controller.FXMLGestionPedidosController">
+   <children>
+      <GridPane hgap="25.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" percentWidth="40.0" />
+          <ColumnConstraints hgrow="SOMETIMES" percentWidth="60.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <VBox alignment="CENTER" maxWidth="Infinity" spacing="15" style="-fx-background-color:white; -fx-background-radius:8; -fx-padding:20;" GridPane.columnIndex="0">
+               <children>
+                  <Label style="-fx-font-size:18px; -fx-font-weight:bold;" text="Productos" />
+                  <TextField fx:id="txtBuscarProducto" promptText="Buscar producto..." />
+                  <ScrollPane fitToWidth="true" style="-fx-background-color:transparent;" VBox.vgrow="ALWAYS">
+                     <content>
+                        <VBox fx:id="vboxProductos" spacing="15" style="-fx-background-color:white;">
+                           <children>
+                           </children>
+                        </VBox>
+                     </content>
+                  </ScrollPane>
+               </children>
+               <GridPane.margin>
+                  <Insets bottom="20.0" left="20.0" top="20.0" />
+               </GridPane.margin>
+            </VBox>
+            <VBox alignment="CENTER" maxWidth="Infinity" spacing="15" style="-fx-background-color:white; -fx-background-radius:8; -fx-padding:20;" GridPane.columnIndex="1">
+               <children>
+                  <Label text="Pedido actual">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                  </Label>
+                  <TableView VBox.vgrow="ALWAYS">
+                     <columns>
+                        <TableColumn maxWidth="1.7976931348623157E308" prefWidth="232.0" text="Producto" />
+                        <TableColumn maxWidth="1.7976931348623157E308" prefWidth="121.0" text="Cantidad" />
+                        <TableColumn maxWidth="1.7976931348623157E308" prefWidth="172.0" text="Precio" />
+                        <TableColumn maxWidth="1.7976931348623157E308" prefWidth="167.0" text="Subtotal" />
+                     </columns>
+                  </TableView>
+                  <HBox alignment="CENTER_RIGHT" spacing="20">
+                     <children>
+                        <Label style="-fx-font-size:18px; -fx-font-weight:bold;" text="Total:" />
+                        <Label style="-fx-font-size:22px; -fx-font-weight:bold; -fx-text-fill:#2da52d;" text="\$468.00" />
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER_RIGHT" spacing="20.0">
+                     <children>
+                        <Button style="-fx-background-color: #2da52d; -fx-font-weight: bold;" text="Guardar Pedido" textFill="WHITE" />
+                        <Button style="-fx-background-color: #d61d1d; -fx-font-weight: bold;" text="Eliminar Pedido" textFill="WHITE" />
+                     </children>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </HBox>
+                  <Region minHeight="15.0" prefHeight="15.0" prefWidth="200.0" />
+                  <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <Button prefHeight="31.0" prefWidth="70.0" style="-fx-background-color: #222; -fx-font-weight: bold;" text="Salir" textFill="WHITE" />
+                     </children>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </HBox>
+               </children>
+               <GridPane.margin>
+                  <Insets bottom="20.0" right="20.0" top="20.0" />
+               </GridPane.margin>
+            </VBox>
+         </children>
+      </GridPane>
+   </children>
+</AnchorPane>

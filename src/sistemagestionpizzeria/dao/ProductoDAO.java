@@ -57,6 +57,13 @@ public class ProductoDAO {
  
     private static final String SQL_ACTUALIZAR_CANTIDAD =
             "UPDATE Producto SET cantidad = ? WHERE id_producto = ?";
+    
+    private static final String SQL_BUSCAR_PRODUCTOS =
+            "SELECT id_producto, codigo, nombre, descripcion, precio, restriccion, " +
+            "cantidad, unidad, foto, tipo, activo " +
+            "FROM Producto " +
+            "WHERE nombre LIKE ? AND activo = 1 " +
+            "ORDER BY nombre";
  
     public ProductoDTO buscarPorId(int idProducto) throws SQLException {
         try (Connection con = ConexionBD.getConexion();
@@ -197,6 +204,21 @@ public class ProductoDAO {
             ps.setInt(2, idProducto);
             ps.executeUpdate();
         }
+    }
+
+    public List<ProductoDTO> buscarProductos(String filtro) throws SQLException {
+        List<ProductoDTO> productos = new ArrayList<>();
+        try (Connection con = ConexionBD.getConexion();
+             PreparedStatement ps = con.prepareStatement(SQL_BUSCAR_PRODUCTOS)) {
+            String query = "%" + filtro + "%";
+            ps.setString(1, query);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    productos.add(mapearProducto(rs));
+                }
+            }
+        }
+        return productos;
     }
  
     private ProductoDTO mapearProducto(ResultSet rs) throws SQLException {

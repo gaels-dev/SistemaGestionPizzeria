@@ -42,6 +42,13 @@ public class ProductoService {
     public List<ProductoDTO> obtenerActivos() throws SQLException {
         return productoDAO.listarActivos();
     }
+
+    public List<ProductoDTO> buscarProductos(String filtro) throws SQLException {
+        if (filtro == null) {
+            filtro = "";
+        }
+        return productoDAO.buscarProductos(filtro.trim());
+    }
  
     public List<ProductoDTO> obtenerPorTipo(String tipo) throws NegocioException, SQLException {
         if (tipo == null || tipo.trim().isEmpty()) {
