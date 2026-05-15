@@ -134,9 +134,13 @@ public class PedidoDAO {
     }
  
     public void actualizarEstatus(int idPedido, String estatus) throws SQLException {
-        try (Connection con = ConexionBD.getConexion();
-             PreparedStatement ps = con.prepareStatement(SQL_ACTUALIZAR_ESTATUS)) {
- 
+        try (Connection con = ConexionBD.getConexion()) {
+            actualizarEstatus(idPedido, estatus, con);
+        }
+    }
+
+    public void actualizarEstatus(int idPedido, String estatus, Connection con) throws SQLException {
+        try (PreparedStatement ps = con.prepareStatement(SQL_ACTUALIZAR_ESTATUS)) {
             ps.setString(1, estatus);
             ps.setInt(2, idPedido);
             ps.executeUpdate();
@@ -145,6 +149,10 @@ public class PedidoDAO {
 
     public void confirmarEntrega(int idPedido) throws SQLException {
         actualizarEstatus(idPedido, "ENTREGADO");
+    }
+
+    public void confirmarEntrega(int idPedido, Connection con) throws SQLException {
+        actualizarEstatus(idPedido, "ENTREGADO", con);
     }
  
     private PedidoDTO mapearPedido(ResultSet rs) throws SQLException {

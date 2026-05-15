@@ -7,6 +7,7 @@ import sistemagestionpizzeria.config.ConexionBD;
 import sistemagestionpizzeria.dao.RecetaDAO;
 import sistemagestionpizzeria.dto.RecetaDTO;
 import sistemagestionpizzeria.exception.NegocioException;
+import sistemagestionpizzeria.exception.ValidacionException;
 
 /**
  *
@@ -17,17 +18,17 @@ public class RecetaService {
  
     public List<RecetaDTO> obtenerPorProducto(int idProductoVenta) throws NegocioException, SQLException {
         if (idProductoVenta <= 0) {
-            throw new NegocioException("El id del producto no es válido.");
+            throw new ValidacionException("El id del producto no es válido.");
         }
         return recetaDAO.buscarPorProducto(idProductoVenta);
     }
 
     public void guardarReceta(int idProductoVenta, List<RecetaDTO> ingredientes) throws NegocioException, SQLException {
         if (idProductoVenta <= 0) {
-            throw new NegocioException("El id del producto no es válido.");
+            throw new ValidacionException("El id del producto no es válido.");
         }
         if (ingredientes == null || ingredientes.isEmpty()) {
-            throw new NegocioException("La receta debe tener al menos un ingrediente.");
+            throw new ValidacionException("La receta debe tener al menos un ingrediente.");
         }
  
         try (Connection con = ConexionBD.getConexion()) {
@@ -52,12 +53,12 @@ public class RecetaService {
         }
     }
     
-    private void validarIngrediente(RecetaDTO r) throws NegocioException {
+    private void validarIngrediente(RecetaDTO r) throws ValidacionException {
         if (r.getIdInsumo() <= 0) {
-            throw new NegocioException("El id del insumo no es válido.");
+            throw new ValidacionException("El id del insumo no es válido.");
         }
         if (r.getCantidadRequerida() <= 0) {
-            throw new NegocioException("La cantidad requerida debe ser mayor a cero.");
+            throw new ValidacionException("La cantidad requerida debe ser mayor a cero.");
         }
     }
 }

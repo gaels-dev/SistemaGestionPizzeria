@@ -7,7 +7,9 @@ import sistemagestionpizzeria.config.ConexionBD;
 import sistemagestionpizzeria.dao.PedidoDAO;
 import sistemagestionpizzeria.dto.DetallePedidoDTO;
 import sistemagestionpizzeria.dto.PedidoDTO;
+import sistemagestionpizzeria.exception.EntidadNoEncontradaException;
 import sistemagestionpizzeria.exception.NegocioException;
+import sistemagestionpizzeria.exception.ValidacionException;
 
 /**
  *
@@ -19,12 +21,12 @@ public class PedidoService {
  
     public PedidoDTO obtenerPorId(int idPedido) throws NegocioException, SQLException {
         if (idPedido <= 0) {
-            throw new NegocioException("El id del pedido no es válido.");
+            throw new ValidacionException("El id del pedido no es válido.");
         }
  
         PedidoDTO pedido = pedidoDAO.buscarPorId(idPedido);
         if (pedido == null) {
-            throw new NegocioException("No se encontró pedido con id " + idPedido);
+            throw new EntidadNoEncontradaException("No se encontró pedido con id " + idPedido);
         }
  
         List<DetallePedidoDTO> detalles = detalleService.obtenerPorPedido(idPedido);
@@ -39,14 +41,14 @@ public class PedidoService {
  
     public List<PedidoDTO> obtenerPorCliente(int idCliente) throws NegocioException, SQLException {
         if (idCliente <= 0) {
-            throw new NegocioException("El id del cliente no es válido.");
+            throw new ValidacionException("El id del cliente no es válido.");
         }
         return pedidoDAO.buscarPorCliente(idCliente);
     }
  
     public List<PedidoDTO> obtenerPorEstatus(String estatus) throws NegocioException, SQLException {
         if (estatus == null || estatus.trim().isEmpty()) {
-            throw new NegocioException("El estatus no puede estar vacío.");
+            throw new ValidacionException("El estatus no puede estar vacío.");
         }
         return pedidoDAO.buscarPorEstatus(estatus.trim());
     }
@@ -74,32 +76,56 @@ public class PedidoService {
         }
     }
     
-    private void validarPedido(PedidoDTO pedido) throws NegocioException {
+    private void validarPedido(PedidoDTO pedido) throws ValidacionException {
         if (pedido.getIdCliente() <= 0) {
-            throw new NegocioException("El pedido debe tener un cliente asignado.");
+            throw new ValidacionException("El pedido debe tener un cliente asignado.");
         }
         if (pedido.getIdEmpleado() <= 0) {
-            throw new NegocioException("El pedido debe tener un empleado asignado.");
+            throw new ValidacionException("El pedido debe tener un empleado asignado.");
         }
         if (pedido.getDetalles() == null || pedido.getDetalles().isEmpty()) {
-            throw new NegocioException("El pedido debe tener al menos un producto.");
+            throw new ValidacionException("El pedido debe tener al menos un producto.");
         }
     }
  
     public void actualizarEstatus(int idPedido, String estatus) throws NegocioException, SQLException {
         if (idPedido <= 0) {
-            throw new NegocioException("El id del pedido no es válido.");
+            throw new ValidacionException("El id del pedido no es válido.");
         }
         if (estatus == null || estatus.trim().isEmpty()) {
-            throw new NegocioException("El estatus no puede estar vacío.");
+            throw new ValidacionException("El estatus no puede estar vacío.");
         }
-        pedidoDAO.actualizarEstatus(idPedido, estatus.trim());
+        
+        try (Connection con = ConexionBD.getConexion()) {
+            try {
+                con.setAutoCommit(false);
+                
+                pedidoDAO.actualizarEstatus(idPedido, estatus.trim(), con);
+                
+                con.commit();
+            } catch (SQLException e) {
+                con.rollback();
+                throw e;
+            }
+        }
     }
 
     public void confirmarEntrega(int idPedido) throws NegocioException, SQLException {
         if (idPedido <= 0) {
-            throw new NegocioException("El id del pedido no es válido.");
+            throw new ValidacionException("El id del pedido no es válido.");
         }
-        pedidoDAO.confirmarEntrega(idPedido);
+        
+        try (Connection con = ConexionBD.getConexion()) {
+            try {
+                con.setAutoCommit(false);
+                
+                pedidoDAO.confirmarEntrega(idPedido, con);
+                
+                con.commit();
+            } catch (SQLException e) {
+                con.rollback();
+                throw e;
+            }
+        }
     }
 }

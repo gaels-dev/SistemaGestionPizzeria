@@ -1,3 +1,4 @@
+
 package sistemagestionpizzeria.dao;
 
 import java.sql.Connection;
@@ -119,8 +120,13 @@ public class ProductoDAO {
     }
  
     public int insertar(ProductoDTO p) throws SQLException {
-        try (Connection con = ConexionBD.getConexion();
-             PreparedStatement ps = con.prepareStatement(SQL_INSERTAR, PreparedStatement.RETURN_GENERATED_KEYS)) {
+        try (Connection con = ConexionBD.getConexion()) {
+            return insertar(p, con);
+        }
+    }
+
+    public int insertar(ProductoDTO p, Connection con) throws SQLException {
+        try (PreparedStatement ps = con.prepareStatement(SQL_INSERTAR, PreparedStatement.RETURN_GENERATED_KEYS)) {
  
             ps.setString(1, p.getCodigo());
             ps.setString(2, p.getNombre());
@@ -144,8 +150,13 @@ public class ProductoDAO {
     }
  
     public void actualizar(ProductoDTO p) throws SQLException {
-        try (Connection con = ConexionBD.getConexion();
-             PreparedStatement ps = con.prepareStatement(SQL_ACTUALIZAR)) {
+        try (Connection con = ConexionBD.getConexion()) {
+            actualizar(p, con);
+        }
+    }
+
+    public void actualizar(ProductoDTO p, Connection con) throws SQLException {
+        try (PreparedStatement ps = con.prepareStatement(SQL_ACTUALIZAR)) {
  
             ps.setString(1, p.getNombre());
             ps.setString(2, p.getDescripcion());
@@ -162,18 +173,26 @@ public class ProductoDAO {
     }
  
     public void bajaLogica(int idProducto) throws SQLException {
-        try (Connection con = ConexionBD.getConexion();
-             PreparedStatement ps = con.prepareStatement(SQL_BAJA_LOGICA)) {
- 
+        try (Connection con = ConexionBD.getConexion()) {
+            bajaLogica(idProducto, con);
+        }
+    }
+
+    public void bajaLogica(int idProducto, Connection con) throws SQLException {
+        try (PreparedStatement ps = con.prepareStatement(SQL_BAJA_LOGICA)) {
             ps.setInt(1, idProducto);
             ps.executeUpdate();
         }
     }
  
     public void actualizarCantidad(int idProducto, double nuevaCantidad) throws SQLException {
-        try (Connection con = ConexionBD.getConexion();
-             PreparedStatement ps = con.prepareStatement(SQL_ACTUALIZAR_CANTIDAD)) {
- 
+        try (Connection con = ConexionBD.getConexion()) {
+            actualizarCantidad(idProducto, nuevaCantidad, con);
+        }
+    }
+
+    public void actualizarCantidad(int idProducto, double nuevaCantidad, Connection con) throws SQLException {
+        try (PreparedStatement ps = con.prepareStatement(SQL_ACTUALIZAR_CANTIDAD)) {
             ps.setDouble(1, nuevaCantidad);
             ps.setInt(2, idProducto);
             ps.executeUpdate();

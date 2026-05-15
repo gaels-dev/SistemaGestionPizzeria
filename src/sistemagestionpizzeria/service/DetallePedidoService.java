@@ -5,6 +5,7 @@ import java.util.List;
 import sistemagestionpizzeria.dao.DetallePedidoDAO;
 import sistemagestionpizzeria.dto.DetallePedidoDTO;
 import sistemagestionpizzeria.exception.NegocioException;
+import sistemagestionpizzeria.exception.ValidacionException;
 
 /**
  *
@@ -16,7 +17,7 @@ public class DetallePedidoService {
     public List<DetallePedidoDTO> obtenerPorPedido(int idPedido)
             throws NegocioException, SQLException {
         if (idPedido <= 0) {
-            throw new NegocioException("El id del pedido no es válido.");
+            throw new ValidacionException("El id del pedido no es válido.");
         }
         return detallePedidoDAO.buscarPorPedido(idPedido);
     }
@@ -31,15 +32,15 @@ public class DetallePedidoService {
         detallePedidoDAO.insertar(detalle, con);
     }
 
-    private void validarDetalle(DetallePedidoDTO detalle) throws NegocioException {
+    private void validarDetalle(DetallePedidoDTO detalle) throws ValidacionException {
         if (detalle.getIdPedido() <= 0) {
-            throw new NegocioException("El id del pedido no es válido.");
+            throw new ValidacionException("El id del pedido no es válido.");
         }
         if (detalle.getIdProducto() <= 0) {
-            throw new NegocioException("El id del producto no es válido.");
+            throw new ValidacionException("El id del producto no es válido.");
         }
         if (detalle.getCantidad() <= 0) {
-            throw new NegocioException("La cantidad debe ser mayor a cero.");
+            throw new ValidacionException("La cantidad debe ser mayor a cero.");
         }
     }
 }

@@ -179,8 +179,13 @@ public class UsuarioDAO {
     }
  
     public int insertar(UsuarioDTO u) throws SQLException {
-        try (Connection con = ConexionBD.getConexion();
-             PreparedStatement ps = con.prepareStatement(SQL_INSERTAR, PreparedStatement.RETURN_GENERATED_KEYS)) {
+        try (Connection con = ConexionBD.getConexion()) {
+            return insertar(u, con);
+        }
+    }
+
+    public int insertar(UsuarioDTO u, Connection con) throws SQLException {
+        try (PreparedStatement ps = con.prepareStatement(SQL_INSERTAR, PreparedStatement.RETURN_GENERATED_KEYS)) {
  
             ps.setString(1, u.getNombre());
             ps.setString(2, u.getApellidos());
@@ -207,8 +212,13 @@ public class UsuarioDAO {
     }
  
     public void actualizar(UsuarioDTO u) throws SQLException {
-        try (Connection con = ConexionBD.getConexion();
-             PreparedStatement ps = con.prepareStatement(SQL_ACTUALIZAR)) {
+        try (Connection con = ConexionBD.getConexion()) {
+            actualizar(u, con);
+        }
+    }
+
+    public void actualizar(UsuarioDTO u, Connection con) throws SQLException {
+        try (PreparedStatement ps = con.prepareStatement(SQL_ACTUALIZAR)) {
  
             ps.setString(1, u.getNombre());
             ps.setString(2, u.getApellidos());
@@ -227,9 +237,13 @@ public class UsuarioDAO {
     }
  
     public void bajaLogica(int idUsuario) throws SQLException {
-        try (Connection con = ConexionBD.getConexion();
-             PreparedStatement ps = con.prepareStatement(SQL_BAJA_LOGICA)) {
- 
+        try (Connection con = ConexionBD.getConexion()) {
+            bajaLogica(idUsuario, con);
+        }
+    }
+
+    public void bajaLogica(int idUsuario, Connection con) throws SQLException {
+        try (PreparedStatement ps = con.prepareStatement(SQL_BAJA_LOGICA)) {
             ps.setInt(1, idUsuario);
             ps.executeUpdate();
         }
