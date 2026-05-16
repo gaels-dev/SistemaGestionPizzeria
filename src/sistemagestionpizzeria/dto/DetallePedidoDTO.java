@@ -11,6 +11,7 @@ public class DetallePedidoDTO {
     private int cantidad;
     private double precioUnitario;
     private double subtotal;
+    private String nombreProducto;
 
     public DetallePedidoDTO() {
     }
@@ -71,6 +72,20 @@ public class DetallePedidoDTO {
     public void setSubtotal(double subtotal) {
         this.subtotal = subtotal;
     }
+
+    public String getNombreProducto() {
+        return nombreProducto;
+    }
+
+    public void setNombreProducto(String nombreProducto) {
+        this.nombreProducto = nombreProducto;
+    }
+
+    @Override
+    public String toString() {
+        return "DetallePedidoDTO{" + "idDetalle=" + idDetalle + ", idPedido=" + idPedido + ", idProducto=" + idProducto + ", cantidad=" + cantidad + ", precioUnitario=" + precioUnitario + ", subtotal=" + subtotal + ", nombreProducto=" + nombreProducto + '}';
+    }
+    
     
     
 }

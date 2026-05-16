@@ -85,4 +85,15 @@ public class PedidoDTO {
         this.detalles = detalles;
     }
     
+    
+    @Override
+    public String toString(){
+        String pedido = "ID: " + getIdPedido() + "\nFecha: " + getFechaPedido() + "\nTotal: " + getTotal() +
+                "\nCliente: " + getIdCliente() + "\nEmpleado: " + getIdEmpleado() + "\nEstatus: " + getEstatus();
+        for(DetallePedidoDTO d : detalles){
+            System.out.println(d.toString());
+        }
+        return pedido;
+    }
+    
 }

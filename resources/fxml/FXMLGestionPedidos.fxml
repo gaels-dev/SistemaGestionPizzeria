@@ -24,14 +24,7 @@
                <children>
                   <Label style="-fx-font-size:18px; -fx-font-weight:bold;" text="Productos" />
                   <TextField fx:id="txtBuscarProducto" promptText="Buscar producto..." />
-                  <ScrollPane fitToWidth="true" style="-fx-background-color:transparent;" VBox.vgrow="ALWAYS">
-                     <content>
-                        <VBox fx:id="vboxProductos" spacing="15" style="-fx-background-color:white;">
-                           <children>
-                           </children>
-                        </VBox>
-                     </content>
-                  </ScrollPane>
+                  <ListView fx:id="lvProductos" style="-fx-background-color: transparent; -fx-background-insets: 0; -fx-padding: 0;" VBox.vgrow="ALWAYS" />
                </children>
                <GridPane.margin>
                   <Insets bottom="20.0" left="20.0" top="20.0" />
@@ -44,24 +37,25 @@
                         <Font name="System Bold" size="18.0" />
                      </font>
                   </Label>
-                  <TableView VBox.vgrow="ALWAYS">
+                  <TableView fx:id="tvPedido" VBox.vgrow="ALWAYS">
                      <columns>
-                        <TableColumn maxWidth="1.7976931348623157E308" prefWidth="232.0" text="Producto" />
-                        <TableColumn maxWidth="1.7976931348623157E308" prefWidth="121.0" text="Cantidad" />
-                        <TableColumn maxWidth="1.7976931348623157E308" prefWidth="172.0" text="Precio" />
-                        <TableColumn maxWidth="1.7976931348623157E308" prefWidth="167.0" text="Subtotal" />
+                        <TableColumn fx:id="colNombreProducto" maxWidth="1.7976931348623157E308" prefWidth="189.0" text="Producto" />
+                        <TableColumn fx:id="colCantidad" maxWidth="1.7976931348623157E308" prefWidth="143.0" text="Cantidad" />
+                        <TableColumn fx:id="colPrecio" maxWidth="1.7976931348623157E308" prefWidth="143.0" text="Precio" />
+                        <TableColumn fx:id="colSubtotal" maxWidth="1.7976931348623157E308" minWidth="0.0" prefWidth="131.0" text="Subtotal" />
+                        <TableColumn fx:id="colEliminar" maxWidth="-1.0" minWidth="90.0" prefWidth="100.0" text="Column X" />
                      </columns>
                   </TableView>
                   <HBox alignment="CENTER_RIGHT" spacing="20">
                      <children>
                         <Label style="-fx-font-size:18px; -fx-font-weight:bold;" text="Total:" />
-                        <Label style="-fx-font-size:22px; -fx-font-weight:bold; -fx-text-fill:#2da52d;" text="\$468.00" />
+                        <Label fx:id="lbTotalPedido" style="-fx-font-size:22px; -fx-font-weight:bold; -fx-text-fill:#2da52d;" text="\$468.00" />
                      </children>
                   </HBox>
                   <HBox alignment="CENTER_RIGHT" spacing="20.0">
                      <children>
-                        <Button style="-fx-background-color: #2da52d; -fx-font-weight: bold;" text="Guardar Pedido" textFill="WHITE" />
-                        <Button style="-fx-background-color: #d61d1d; -fx-font-weight: bold;" text="Eliminar Pedido" textFill="WHITE" />
+                        <Button onAction="#handleGuardarPedido" style="-fx-background-color: #2da52d; -fx-font-weight: bold;" text="Guardar Pedido" textFill="WHITE" />
+                        <Button onAction="#handleEliminarPedido" style="-fx-background-color: #d61d1d; -fx-font-weight: bold;" text="Cancelar Pedido" textFill="WHITE" />
                      </children>
                      <VBox.margin>
                         <Insets />

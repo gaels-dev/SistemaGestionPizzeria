@@ -16,6 +16,7 @@ public class ProductoDTO {
     private byte[] foto;       // BLOB
     private String tipo;
     private int activo;
+    private double subtotal;
     
     public ProductoDTO() {
     }
@@ -33,6 +34,15 @@ public class ProductoDTO {
         this.foto = foto;
         this.tipo = tipo;
         this.activo = activo;
+        this.subtotal = precio * cantidad;
+    }
+
+    public double getSubtotal() {
+        return subtotal;
+    }
+
+    public void setSubtotal(double subtotal) {
+        this.subtotal = subtotal;
     }
 
     public int getIdProducto() {

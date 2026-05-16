@@ -48,6 +48,7 @@ public class App extends Application {
             primaryStage.setScene(escena);
             primaryStage.setTitle("Iniciar sesión - Italia Pizza");
             primaryStage.show();
+            
         } catch (IOException ex) {
             Logger.getLogger(App.class.getName()).log(Level.SEVERE, null, ex);
         }

@@ -1,4 +1,3 @@
-
 package sistemagestionpizzeria.dao;
 
 import java.sql.Connection;
@@ -21,6 +20,13 @@ public class ProductoDAO {
             "cantidad, unidad, foto, tipo, activo " +
             "FROM Producto " +
             "WHERE id_producto = ?";
+    
+    private static final String SQL_BUSCAR_POR_NOMBRE =
+            "SELECT id_producto, codigo, nombre, descripcion, precio, restriccion, " +
+            "cantidad, unidad, foto, tipo, activo " +
+            "FROM Producto " +
+            "WHERE nombre LIKE ? AND (? IS NULL OR tipo = ?) AND activo = 1 " +
+            "ORDER BY nombre";
  
     private static final String SQL_BUSCAR_POR_CODIGO =
             "SELECT id_producto, codigo, nombre, descripcion, precio, restriccion, " +
@@ -58,13 +64,7 @@ public class ProductoDAO {
     private static final String SQL_ACTUALIZAR_CANTIDAD =
             "UPDATE Producto SET cantidad = ? WHERE id_producto = ?";
     
-    private static final String SQL_BUSCAR_PRODUCTOS =
-            "SELECT id_producto, codigo, nombre, descripcion, precio, restriccion, " +
-            "cantidad, unidad, foto, tipo, activo " +
-            "FROM Producto " +
-            "WHERE nombre LIKE ? AND activo = 1 " +
-            "ORDER BY nombre";
- 
+
     public ProductoDTO buscarPorId(int idProducto) throws SQLException {
         try (Connection con = ConexionBD.getConexion();
              PreparedStatement ps = con.prepareStatement(SQL_BUSCAR_POR_ID)) {
@@ -206,12 +206,18 @@ public class ProductoDAO {
         }
     }
 
-    public List<ProductoDTO> buscarProductos(String filtro) throws SQLException {
+    public List<ProductoDTO> buscarProductosPorNombre(String filtro) throws SQLException {
+        return buscarProductosPorNombre(filtro, null);
+    }
+    
+    public List<ProductoDTO> buscarProductosPorNombre(String filtro, String tipo) throws SQLException {
         List<ProductoDTO> productos = new ArrayList<>();
         try (Connection con = ConexionBD.getConexion();
-             PreparedStatement ps = con.prepareStatement(SQL_BUSCAR_PRODUCTOS)) {
+            PreparedStatement ps = con.prepareStatement(SQL_BUSCAR_POR_NOMBRE)) {
             String query = "%" + filtro + "%";
             ps.setString(1, query);
+            ps.setString(2, tipo);
+            ps.setString(3, tipo);
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     productos.add(mapearProducto(rs));

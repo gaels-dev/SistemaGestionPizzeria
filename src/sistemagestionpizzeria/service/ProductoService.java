@@ -43,11 +43,11 @@ public class ProductoService {
         return productoDAO.listarActivos();
     }
 
-    public List<ProductoDTO> buscarProductos(String filtro) throws SQLException {
+    public List<ProductoDTO> buscarProductos(String filtro, String tipo) throws SQLException {
         if (filtro == null) {
             filtro = "";
         }
-        return productoDAO.buscarProductos(filtro.trim());
+        return productoDAO.buscarProductosPorNombre(filtro.trim(), tipo);
     }
  
     public List<ProductoDTO> obtenerPorTipo(String tipo) throws NegocioException, SQLException {
