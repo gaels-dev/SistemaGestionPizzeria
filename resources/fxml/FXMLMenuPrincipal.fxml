@@ -67,6 +67,6 @@
       </VBox>
    </top>
    <center>
-      <StackPane fx:id="contenidoPrincipal" BorderPane.alignment="CENTER" />
+      <StackPane fx:id="contenidoPrincipal" id="contenidoPrincipal" BorderPane.alignment="CENTER" />
    </center>
 </BorderPane>

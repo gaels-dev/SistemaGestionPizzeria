@@ -15,27 +15,29 @@ import sistemagestionpizzeria.dto.PedidoDTO;
  */
 public class PedidoDAO {
  
+    private static final String SQL_SELECT_BASE =
+            "SELECT p.id_pedido, p.fecha_pedido, p.total, p.id_cliente, p.id_empleado, p.estatus, " +
+            "CONCAT(u.nombre, ' ', u.apellidos) AS nombre_cliente " +
+            "FROM Pedido p " +
+            "INNER JOIN Usuario u ON p.id_cliente = u.id_usuario ";
+
     private static final String SQL_BUSCAR_POR_ID =
-            "SELECT id_pedido, fecha_pedido, total, id_cliente, id_empleado, estatus " +
-            "FROM Pedido " +
-            "WHERE id_pedido = ?";
+            SQL_SELECT_BASE + "WHERE p.id_pedido = ?";
  
     private static final String SQL_LISTAR_TODOS =
-            "SELECT id_pedido, fecha_pedido, total, id_cliente, id_empleado, estatus " +
-            "FROM Pedido " +
-            "ORDER BY fecha_pedido DESC";
+            SQL_SELECT_BASE + "ORDER BY p.fecha_pedido DESC";
  
-    private static final String SQL_BUSCAR_POR_CLIENTE =
-            "SELECT id_pedido, fecha_pedido, total, id_cliente, id_empleado, estatus " +
-            "FROM Pedido " +
-            "WHERE id_cliente = ? " +
-            "ORDER BY fecha_pedido DESC";
+    private static final String SQL_BUSCAR_POR_NOMBRE_CLIENTE =
+            SQL_SELECT_BASE + "WHERE LOWER(u.nombre) LIKE LOWER(?) OR LOWER(u.apellidos) LIKE LOWER(?) " +
+            "ORDER BY p.fecha_pedido DESC";
  
     private static final String SQL_BUSCAR_POR_ESTATUS =
-            "SELECT id_pedido, fecha_pedido, total, id_cliente, id_empleado, estatus " +
-            "FROM Pedido " +
-            "WHERE estatus = ? " +
-            "ORDER BY fecha_pedido DESC";
+            SQL_SELECT_BASE + "WHERE p.estatus = ? " +
+            "ORDER BY p.fecha_pedido DESC";
+
+    private static final String SQL_BUSCAR_POR_FECHA =
+            SQL_SELECT_BASE + "WHERE DATE(p.fecha_pedido) = ? " +
+            "ORDER BY p.fecha_pedido DESC";
  
     private static final String SQL_INSERTAR =
             "INSERT INTO Pedido (fecha_pedido, total, id_cliente, id_empleado, estatus) " +
@@ -74,13 +76,15 @@ public class PedidoDAO {
         return pedidos;
     }
  
-    public List<PedidoDTO> buscarPorCliente(int idCliente) throws SQLException {
+    public List<PedidoDTO> buscarPorNombreCliente(String nombre) throws SQLException {
         List<PedidoDTO> pedidos = new ArrayList<>();
+        String patron = "%" + nombre + "%";
  
         try (Connection con = ConexionBD.getConexion();
-             PreparedStatement ps = con.prepareStatement(SQL_BUSCAR_POR_CLIENTE)) {
+             PreparedStatement ps = con.prepareStatement(SQL_BUSCAR_POR_NOMBRE_CLIENTE)) {
  
-            ps.setInt(1, idCliente);
+            ps.setString(1, patron);
+            ps.setString(2, patron);
  
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
@@ -98,6 +102,23 @@ public class PedidoDAO {
              PreparedStatement ps = con.prepareStatement(SQL_BUSCAR_POR_ESTATUS)) {
  
             ps.setString(1, estatus);
+ 
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    pedidos.add(mapearPedido(rs));
+                }
+            }
+        }
+        return pedidos;
+    }
+
+    public List<PedidoDTO> buscarPorFecha(String fecha) throws SQLException {
+        List<PedidoDTO> pedidos = new ArrayList<>();
+ 
+        try (Connection con = ConexionBD.getConexion();
+             PreparedStatement ps = con.prepareStatement(SQL_BUSCAR_POR_FECHA)) {
+ 
+            ps.setString(1, fecha);
  
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
@@ -161,6 +182,7 @@ public class PedidoDAO {
                 rs.getTimestamp("fecha_pedido"),
                 rs.getDouble("total"),
                 rs.getInt("id_cliente"),
+                rs.getString("nombre_cliente"),
                 rs.getInt("id_empleado"),
                 rs.getString("estatus")
         );

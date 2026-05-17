@@ -3,6 +3,8 @@ package sistemagestionpizzeria.controller;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
@@ -22,58 +24,75 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.layout.StackPane;
 import sistemagestionpizzeria.dto.DetallePedidoDTO; 
 import sistemagestionpizzeria.dto.PedidoDTO;
 import sistemagestionpizzeria.dto.ProductoDTO;
 import sistemagestionpizzeria.service.ProductoService;
+import sistemagestionpizzeria.service.PedidoService;
+import sistemagestionpizzeria.exception.NegocioException;
 
-public class FXMLGestionPedidosController implements Initializable {
+public class FXMLGestionPedidoController implements Initializable {
 
-    @FXML 
+    @FXML
     private TextField txtBuscarProducto;
-    @FXML 
+    @FXML
     private ListView<ProductoDTO> lvProductos;
     @FXML
     private Label lbTotalPedido;
+    @FXML
+    private TableView<DetallePedidoDTO> tvPedido;
+    @FXML
+    private TableColumn<DetallePedidoDTO, String> colNombreProducto;
+    @FXML
+    private TableColumn<DetallePedidoDTO, Integer> colCantidad;
+    @FXML
+    private TableColumn<DetallePedidoDTO, Double> colPrecio;
+    @FXML
+    private TableColumn<DetallePedidoDTO, Double> colSubtotal;
+    @FXML
+    private TableColumn<DetallePedidoDTO, Void> colEliminar;
+    @FXML
+    private Label lbNumeroPedido;
+    @FXML
+    private Label lbFecha;
+    @FXML
+    private ComboBox<String> cbEstado;
 
     private final ProductoService productoService = new ProductoService();
+    private final PedidoService pedidoService = new PedidoService();
     private final ObservableList<ProductoDTO> productosList = FXCollections.observableArrayList();
+    private final ObservableList<DetallePedidoDTO> detalleList = FXCollections.observableArrayList();
     private static final String TIPO_PRODUCTO = "Producto";
     
-    @FXML 
-    private TableView<DetallePedidoDTO> tvPedido;
-    @FXML 
-    private TableColumn<DetallePedidoDTO, String> colNombreProducto;
-    @FXML 
-    private TableColumn<DetallePedidoDTO, Integer> colCantidad; // Ahora es Integer (No vendemos media pizza)
-    @FXML 
-    private TableColumn<DetallePedidoDTO, Double> colPrecio;
-    @FXML 
-    private TableColumn<DetallePedidoDTO, Double> colSubtotal;
-    @FXML 
-    private TableColumn<DetallePedidoDTO, Void> colEliminar; // Void porque no renderiza un dato, sino un Botón
-
-    private final ObservableList<DetallePedidoDTO> detalleList = FXCollections.observableArrayList();
-    
-    private final PedidoDTO pedidoActual = new PedidoDTO();
+    private PedidoDTO pedidoActual = new PedidoDTO();
+    private final SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // Vinculamos la lista de la tabla con el objeto Pedido maestro
         pedidoActual.setDetalles(detalleList);
-        
-        configurarColumnas();
-        tvPedido.setItems(detalleList);
+        configurarTabla();
         configurarListView();
+        configurarComboBox();
 
         txtBuscarProducto.textProperty().addListener((observable, oldValue, newValue) -> {
             cargarProductos(newValue);
         });
     }
 
-    private void configurarColumnas() {
+    private void configurarComboBox() {
+        cbEstado.setItems(FXCollections.observableArrayList(
+            "PENDIENTE", "PREPARANDO", "LISTO", "ENTREGADO", "CANCELADO"
+        ));
+        cbEstado.getSelectionModel().select("PENDIENTE");
+    }
+
+    private void configurarTabla() {
         colNombreProducto.setCellValueFactory(new PropertyValueFactory<>("nombreProducto"));
         colPrecio.setCellValueFactory(new PropertyValueFactory<>("precioUnitario"));
         colSubtotal.setCellValueFactory(new PropertyValueFactory<>("subtotal"));
@@ -128,7 +147,6 @@ public class FXMLGestionPedidosController implements Initializable {
 
         colEliminar.setCellFactory(column -> new TableCell<DetallePedidoDTO, Void>() {
             private final Button btnEliminarRow = new Button("❌");
-
             {
                 btnEliminarRow.setStyle("-fx-background-color: #ff4d4d; -fx-text-fill: white; -fx-cursor: hand;");
                 btnEliminarRow.setOnAction(event -> {
@@ -139,7 +157,6 @@ public class FXMLGestionPedidosController implements Initializable {
                     }
                 });
             }
-
             @Override
             protected void updateItem(Void item, boolean empty) {
                 super.updateItem(item, empty);
@@ -150,28 +167,58 @@ public class FXMLGestionPedidosController implements Initializable {
                 }
             }
         });
+        
+        tvPedido.setItems(detalleList);
+    }
+
+    public void inicializarConPedido(PedidoDTO pedido) {
+        try {
+            PedidoDTO pedidoCompleto = pedidoService.obtenerPorId(pedido.getIdPedido());
+            this.pedidoActual = pedidoCompleto;
+            this.detalleList.setAll(pedidoCompleto.getDetalles());
+            
+            lbNumeroPedido.setText(String.valueOf(pedidoActual.getIdPedido()));
+            lbNumeroPedido.setVisible(true);
+            
+            if (pedidoActual.getFechaPedido() != null) {
+                lbFecha.setText(dateFormat.format(pedidoActual.getFechaPedido()));
+            }
+            cbEstado.getSelectionModel().select(pedidoActual.getEstatus());
+            
+            recalcularTotalGlobal();
+        } catch (SQLException | NegocioException e) {
+            mostrarAlertaError("Error", "No se pudo cargar el pedido: " + e.getMessage());
+        }
+    }
+
+    public void prepararNuevoPedido() {
+        this.pedidoActual = new PedidoDTO();
+        this.pedidoActual.setDetalles(detalleList);
+        this.detalleList.clear();
+        
+        lbNumeroPedido.setText("");
+        lbNumeroPedido.setVisible(false);
+        lbFecha.setText(dateFormat.format(new Date()));
+        cbEstado.getSelectionModel().select("PENDIENTE");
+        
+        recalcularTotalGlobal();
     }
 
     private void recalcularTotalGlobal() {
-        double totalCrudo = detalleList.stream()
-                .mapToDouble(DetallePedidoDTO::getSubtotal)
-                .sum();
-        double totalRedondeado = Math.round(totalCrudo * 100.0) / 100.0;
-        pedidoActual.setTotal(totalRedondeado);
-        lbTotalPedido.setText("$" + pedidoActual.getTotal());
-        System.out.println("Total actual del PedidoDTO: $" + pedidoActual.getTotal());
+        double total = detalleList.stream().mapToDouble(DetallePedidoDTO::getSubtotal).sum();
+        total = Math.round(total * 100.0) / 100.0;
+        pedidoActual.setTotal(total);
+        lbTotalPedido.setText(String.format("$%.2f", total));
     }
 
     private void agregarAlPedido(ProductoDTO producto) {
         DetallePedidoDTO existe = detalleList.stream()
                 .filter(d -> d.getIdProducto() == producto.getIdProducto())
-                .findFirst()
-                .orElse(null);
+                .findFirst().orElse(null);
 
         if (existe != null) {
             existe.setCantidad(existe.getCantidad() + 1);
-            double subtotal = existe.getCantidad() * existe.getPrecioUnitario();
-            existe.setSubtotal(Math.round(subtotal * 100.0) / 100.0);
+            existe.setSubtotal(Math.round(existe.getCantidad() * existe.getPrecioUnitario() * 100.0) / 100.0);
             tvPedido.refresh();
         } else {
             DetallePedidoDTO nuevoDetalle = new DetallePedidoDTO();
@@ -180,10 +227,8 @@ public class FXMLGestionPedidosController implements Initializable {
             nuevoDetalle.setPrecioUnitario(producto.getPrecio());
             nuevoDetalle.setCantidad(1);
             nuevoDetalle.setSubtotal(producto.getPrecio());
-            
             this.detalleList.add(nuevoDetalle);
         }
-        
         recalcularTotalGlobal();
     } 
 
@@ -194,18 +239,13 @@ public class FXMLGestionPedidosController implements Initializable {
             protected void updateItem(ProductoDTO producto, boolean empty) {
                 super.updateItem(producto, empty);
                 if (empty || producto == null) {
-                    setText(null);
                     setGraphic(null);
                 } else {
                     try {
                         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/ItemProducto.fxml"));
                         Node node = loader.load();
                         ItemProductoController controller = loader.getController();
-                        
-                        controller.setProducto(producto, productoSeleccionado -> {
-                            agregarAlPedido(productoSeleccionado);
-                        });
-                        
+                        controller.setProducto(producto, p -> agregarAlPedido(p));
                         setGraphic(node);
                     } catch (IOException e) {
                         setText("Error al cargar producto");
@@ -217,24 +257,43 @@ public class FXMLGestionPedidosController implements Initializable {
 
     private void cargarProductos(String filtro) {
         try {
-            List<ProductoDTO> productos = productoService.buscarProductos(filtro, TIPO_PRODUCTO);
-            productosList.setAll(productos);
+            productosList.setAll(productoService.buscarProductos(filtro, TIPO_PRODUCTO));
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
     }
-
-    @FXML
-    private void handleGuardarPedido(ActionEvent event) {
-        // El objeto 'pedidoActual' ya está listo aquí para mandarse al Service.
-        // Contiene la lista interna mutada y el total de la suma de subtotales.
-        System.out.println(pedidoActual.toString());
-        System.out.println("Enviando PedidoDTO a base de datos... Total: $" + pedidoActual.getTotal());
+    
+    private void cargarVista(String nombreFxml) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/" + nombreFxml));
+            Parent vista = loader.load();
+            StackPane mainContainer = (StackPane) tvPedido.getScene().lookup("#contenidoPrincipal");
+            if (mainContainer != null) mainContainer.getChildren().setAll(vista);
+        } catch (IOException e) {
+            mostrarAlertaError("Error", "No se pudo cargar la pantalla: " + nombreFxml);
+        }
     }
 
     @FXML
-    private void handleEliminarPedido(ActionEvent event) {
-        detalleList.clear();
-        recalcularTotalGlobal();
+    private void guardarPedido(ActionEvent event) {
+        System.out.println("Guardando: " + pedidoActual.toString());
+    }
+
+    @FXML
+    private void limpiarPedido(ActionEvent event) {
+        prepararNuevoPedido();
+    }
+
+    @FXML
+    private void salirDelPedido(ActionEvent event) {
+        cargarVista("FXMLAdministracionPedidos.fxml");
+    }
+
+    private void mostrarAlertaError(String titulo, String mensaje) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error");
+        alert.setHeaderText(titulo);
+        alert.setContentText(mensaje);
+        alert.showAndWait();
     }
 }

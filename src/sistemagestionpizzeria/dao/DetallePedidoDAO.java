@@ -16,9 +16,11 @@ import sistemagestionpizzeria.dto.DetallePedidoDTO;
 public class DetallePedidoDAO {
  
     private static final String SQL_BUSCAR_POR_PEDIDO =
-            "SELECT id_detalle, id_pedido, id_producto, cantidad, precio_unitario, subtotal " +
-            "FROM detalle_pedido " +
-            "WHERE id_pedido = ?";
+            "SELECT d.id_detalle, d.id_pedido, d.id_producto, d.cantidad, d.precio_unitario, d.subtotal, " +
+            "p.nombre AS nombre_producto " +
+            "FROM detalle_pedido d " +
+            "INNER JOIN Producto p ON d.id_producto = p.id_producto " +
+            "WHERE d.id_pedido = ?";
  
     private static final String SQL_INSERTAR =
             "INSERT INTO detalle_pedido (id_pedido, id_producto, cantidad, precio_unitario, subtotal) " +
@@ -61,7 +63,7 @@ public class DetallePedidoDAO {
     }
  
     private DetallePedidoDTO mapearDetalle(ResultSet rs) throws SQLException {
-        return new DetallePedidoDTO(
+        DetallePedidoDTO detalle = new DetallePedidoDTO(
                 rs.getInt("id_detalle"),
                 rs.getInt("id_pedido"),
                 rs.getInt("id_producto"),
@@ -69,5 +71,7 @@ public class DetallePedidoDAO {
                 rs.getDouble("precio_unitario"),
                 rs.getDouble("subtotal")
         );
+        detalle.setNombreProducto(rs.getString("nombre_producto"));
+        return detalle;
     }
 }

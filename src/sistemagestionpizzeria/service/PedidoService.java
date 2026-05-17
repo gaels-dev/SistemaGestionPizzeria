@@ -39,11 +39,18 @@ public class PedidoService {
         return pedidoDAO.listarTodos();
     }
  
-    public List<PedidoDTO> obtenerPorCliente(int idCliente) throws NegocioException, SQLException {
-        if (idCliente <= 0) {
-            throw new ValidacionException("El id del cliente no es válido.");
+    public List<PedidoDTO> obtenerPorNombreCliente(String nombre) throws NegocioException, SQLException {
+        if (nombre == null || nombre.trim().isEmpty()) {
+            throw new ValidacionException("El nombre del cliente no puede estar vacío.");
         }
-        return pedidoDAO.buscarPorCliente(idCliente);
+        return pedidoDAO.buscarPorNombreCliente(nombre.trim());
+    }
+
+    public List<PedidoDTO> obtenerPorFecha(String fecha) throws NegocioException, SQLException {
+        if (fecha == null || fecha.trim().isEmpty()) {
+            throw new ValidacionException("La fecha no puede estar vacía.");
+        }
+        return pedidoDAO.buscarPorFecha(fecha.trim());
     }
  
     public List<PedidoDTO> obtenerPorEstatus(String estatus) throws NegocioException, SQLException {

@@ -89,7 +89,7 @@ public class FXMLMenuPrincipalController implements Initializable {
     @FXML
     private void abrirPedidos(ActionEvent event) {
         System.out.println("Holaaaa");
-        cargarVista("FXMLGestionPedidos.fxml");
+        cargarVista("FXMLAdministracionPedidos.fxml");
     }
 
     @FXML

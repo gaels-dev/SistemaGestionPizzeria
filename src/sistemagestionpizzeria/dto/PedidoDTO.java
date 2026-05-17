@@ -12,6 +12,7 @@ public class PedidoDTO {
     private Date fechaPedido;
     private double total;
     private int idCliente;
+    private String nombreCliente;
     private int idEmpleado;
     private String estatus;
     
@@ -20,11 +21,12 @@ public class PedidoDTO {
     public PedidoDTO() {
     }
     
-    public PedidoDTO(int idPedido, Date fechaPedido, double total, int idCliente, int idEmpleado, String estatus) {
+    public PedidoDTO(int idPedido, Date fechaPedido, double total, int idCliente, String nombreCliente, int idEmpleado, String estatus) {
         this.idPedido = idPedido;
         this.fechaPedido = fechaPedido;
         this.total = total;
         this.idCliente = idCliente;
+        this.nombreCliente = nombreCliente;
         this.idEmpleado = idEmpleado;
         this.estatus = estatus;
     }
@@ -61,6 +63,14 @@ public class PedidoDTO {
         this.idCliente = idCliente;
     }
 
+    public String getNombreCliente() {
+        return nombreCliente;
+    }
+
+    public void setNombreCliente(String nombreCliente) {
+        this.nombreCliente = nombreCliente;
+    }
+
     public int getIdEmpleado() {
         return idEmpleado;
     }
@@ -89,9 +99,11 @@ public class PedidoDTO {
     @Override
     public String toString(){
         String pedido = "ID: " + getIdPedido() + "\nFecha: " + getFechaPedido() + "\nTotal: " + getTotal() +
-                "\nCliente: " + getIdCliente() + "\nEmpleado: " + getIdEmpleado() + "\nEstatus: " + getEstatus();
-        for(DetallePedidoDTO d : detalles){
-            System.out.println(d.toString());
+                "\nCliente: (" + getIdCliente() + ") " + getNombreCliente() + "\nEmpleado: " + getIdEmpleado() + "\nEstatus: " + getEstatus();
+        if (detalles != null) {
+            for(DetallePedidoDTO d : detalles){
+                System.out.println(d.toString());
+            }
         }
         return pedido;
     }
