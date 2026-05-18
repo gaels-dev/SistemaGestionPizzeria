@@ -18,10 +18,9 @@
                      <HBox.margin>
                         <Insets right="5.0" />
                      </HBox.margin>
-                  </Label>
-                  <TextField fx:id="tfCliente" prefHeight="31.0" prefWidth="143.0" />
-                  <Label prefHeight="33.0" prefWidth="54.0" text="Estado:">
-                     <HBox.margin>
+                     </Label>
+                     <ComboBox fx:id="cbCliente" prefHeight="31.0" prefWidth="170.0" promptText="Seleccione cliente" />
+                     <Label prefHeight="33.0" prefWidth="54.0" text="Estado:">                     <HBox.margin>
                         <Insets left="20.0" right="5.0" />
                      </HBox.margin>
                   </Label>
@@ -52,22 +51,17 @@
                   <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                </columnResizePolicy>
                <columns>
-                  <TableColumn fx:id="colNumeroPedido" maxWidth="300.0" prefWidth="146.0" text="No Pedido" />
-                  <TableColumn fx:id="colCliente" maxWidth="300.0" prefWidth="168.0" text="Cliente" />
-                  <TableColumn fx:id="colFecha" maxWidth="300.0" prefWidth="143.0" text="Fecha" />
-                  <TableColumn fx:id="colTotal" maxWidth="300.0" minWidth="0.0" prefWidth="131.0" text="Total" />
-                  <TableColumn fx:id="colEstado" maxWidth="150.0" minWidth="90.0" prefWidth="100.0" text="Estado" />
+                  <TableColumn fx:id="colNumeroPedido" maxWidth="300.0" prefWidth="146.0" style="-fx-alignment: CENTER;" text="No Pedido" />
+                  <TableColumn fx:id="colCliente" maxWidth="300.0" prefWidth="168.0" style="-fx-alignment: CENTER;" text="Cliente" />
+                  <TableColumn fx:id="colFecha" maxWidth="300.0" prefWidth="143.0" style="-fx-alignment: CENTER;" text="Fecha" />
+                  <TableColumn fx:id="colTotal" maxWidth="300.0" minWidth="0.0" prefWidth="131.0" style="-fx-alignment: CENTER;" text="Total" />
+                  <TableColumn fx:id="colEstado" maxWidth="150.0" minWidth="90.0" prefWidth="100.0" style="-fx-alignment: CENTER;" text="Estado" />
                </columns>
             </TableView>
             <HBox prefHeight="32.0" prefWidth="343.0" spacing="20.0">
                <children>
-                  <Button prefHeight="31.0" prefWidth="135.0" style="-fx-background-color: #222; -fx-font-weight: bold;" text="Editar pedido" textFill="WHITE">
-                     <HBox.margin>
-                        <Insets />
-                     </HBox.margin>
-                  </Button>
-                  <Button prefHeight="31.0" prefWidth="216.0" style="-fx-background-color: #222; -fx-font-weight: bold;" text="Actualzizar estado pedido" textFill="WHITE" />
-                  <Button alignment="CENTER" style="-fx-background-color: #2da52d; -fx-font-weight: bold;" text="Exportar a PDF" textFill="WHITE" />
+                  <Button alignment="CENTER" onAction="#exportarAPDF" style="-fx-background-color: #CF8F4A; -fx-font-weight: bold;" text="Exportar a PDF" textFill="WHITE" />
+                  <Button alignment="CENTER" layoutX="10.0" layoutY="10.0" onAction="#exportarACSV" style="-fx-background-color: #5BD49E; -fx-font-weight: bold;" text="Exportar a CVS" textFill="WHITE" />
                </children>
             </HBox>
          </children>

@@ -87,7 +87,7 @@ public class FXMLGestionPedidoController implements Initializable {
 
     private void configurarComboBox() {
         cbEstado.setItems(FXCollections.observableArrayList(
-            "PENDIENTE", "PREPARANDO", "LISTO", "ENTREGADO", "CANCELADO"
+            "PENDIENTE", "ENTREGADO", "CANCELADO"
         ));
         cbEstado.getSelectionModel().select("PENDIENTE");
     }
@@ -95,6 +95,18 @@ public class FXMLGestionPedidoController implements Initializable {
     private void configurarTabla() {
         colNombreProducto.setCellValueFactory(new PropertyValueFactory<>("nombreProducto"));
         colPrecio.setCellValueFactory(new PropertyValueFactory<>("precioUnitario"));
+        colPrecio.setCellFactory(column -> new TableCell<DetallePedidoDTO, Double>() {
+            @Override
+            protected void updateItem(Double precio, boolean empty) {
+                super.updateItem(precio, empty);
+                if (empty || precio == null) {
+                    setText(null);
+                } else {
+                    setText(String.format("$%.2f", precio)); 
+                }
+            }
+        });
+            
         colSubtotal.setCellValueFactory(new PropertyValueFactory<>("subtotal"));
         colCantidad.setCellValueFactory(new PropertyValueFactory<>("cantidad"));
 

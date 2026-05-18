@@ -80,6 +80,13 @@ public class UsuarioDAO {
     private static final String SQL_BAJA_LOGICA =
             "UPDATE Usuario SET activo = 0 WHERE id_usuario = ?";
  
+    private static final String SQL_LISTAR_POR_TIPO =
+            "SELECT id_usuario, nombre, apellidos, telefono, email, " +
+            "calle_numero, codigo_postal, ciudad, tipo, " +
+            "username, contrasenia, id_rol, activo " +
+            "FROM Usuario " +
+            "WHERE tipo = ? AND activo = 1 " +
+            "ORDER BY apellidos, nombre";
 
     public UsuarioDTO buscarPorId(int idUsuario) throws SQLException {
         try (Connection con = ConexionBD.getConexion();
@@ -125,6 +132,20 @@ public class UsuarioDAO {
         return usuarios;
     }
  
+    public List<UsuarioDTO> listarPorTipo(String tipo) throws SQLException {
+        List<UsuarioDTO> usuarios = new ArrayList<>();
+        try (Connection con = ConexionBD.getConexion();
+             PreparedStatement ps = con.prepareStatement(SQL_LISTAR_POR_TIPO)) {
+            ps.setString(1, tipo);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    usuarios.add(mapearUsuario(rs));
+                }
+            }
+        }
+        return usuarios;
+    }
+
     public List<UsuarioDTO> buscarPorNombre(String nombre) throws SQLException {
         List<UsuarioDTO> usuarios = new ArrayList<>();
         String patron = "%" + nombre + "%";

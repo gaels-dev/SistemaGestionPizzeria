@@ -46,6 +46,13 @@ public class PedidoService {
         return pedidoDAO.buscarPorNombreCliente(nombre.trim());
     }
 
+    public List<PedidoDTO> obtenerPorIdCliente(int idCliente) throws NegocioException, SQLException {
+        if (idCliente <= 0) {
+            throw new ValidacionException("El id del cliente no es válido.");
+        }
+        return pedidoDAO.buscarPorIdCliente(idCliente);
+    }
+
     public List<PedidoDTO> obtenerPorFecha(String fecha) throws NegocioException, SQLException {
         if (fecha == null || fecha.trim().isEmpty()) {
             throw new ValidacionException("La fecha no puede estar vacía.");

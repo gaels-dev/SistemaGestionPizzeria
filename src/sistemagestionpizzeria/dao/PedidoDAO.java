@@ -31,6 +31,10 @@ public class PedidoDAO {
             SQL_SELECT_BASE + "WHERE LOWER(u.nombre) LIKE LOWER(?) OR LOWER(u.apellidos) LIKE LOWER(?) " +
             "ORDER BY p.fecha_pedido DESC";
  
+    private static final String SQL_BUSCAR_POR_ID_CLIENTE =
+            SQL_SELECT_BASE + "WHERE p.id_cliente = ? " +
+            "ORDER BY p.fecha_pedido DESC";
+
     private static final String SQL_BUSCAR_POR_ESTATUS =
             SQL_SELECT_BASE + "WHERE p.estatus = ? " +
             "ORDER BY p.fecha_pedido DESC";
@@ -95,6 +99,20 @@ public class PedidoDAO {
         return pedidos;
     }
  
+    public List<PedidoDTO> buscarPorIdCliente(int idCliente) throws SQLException {
+        List<PedidoDTO> pedidos = new ArrayList<>();
+        try (Connection con = ConexionBD.getConexion();
+             PreparedStatement ps = con.prepareStatement(SQL_BUSCAR_POR_ID_CLIENTE)) {
+            ps.setInt(1, idCliente);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    pedidos.add(mapearPedido(rs));
+                }
+            }
+        }
+        return pedidos;
+    }
+
     public List<PedidoDTO> buscarPorEstatus(String estatus) throws SQLException {
         List<PedidoDTO> pedidos = new ArrayList<>();
  

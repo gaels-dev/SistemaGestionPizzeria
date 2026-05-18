@@ -57,6 +57,13 @@ public class UsuarioService {
         return usuarioDAO.listarTodos();
     }
  
+    public List<UsuarioDTO> obtenerPorTipo(String tipo) throws SQLException {
+        if (tipo == null || tipo.trim().isEmpty()) {
+            return usuarioDAO.listarTodos();
+        }
+        return usuarioDAO.listarPorTipo(tipo.trim());
+    }
+
     public List<UsuarioDTO> buscarPorNombre(String nombre) throws NegocioException, SQLException {
         if (nombre == null || nombre.trim().isEmpty()) {
             throw new ValidacionException("El nombre de búsqueda no puede estar vacío.");
