@@ -63,6 +63,7 @@ public class FXMLLoginController implements Initializable {
             btnLogin.setDisable(true);
  
             UsuarioDTO usuarioAutenticado = usuarioService.autenticar(username, contrasenia);
+            sistemagestionpizzeria.util.Sesion.setUsuario(usuarioAutenticado);
  
             abrirMenuPrincipal(usuarioAutenticado);
  

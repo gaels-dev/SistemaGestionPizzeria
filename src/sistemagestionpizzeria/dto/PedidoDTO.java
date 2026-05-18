@@ -11,7 +11,7 @@ public class PedidoDTO {
     private int idPedido;
     private Date fechaPedido;
     private double total;
-    private int idCliente;
+    private Integer idCliente;
     private String nombreCliente;
     private int idEmpleado;
     private String estatus;
@@ -21,7 +21,7 @@ public class PedidoDTO {
     public PedidoDTO() {
     }
     
-    public PedidoDTO(int idPedido, Date fechaPedido, double total, int idCliente, String nombreCliente, int idEmpleado, String estatus) {
+    public PedidoDTO(int idPedido, Date fechaPedido, double total, Integer idCliente, String nombreCliente, int idEmpleado, String estatus) {
         this.idPedido = idPedido;
         this.fechaPedido = fechaPedido;
         this.total = total;
@@ -55,11 +55,11 @@ public class PedidoDTO {
         this.total = total;
     }
 
-    public int getIdCliente() {
+    public Integer getIdCliente() {
         return idCliente;
     }
 
-    public void setIdCliente(int idCliente) {
+    public void setIdCliente(Integer idCliente) {
         this.idCliente = idCliente;
     }
 

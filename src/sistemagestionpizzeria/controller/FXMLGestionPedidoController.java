@@ -5,7 +5,6 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -29,11 +28,15 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
+import javafx.util.StringConverter;
 import sistemagestionpizzeria.dto.DetallePedidoDTO; 
 import sistemagestionpizzeria.dto.PedidoDTO;
 import sistemagestionpizzeria.dto.ProductoDTO;
+import sistemagestionpizzeria.dto.UsuarioDTO;
 import sistemagestionpizzeria.service.ProductoService;
 import sistemagestionpizzeria.service.PedidoService;
+import sistemagestionpizzeria.service.UsuarioService;
+import sistemagestionpizzeria.util.Sesion;
 import sistemagestionpizzeria.exception.NegocioException;
 
 public class FXMLGestionPedidoController implements Initializable {
@@ -62,9 +65,12 @@ public class FXMLGestionPedidoController implements Initializable {
     private Label lbFecha;
     @FXML
     private ComboBox<String> cbEstado;
+    @FXML
+    private ComboBox<UsuarioDTO> cbCliente;
 
     private final ProductoService productoService = new ProductoService();
     private final PedidoService pedidoService = new PedidoService();
+    private final UsuarioService usuarioService = new UsuarioService();
     private final ObservableList<ProductoDTO> productosList = FXCollections.observableArrayList();
     private final ObservableList<DetallePedidoDTO> detalleList = FXCollections.observableArrayList();
     private static final String TIPO_PRODUCTO = "Producto";
@@ -78,18 +84,36 @@ public class FXMLGestionPedidoController implements Initializable {
         pedidoActual.setDetalles(detalleList);
         configurarTabla();
         configurarListView();
-        configurarComboBox();
+        configurarComboBoxes();
 
         txtBuscarProducto.textProperty().addListener((observable, oldValue, newValue) -> {
             cargarProductos(newValue);
         });
     }
 
-    private void configurarComboBox() {
+    private void configurarComboBoxes() {
         cbEstado.setItems(FXCollections.observableArrayList(
             "PENDIENTE", "ENTREGADO", "CANCELADO"
         ));
         cbEstado.getSelectionModel().select("PENDIENTE");
+        
+        cbCliente.setConverter(new StringConverter<UsuarioDTO>() {
+            @Override
+            public String toString(UsuarioDTO usuario) {
+                return usuario == null ? "Seleccione un cliente..." : usuario.getNombreCompleto();
+            }
+
+            @Override
+            public UsuarioDTO fromString(String string) {
+                return null;
+            }
+        });
+
+        try {
+            cbCliente.setItems(FXCollections.observableArrayList(usuarioService.obtenerPorTipo("CLIENTE")));
+        } catch (SQLException e) {
+            mostrarAlertaError("Error", "No se pudieron cargar los clientes: " + e.getMessage());
+        }
     }
 
     private void configurarTabla() {
@@ -187,7 +211,10 @@ public class FXMLGestionPedidoController implements Initializable {
         try {
             PedidoDTO pedidoCompleto = pedidoService.obtenerPorId(pedido.getIdPedido());
             this.pedidoActual = pedidoCompleto;
+            
+            // Sincronizar la lista de la UI con el objeto pedido
             this.detalleList.setAll(pedidoCompleto.getDetalles());
+            this.pedidoActual.setDetalles(detalleList);
             
             lbNumeroPedido.setText(String.valueOf(pedidoActual.getIdPedido()));
             lbNumeroPedido.setVisible(true);
@@ -196,6 +223,17 @@ public class FXMLGestionPedidoController implements Initializable {
                 lbFecha.setText(dateFormat.format(pedidoActual.getFechaPedido()));
             }
             cbEstado.getSelectionModel().select(pedidoActual.getEstatus());
+            
+            if (pedidoActual.getIdCliente() != null) {
+                for (UsuarioDTO u : cbCliente.getItems()) {
+                    if (u.getIdUsuario() == pedidoActual.getIdCliente()) {
+                        cbCliente.getSelectionModel().select(u);
+                        break;
+                    }
+                }
+            } else {
+                cbCliente.getSelectionModel().clearSelection();
+            }
             
             recalcularTotalGlobal();
         } catch (SQLException | NegocioException e) {
@@ -212,6 +250,7 @@ public class FXMLGestionPedidoController implements Initializable {
         lbNumeroPedido.setVisible(false);
         lbFecha.setText(dateFormat.format(new Date()));
         cbEstado.getSelectionModel().select("PENDIENTE");
+        cbCliente.getSelectionModel().clearSelection();
         
         recalcularTotalGlobal();
     }
@@ -288,7 +327,43 @@ public class FXMLGestionPedidoController implements Initializable {
 
     @FXML
     private void guardarPedido(ActionEvent event) {
-        System.out.println("Guardando: " + pedidoActual.toString());
+        try {
+            // Configurar datos del pedido desde la UI
+            pedidoActual.setEstatus(cbEstado.getValue());
+            UsuarioDTO cliente = cbCliente.getValue();
+            pedidoActual.setIdCliente(cliente != null ? cliente.getIdUsuario() : null);
+            
+            // Empleado en sesión
+            UsuarioDTO empleado = Sesion.getUsuario();
+            if (empleado == null) {
+                mostrarAlertaError("Error de Sesión", "No hay un empleado en sesión. Vuelva a iniciar sesión.");
+                return;
+            }
+            pedidoActual.setIdEmpleado(empleado.getIdUsuario());
+
+            if (pedidoActual.getIdPedido() == 0) {
+                // Registrar nuevo
+                pedidoActual.setFechaPedido(new Date());
+                int idGenerado = pedidoService.registrar(pedidoActual);
+                mostrarAlertaInformacion("Pedido Guardado", "Se ha registrado el pedido #" + idGenerado);
+            } else {
+                // Actualizar existente
+                pedidoService.actualizar(pedidoActual);
+                mostrarAlertaInformacion("Pedido Actualizado", "Se ha actualizado el pedido #" + pedidoActual.getIdPedido());
+            }
+            
+            salirDelPedido(null);
+        } catch (SQLException | NegocioException e) {
+            mostrarAlertaError("Error al guardar", e.getMessage());
+        }
+    }
+
+    private void mostrarAlertaInformacion(String titulo, String mensaje) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Información");
+        alert.setHeaderText(titulo);
+        alert.setContentText(mensaje);
+        alert.showAndWait();
     }
 
     @FXML
@@ -308,4 +383,5 @@ public class FXMLGestionPedidoController implements Initializable {
         alert.setContentText(mensaje);
         alert.showAndWait();
     }
+
 }

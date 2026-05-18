@@ -32,6 +32,10 @@ public class DetallePedidoService {
         detallePedidoDAO.insertar(detalle, con);
     }
 
+    public void eliminarPorPedido(int idPedido, java.sql.Connection con) throws SQLException {
+        detallePedidoDAO.eliminarPorPedido(idPedido, con);
+    }
+
     private void validarDetalle(DetallePedidoDTO detalle) throws ValidacionException {
         if (detalle.getIdPedido() <= 0) {
             throw new ValidacionException("El id del pedido no es válido.");

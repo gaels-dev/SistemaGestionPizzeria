@@ -12,14 +12,14 @@
    <children>
       <VBox alignment="TOP_CENTER" layoutX="245.0" layoutY="52.0" maxHeight="500.0" maxWidth="800.0" prefHeight="466.0" prefWidth="791.0" spacing="15.0" style="-fx-background-color: #FFFFFF;" AnchorPane.bottomAnchor="52.0" AnchorPane.leftAnchor="245.0" AnchorPane.rightAnchor="244.0" AnchorPane.topAnchor="52.0">
          <children>
-            <HBox alignment="TOP_CENTER" prefHeight="34.0" prefWidth="418.0">
+            <HBox alignment="TOP_CENTER" prefHeight="31.0" prefWidth="710.0">
                <children>
                   <Label prefHeight="33.0" prefWidth="60.0" text="Cliente: ">
                      <HBox.margin>
                         <Insets right="5.0" />
                      </HBox.margin>
                      </Label>
-                     <ComboBox fx:id="cbCliente" prefHeight="31.0" prefWidth="170.0" promptText="Seleccione cliente" />
+                     <ComboBox fx:id="cbCliente" prefHeight="31.0" prefWidth="196.0" promptText="Seleccione cliente" />
                      <Label prefHeight="33.0" prefWidth="54.0" text="Estado:">                     <HBox.margin>
                         <Insets left="20.0" right="5.0" />
                      </HBox.margin>

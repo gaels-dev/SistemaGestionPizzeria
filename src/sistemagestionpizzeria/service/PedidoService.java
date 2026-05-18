@@ -89,11 +89,38 @@ public class PedidoService {
             }
         }
     }
+
+    public void actualizar(PedidoDTO pedido) throws NegocioException, SQLException {
+        validarPedido(pedido);
+        if (pedido.getIdPedido() <= 0) {
+            throw new ValidacionException("El id del pedido no es válido para actualizar.");
+        }
+
+        try (Connection con = ConexionBD.getConexion()) {
+            try {
+                con.setAutoCommit(false);
+
+                // 1. Actualizar datos básicos del pedido
+                pedidoDAO.actualizar(pedido, con);
+
+                // 2. Eliminar detalles anteriores
+                detalleService.eliminarPorPedido(pedido.getIdPedido(), con);
+
+                // 3. Insertar nuevos detalles
+                for (DetallePedidoDTO detalle : pedido.getDetalles()) {
+                    detalle.setIdPedido(pedido.getIdPedido());
+                    detalleService.registrar(detalle, con);
+                }
+
+                con.commit();
+            } catch (SQLException | NegocioException e) {
+                con.rollback();
+                throw e;
+            }
+        }
+    }
     
     private void validarPedido(PedidoDTO pedido) throws ValidacionException {
-        if (pedido.getIdCliente() <= 0) {
-            throw new ValidacionException("El pedido debe tener un cliente asignado.");
-        }
         if (pedido.getIdEmpleado() <= 0) {
             throw new ValidacionException("El pedido debe tener un empleado asignado.");
         }

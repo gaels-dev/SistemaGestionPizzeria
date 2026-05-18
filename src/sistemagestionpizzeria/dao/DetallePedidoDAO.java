@@ -26,6 +26,9 @@ public class DetallePedidoDAO {
             "INSERT INTO detalle_pedido (id_pedido, id_producto, cantidad, precio_unitario, subtotal) " +
             "VALUES (?, ?, ?, ?, ?)";
  
+    private static final String SQL_ELIMINAR_POR_PEDIDO =
+            "DELETE FROM detalle_pedido WHERE id_pedido = ?";
+ 
     public List<DetallePedidoDTO> buscarPorPedido(int idPedido) throws SQLException {
         List<DetallePedidoDTO> detalles = new ArrayList<>();
  
@@ -58,6 +61,13 @@ public class DetallePedidoDAO {
             ps.setDouble(4, d.getPrecioUnitario());
             ps.setDouble(5, d.getSubtotal());
  
+            ps.executeUpdate();
+        }
+    }
+
+    public void eliminarPorPedido(int idPedido, Connection con) throws SQLException {
+        try (PreparedStatement ps = con.prepareStatement(SQL_ELIMINAR_POR_PEDIDO)) {
+            ps.setInt(1, idPedido);
             ps.executeUpdate();
         }
     }

@@ -49,7 +49,9 @@ public class PedidoDAO {
  
     private static final String SQL_ACTUALIZAR_ESTATUS =
             "UPDATE Pedido SET estatus = ? WHERE id_pedido = ?";
-
+ 
+    private static final String SQL_ACTUALIZAR =
+            "UPDATE Pedido SET total = ?, id_cliente = ?, estatus = ? WHERE id_pedido = ?";
  
     public PedidoDTO buscarPorId(int idPedido) throws SQLException {
         try (Connection con = ConexionBD.getConexion();
@@ -157,7 +159,11 @@ public class PedidoDAO {
         try (PreparedStatement ps = con.prepareStatement(SQL_INSERTAR, PreparedStatement.RETURN_GENERATED_KEYS)) {
  
             ps.setDouble(1, p.getTotal());
-            ps.setInt(2, p.getIdCliente());
+            if (p.getIdCliente() != null) {
+                ps.setInt(2, p.getIdCliente());
+            } else {
+                ps.setNull(2, java.sql.Types.INTEGER);
+            }
             ps.setInt(3, p.getIdEmpleado());
             ps.setString(4, p.getEstatus());
  
@@ -194,15 +200,36 @@ public class PedidoDAO {
         actualizarEstatus(idPedido, "ENTREGADO", con);
     }
  
+    public void actualizar(PedidoDTO p, Connection con) throws SQLException {
+        try (PreparedStatement ps = con.prepareStatement(SQL_ACTUALIZAR)) {
+            ps.setDouble(1, p.getTotal());
+            if (p.getIdCliente() != null) {
+                ps.setInt(2, p.getIdCliente());
+            } else {
+                ps.setNull(2, java.sql.Types.INTEGER);
+            }
+            ps.setString(3, p.getEstatus());
+            ps.setInt(4, p.getIdPedido());
+            ps.executeUpdate();
+        }
+    }
+ 
     private PedidoDTO mapearPedido(ResultSet rs) throws SQLException {
-        return new PedidoDTO(
+        PedidoDTO pedido = new PedidoDTO(
                 rs.getInt("id_pedido"),
                 rs.getTimestamp("fecha_pedido"),
                 rs.getDouble("total"),
-                rs.getInt("id_cliente"),
+                null,
                 rs.getString("nombre_cliente"),
                 rs.getInt("id_empleado"),
                 rs.getString("estatus")
         );
+        
+        int idCliente = rs.getInt("id_cliente");
+        if (!rs.wasNull()) {
+            pedido.setIdCliente(idCliente);
+        }
+        
+        return pedido;
     }
 }
