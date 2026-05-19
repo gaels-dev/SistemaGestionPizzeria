@@ -3,7 +3,6 @@ package sistemagestionpizzeria.controller;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
@@ -37,6 +36,7 @@ import sistemagestionpizzeria.service.ProductoService;
 import sistemagestionpizzeria.service.PedidoService;
 import sistemagestionpizzeria.service.UsuarioService;
 import sistemagestionpizzeria.util.Sesion;
+import sistemagestionpizzeria.util.FechaUtil;
 import sistemagestionpizzeria.exception.NegocioException;
 
 public class FXMLGestionPedidoController implements Initializable {
@@ -76,7 +76,6 @@ public class FXMLGestionPedidoController implements Initializable {
     private static final String TIPO_PRODUCTO = "Producto";
     
     private PedidoDTO pedidoActual = new PedidoDTO();
-    private final SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 
 
     @Override
@@ -220,7 +219,7 @@ public class FXMLGestionPedidoController implements Initializable {
             lbNumeroPedido.setVisible(true);
             
             if (pedidoActual.getFechaPedido() != null) {
-                lbFecha.setText(dateFormat.format(pedidoActual.getFechaPedido()));
+                lbFecha.setText(FechaUtil.formatearFecha(pedidoActual.getFechaPedido()));
             }
             cbEstado.getSelectionModel().select(pedidoActual.getEstatus());
             
@@ -248,7 +247,7 @@ public class FXMLGestionPedidoController implements Initializable {
         
         lbNumeroPedido.setText("");
         lbNumeroPedido.setVisible(false);
-        lbFecha.setText(dateFormat.format(new Date()));
+        lbFecha.setText(FechaUtil.formatearFecha(FechaUtil.getFechaActualDate()));
         cbEstado.getSelectionModel().select("PENDIENTE");
         cbCliente.getSelectionModel().clearSelection();
         
@@ -343,7 +342,7 @@ public class FXMLGestionPedidoController implements Initializable {
 
             if (pedidoActual.getIdPedido() == 0) {
                 // Registrar nuevo
-                pedidoActual.setFechaPedido(new Date());
+                pedidoActual.setFechaPedido(FechaUtil.getFechaActualDate());
                 int idGenerado = pedidoService.registrar(pedidoActual);
                 mostrarAlertaInformacion("Pedido Guardado", "Se ha registrado el pedido #" + idGenerado);
             } else {

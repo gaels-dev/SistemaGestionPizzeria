@@ -14,10 +14,12 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.nio.charset.StandardCharsets;
 import java.net.URL;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
@@ -42,6 +44,7 @@ import sistemagestionpizzeria.dto.UsuarioDTO;
 import sistemagestionpizzeria.exception.NegocioException;
 import sistemagestionpizzeria.service.PedidoService;
 import sistemagestionpizzeria.service.UsuarioService;
+import sistemagestionpizzeria.util.FechaUtil;
 
 /**
  * FXML Controller class
@@ -63,7 +66,7 @@ public class FXMLAdministracionPedidosController implements Initializable {
     @FXML
     private TableColumn<PedidoDTO, String> colCliente;
     @FXML
-    private TableColumn<PedidoDTO, String> colFecha;
+    private TableColumn<PedidoDTO, Date> colFecha;
     @FXML
     private TableColumn<PedidoDTO, Double> colTotal;
     @FXML
@@ -123,6 +126,17 @@ public class FXMLAdministracionPedidosController implements Initializable {
         colNumeroPedido.setCellValueFactory(new PropertyValueFactory<>("idPedido"));
         colCliente.setCellValueFactory(new PropertyValueFactory<>("nombreCliente"));
         colFecha.setCellValueFactory(new PropertyValueFactory<>("fechaPedido"));
+        colFecha.setCellFactory(column -> new TableCell<PedidoDTO, Date>() {
+            @Override
+            protected void updateItem(Date item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setText(null);
+                } else {
+                    setText(FechaUtil.formatearFecha(item));
+                }
+            }
+        });
         colTotal.setCellValueFactory(new PropertyValueFactory<>("total"));
         colTotal.setCellFactory(column -> new TableCell<PedidoDTO, Double>() {
             @Override
@@ -315,7 +329,6 @@ public class FXMLAdministracionPedidosController implements Initializable {
                 documento.open();
 
                 // Formatos de fecha y fuentes
-                SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
                 Font fuenteTitulo = new Font(Font.FontFamily.HELVETICA, 18, Font.BOLD);
                 Font fuenteCabecera = new Font(Font.FontFamily.HELVETICA, 12, Font.BOLD);
 
@@ -324,7 +337,7 @@ public class FXMLAdministracionPedidosController implements Initializable {
                 titulo.setAlignment(Element.ALIGN_CENTER);
                 documento.add(titulo);
 
-                documento.add(new Paragraph("Fecha de generación: " + sdf.format(new java.util.Date())));
+                documento.add(new Paragraph("Fecha de generación: " + FechaUtil.formatearFecha(FechaUtil.getFechaActualDate())));
                 documento.add(new Paragraph("\n"));
 
                 // Tabla
@@ -343,7 +356,7 @@ public class FXMLAdministracionPedidosController implements Initializable {
                 for (PedidoDTO pedido : tvPedidos.getItems()) {
                     tabla.addCell(String.valueOf(pedido.getIdPedido()));
                     tabla.addCell(pedido.getNombreCliente());
-                    tabla.addCell(sdf.format(pedido.getFechaPedido()));
+                    tabla.addCell(FechaUtil.formatearFecha(pedido.getFechaPedido()));
                     tabla.addCell(String.format("$%.2f", pedido.getTotal()));
                     tabla.addCell(pedido.getEstatus());
                 }
@@ -383,18 +396,24 @@ public class FXMLAdministracionPedidosController implements Initializable {
         File archivo = fileChooser.showSaveDialog(tvPedidos.getScene().getWindow());
 
         if (archivo != null) {
-            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-            try (BufferedWriter bw = new BufferedWriter(new FileWriter(archivo))) {
+            try (BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(archivo), StandardCharsets.UTF_8))) {
+                // Escribir el BOM (Byte Order Mark) para que Excel reconozca UTF-8 inmediatamente
+                bw.write("\uFEFF");
+                
                 // Encabezados
                 bw.write("ID,Cliente,Fecha,Total,Estatus");
                 bw.newLine();
 
                 // Datos
                 for (PedidoDTO pedido : tvPedidos.getItems()) {
+                    // Envolver en comillas para evitar problemas con comas en los nombres
+                    String cliente = "\"" + pedido.getNombreCliente().replace("\"", "\"\"") + "\"";
+                    String fecha = "\"" + FechaUtil.formatearFecha(pedido.getFechaPedido()) + "\"";
+                    
                     bw.write(
                             pedido.getIdPedido() + "," +
-                            pedido.getNombreCliente() + "," +
-                            sdf.format(pedido.getFechaPedido()) + "," +
+                            cliente + "," +
+                            fecha + "," +
                             String.format("%.2f", pedido.getTotal()) + "," +
                             pedido.getEstatus()
                     );
@@ -404,7 +423,7 @@ public class FXMLAdministracionPedidosController implements Initializable {
                 Alert alerta = new Alert(Alert.AlertType.INFORMATION);
                 alerta.setTitle("Exportación Exitosa");
                 alerta.setHeaderText(null);
-                alerta.setContentText("CSV exportado correctamente");
+                alerta.setContentText("CSV exportado correctamente.");
                 alerta.showAndWait();
 
             } catch (IOException e) {

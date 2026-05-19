@@ -61,7 +61,7 @@
             <HBox prefHeight="32.0" prefWidth="343.0" spacing="20.0">
                <children>
                   <Button alignment="CENTER" onAction="#exportarAPDF" style="-fx-background-color: #CF8F4A; -fx-font-weight: bold;" text="Exportar a PDF" textFill="WHITE" />
-                  <Button alignment="CENTER" layoutX="10.0" layoutY="10.0" onAction="#exportarACSV" style="-fx-background-color: #5BD49E; -fx-font-weight: bold;" text="Exportar a CVS" textFill="WHITE" />
+                  <Button alignment="CENTER" layoutX="10.0" layoutY="10.0" onAction="#exportarACSV" style="-fx-background-color: #5BD49E; -fx-font-weight: bold;" text="Exportar a CSV" textFill="WHITE" />
                </children>
             </HBox>
          </children>

@@ -45,7 +45,7 @@ public class PedidoDAO {
  
     private static final String SQL_INSERTAR =
             "INSERT INTO Pedido (fecha_pedido, total, id_cliente, id_empleado, estatus) " +
-            "VALUES (NOW(), ?, ?, ?, ?)";
+            "VALUES (?, ?, ?, ?, ?)";
  
     private static final String SQL_ACTUALIZAR_ESTATUS =
             "UPDATE Pedido SET estatus = ? WHERE id_pedido = ?";
@@ -158,14 +158,15 @@ public class PedidoDAO {
     public int insertar(PedidoDTO p, Connection con) throws SQLException {
         try (PreparedStatement ps = con.prepareStatement(SQL_INSERTAR, PreparedStatement.RETURN_GENERATED_KEYS)) {
  
-            ps.setDouble(1, p.getTotal());
+            ps.setTimestamp(1, new java.sql.Timestamp(p.getFechaPedido().getTime()));
+            ps.setDouble(2, p.getTotal());
             if (p.getIdCliente() != null) {
-                ps.setInt(2, p.getIdCliente());
+                ps.setInt(3, p.getIdCliente());
             } else {
-                ps.setNull(2, java.sql.Types.INTEGER);
+                ps.setNull(3, java.sql.Types.INTEGER);
             }
-            ps.setInt(3, p.getIdEmpleado());
-            ps.setString(4, p.getEstatus());
+            ps.setInt(4, p.getIdEmpleado());
+            ps.setString(5, p.getEstatus());
  
             ps.executeUpdate();
  
