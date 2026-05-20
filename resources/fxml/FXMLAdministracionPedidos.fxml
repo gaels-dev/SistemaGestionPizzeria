@@ -62,6 +62,8 @@
                <children>
                   <Button alignment="CENTER" onAction="#exportarAPDF" style="-fx-background-color: #CF8F4A; -fx-font-weight: bold;" text="Exportar a PDF" textFill="WHITE" />
                   <Button alignment="CENTER" layoutX="10.0" layoutY="10.0" onAction="#exportarACSV" style="-fx-background-color: #5BD49E; -fx-font-weight: bold;" text="Exportar a CSV" textFill="WHITE" />
+                  <Button fx:id="btnEntregar" alignment="CENTER" managed="false" onAction="#marcarEntregado" style="-fx-background-color: #2da52d; -fx-font-weight: bold;" text="Marcar como Entregado" textFill="WHITE" visible="false" />
+                  <Button fx:id="btnCancelar" alignment="CENTER" managed="false" onAction="#marcarCancelado" style="-fx-background-color: #ff4d4d; -fx-font-weight: bold;" text="Marcar como Cancelado" textFill="WHITE" visible="false" />
                </children>
             </HBox>
          </children>

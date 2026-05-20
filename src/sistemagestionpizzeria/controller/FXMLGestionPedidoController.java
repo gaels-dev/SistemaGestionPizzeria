@@ -296,6 +296,11 @@ public class FXMLGestionPedidoController implements Initializable {
                         Node node = loader.load();
                         ItemProductoController controller = loader.getController();
                         controller.setProducto(producto, p -> agregarAlPedido(p));
+                        this.setOnMousePressed(event -> {
+                            if (!(event.getTarget() instanceof Button)) {
+                                event.consume(); // Detiene el evento aquí
+                            }
+                        });
                         setGraphic(node);
                     } catch (IOException e) {
                         setText("Error al cargar producto");

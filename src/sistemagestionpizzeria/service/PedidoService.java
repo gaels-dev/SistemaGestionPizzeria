@@ -124,6 +124,9 @@ public class PedidoService {
         if (pedido.getIdEmpleado() <= 0) {
             throw new ValidacionException("El pedido debe tener un empleado asignado.");
         }
+        if (pedido.getIdCliente() == null) {
+            throw new ValidacionException("El pedido debe tener un cliente asignado");
+        }
         if (pedido.getDetalles() == null || pedido.getDetalles().isEmpty()) {
             throw new ValidacionException("El pedido debe tener al menos un producto.");
         }

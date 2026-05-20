@@ -21,6 +21,7 @@ import java.sql.SQLException;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -30,6 +31,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableCell;
@@ -71,6 +74,10 @@ public class FXMLAdministracionPedidosController implements Initializable {
     private TableColumn<PedidoDTO, Double> colTotal;
     @FXML
     private TableColumn<PedidoDTO, String> colEstado;
+    @FXML
+    private Button btnEntregar;
+    @FXML
+    private Button btnCancelar;
 
     private final PedidoService pedidoService = new PedidoService();
     private final UsuarioService usuarioService = new UsuarioService();
@@ -152,6 +159,15 @@ public class FXMLAdministracionPedidosController implements Initializable {
         colEstado.setCellValueFactory(new PropertyValueFactory<>("estatus"));
         
         tvPedidos.setItems(pedidosList);
+
+        // Listener para mostrar/ocultar botones de cambio de estado según selección
+        tvPedidos.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+            boolean visible = newSelection != null;
+            btnEntregar.setVisible(visible);
+            btnEntregar.setManaged(visible);
+            btnCancelar.setVisible(visible);
+            btnCancelar.setManaged(visible);
+        });
 
         // Listener para doble clic en las filas de la tabla
         tvPedidos.setOnMouseClicked(event -> {
@@ -248,13 +264,7 @@ public class FXMLAdministracionPedidosController implements Initializable {
         }
     }
 
-    private void mostrarAlertaError(String titulo, String mensaje) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Error");
-        alert.setHeaderText(titulo);
-        alert.setContentText(mensaje);
-        alert.showAndWait();
-    }
+
 
     @FXML
     private void handleNuevoPedido(ActionEvent event) {
@@ -430,5 +440,64 @@ public class FXMLAdministracionPedidosController implements Initializable {
                 mostrarAlertaError("Error de Exportación", "No se pudo guardar el archivo CSV: " + e.getMessage());
             }
         }
+    }
+
+    @FXML
+    private void marcarEntregado(ActionEvent event) {
+        actualizarEstadoPedido("ENTREGADO");
+    }
+
+    @FXML
+    private void marcarCancelado(ActionEvent event) {
+        actualizarEstadoPedido("CANCELADO");
+    }
+
+    private void actualizarEstadoPedido(String nuevoEstado) {
+        PedidoDTO seleccionado = tvPedidos.getSelectionModel().getSelectedItem();
+        if (seleccionado == null) {
+            return;
+        }
+
+        if (!"PENDIENTE".equals(seleccionado.getEstatus())) {
+            mostrarAlertaError("Error", "Solo los pedidos con estatus PENDIENTE pueden ser modificados.");
+            return;
+        }
+
+        Alert confirmacion = new Alert(Alert.AlertType.CONFIRMATION);
+        confirmacion.setTitle("Confirmar cambio de estado");
+        confirmacion.setHeaderText(null);
+        confirmacion.setContentText("¿Quiere marcar el pedido " + seleccionado.getIdPedido() + " como " + nuevoEstado + "?");
+
+        Optional<ButtonType> resultado = confirmacion.showAndWait();
+        if (resultado.isPresent() && resultado.get() == ButtonType.OK) {
+            try {
+                pedidoService.actualizarEstatus(seleccionado.getIdPedido(), nuevoEstado);
+                mostrarAlertaInformacion("Estado Actualizado", "El pedido #" + seleccionado.getIdPedido() + " ahora está " + nuevoEstado + ".");
+                
+                // Limpiar selección y ocultar botones
+                tvPedidos.getSelectionModel().clearSelection();
+                
+                // Refrescar la tabla
+                cargarDatosIniciales();
+            } catch (SQLException | NegocioException e) {
+                mostrarAlertaError("Error", "No se pudo actualizar el estado: " + e.getMessage());
+            }
+        }
+    }
+
+    private void mostrarAlertaInformacion(String titulo, String mensaje) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Información");
+        alert.setHeaderText(null);
+        alert.setContentText(mensaje);
+        alert.showAndWait();
+    }
+    
+    private void mostrarAlertaError(String titulo, String mensaje) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error");
+        alert.setHeaderText(titulo);
+        alert.setContentText(mensaje);
+        alert.showAndWait();
     }
 }
