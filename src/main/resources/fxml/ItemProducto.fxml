@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<HBox fx:id="root" alignment="CENTER_LEFT" spacing="15" style="-fx-background-color: #f8f8f8; -fx-background-radius: 8; -fx-padding: 15;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.uv.sistemagestionpizzeria.controller.ItemProductoController">
+   <children>
+      <VBox spacing="5" HBox.hgrow="ALWAYS">
+         <children>
+            <Label fx:id="lblNombre" style="-fx-font-size: 16px; -fx-font-weight: bold;" text="Nombre del Producto" />
+            <Label fx:id="lblDescripcion" style="-fx-text-fill: #666;" text="Descripción corta" wrapText="true" />
+            <Label fx:id="lblPrecio" style="-fx-font-size: 18px; -fx-text-fill: #2da52d; -fx-font-weight: bold;" text="\$0.00" />
+         </children>
+      </VBox>
+      <Button fx:id="btnAgregar" onAction="#handleAgregar" style="-fx-background-color: #2da52d; -fx-text-fill: white; -fx-font-weight: bold;" text="+ Agregar" />
+   </children>
+</HBox>

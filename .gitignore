@@ -1,0 +1,42 @@
+# ==========================================
+# Archivos de Compilación e Intermedios (Maven)
+# ==========================================
+target/
+
+# NetBeans (Proyectos estándar y Maven locales)
+nbproject/
+build/
+dist/
+nbbuild/
+nbdist/
+nbactions.xml
+nb-configuration.xml
+
+# IntelliJ IDEA
+.idea/
+*.iml
+out/
+gen/
+
+# Eclipse
+.classpath
+.project
+.settings/
+.factorypath
+
+# Visual Studio Code
+.vscode/
+settings.json
+
+# ==========================================
+# Archivos del Sistema Operativo
+# ==========================================
+.DS_Store
+.DS_Store?
+._*
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+database/
+settings.json

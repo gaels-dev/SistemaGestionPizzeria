@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.effect.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: #C7D3EB;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.uv.sistemagestionpizzeria.controller.FXMLMenuPrincipalController">
+   <top>
+      <VBox prefHeight="150.0" prefWidth="820.0" BorderPane.alignment="CENTER">
+         <children>
+            <AnchorPane prefHeight="115.0" prefWidth="820" style="-fx-background-color: #D9D9D9;">
+               <children>
+                  <Label layoutX="20.0" layoutY="16.0" text="Menu Principal">
+                     <font>
+                        <Font name="System Bold" size="30.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="lblBienvenido" layoutX="20.0" layoutY="61.0" text="Bienvenido, X persona">
+                     <font>
+                        <Font name="System Bold" size="24.0" />
+                     </font>
+                  </Label>
+               </children>
+            </AnchorPane>
+            <MenuBar prefHeight="35.0" prefWidth="820.0" style="-fx-background-color: #A9A7A7;">
+               <menus>
+                  <Menu fx:id="menuAdministracion" mnemonicParsing="false" text="Administración">
+                     <items>
+                        <MenuItem mnemonicParsing="false" onAction="#abrirUsuarios" text="Usuarios" />
+                        <SeparatorMenuItem mnemonicParsing="false" />
+                        <MenuItem mnemonicParsing="false" onAction="#cerrarSesion" text="Cerrar sesión" />
+                     </items>
+                  </Menu>
+                  <Menu fx:id="menuInventarios" mnemonicParsing="false" text="Inventarios">
+                     <items>
+                        <MenuItem mnemonicParsing="false" onAction="#abrirProductos" text="Productos" />
+                        <SeparatorMenuItem mnemonicParsing="false" />
+                        <MenuItem mnemonicParsing="false" onAction="#abrirRecetas" text="Recetas" />
+                        <SeparatorMenuItem mnemonicParsing="false" />
+                        <MenuItem mnemonicParsing="false" onAction="#abrirGestionInventario" text="Gestión Inventarios" />
+                     </items>
+                  </Menu>
+                  <Menu fx:id="menuPedidos" mnemonicParsing="false" text="Pedidos">
+                     <items>
+                        <MenuItem mnemonicParsing="false" onAction="#abrirPedidos" text="Pedidos" />
+                     </items>
+                  </Menu>
+                  <Menu fx:id="menuSesionCajero" mnemonicParsing="false" text="Cerrar Sesión" visible="false">
+                    <items>
+                      <MenuItem mnemonicParsing="false" onAction="#cerrarSesion" text="Cerrar Sesión" />
+                    </items>
+                  </Menu>
+                  <Menu fx:id="menuAyuda" mnemonicParsing="false" text="Ayuda">
+                     <items>
+                        <MenuItem mnemonicParsing="false" onAction="#abrirAcercaDe" text="Acerca de" />
+                     </items>
+                  </Menu>
+               </menus>
+            </MenuBar>
+         </children>
+      </VBox>
+   </top>
+   <center>
+      <StackPane fx:id="contenidoPrincipal" id="contenidoPrincipal" BorderPane.alignment="CENTER" />
+   </center>
+</BorderPane>

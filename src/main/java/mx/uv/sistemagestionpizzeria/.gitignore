@@ -1,0 +1,28 @@
+# IntelliJ
+.idea/
+*.iml
+out/
+
+# NetBeans
+nbproject/
+build/
+dist/
+nbbuild/
+nbdist/
+
+# Eclipse
+.classpath
+.project
+.settings/
+
+# Maven
+target/
+
+# Sistemas operativos
+.DS_Store
+Thumbs.db
+
+GEMINI.md
+README.md
+database/
+settings.json

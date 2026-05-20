@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.collections.FXCollections?>
+
+<BorderPane id="AnchorPane" prefHeight="800.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.uv.sistemagestionpizzeria.controller.FXMLPruebaController">
+    <top>
+        <HBox alignment="CENTER_LEFT" prefHeight="80" style="-fx-background-color: #d9d9d9; -fx-padding: 20;">
+           <children>
+               <Label style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #222;" text="Gestión de pedidos" />
+           </children>
+        </HBox>
+    </top>
+
+    <center>
+        <VBox alignment="TOP_CENTER" spacing="25" style="-fx-padding: 35;">
+           <children>
+   
+               <HBox alignment="CENTER_LEFT" spacing="15">
+      <children>
+                      <TextField prefWidth="420" promptText="Cliente" style="-fx-background-radius: 5; -fx-font-size: 14px;" />
+                      <Button style="-fx-background-color:#222; -fx-text-fill:white; -fx-font-weight:bold;" text="Buscar" />
+                      <Button style="-fx-background-color:#2da52d; -fx-text-fill:white; -fx-font-weight:bold;" text="+ Nuevo" />
+                      <Button style="-fx-background-color:#35a8d8; -fx-text-fill:white; -fx-font-weight:bold;" text="Editar" />
+                      <Button style="-fx-background-color:#d61d1d; -fx-text-fill:white; -fx-font-weight:bold;" text="Cancelar" />
+      </children>
+               </HBox>
+   
+               <HBox spacing="25">
+      <children>
+      
+                      <VBox prefWidth="420" spacing="15" style="-fx-background-color:white; -fx-background-radius:8; -fx-padding:20;">
+         <children>
+                             <Label style="-fx-font-size:18px; -fx-font-weight:bold;" text="Productos" />
+         
+                             <TextField promptText="Buscar producto..." />
+         
+<ScrollPane fitToWidth="true"
+            prefHeight="420"
+            style="-fx-background-color:transparent;">
+
+    <content>
+
+        <VBox spacing="15"
+              style="-fx-background-color:white;">
+
+            <!-- PRODUCTO 1 -->
+            <HBox spacing="15"
+                  alignment="CENTER_LEFT"
+                  style="-fx-background-color:#f8f8f8;
+                         -fx-background-radius:8;
+                         -fx-padding:15;">
+
+                <VBox spacing="5" prefWidth="240">
+                    <Label text="Pizza Pepperoni"
+                           style="-fx-font-size:16px;
+                                  -fx-font-weight:bold;"/>
+
+                    <Label text="Pizza grande con pepperoni"
+                           style="-fx-text-fill:#666;"/>
+
+                    <Label text="\$189.00"
+                           style="-fx-font-size:18px;
+                                  -fx-text-fill:#2da52d;
+                                  -fx-font-weight:bold;"/>
+                </VBox>
+
+                <Button text="+ Agregar"
+                        style="-fx-background-color:#2da52d;
+                               -fx-text-fill:white;
+                               -fx-font-weight:bold;"/>
+            </HBox>
+
+
+            <!-- PRODUCTO 2 -->
+            <HBox spacing="15"
+                  alignment="CENTER_LEFT"
+                  style="-fx-background-color:#f8f8f8;
+                         -fx-background-radius:8;
+                         -fx-padding:15;">
+
+                <VBox spacing="5" prefWidth="240">
+                    <Label text="Pizza Hawaiana"
+                           style="-fx-font-size:16px;
+                                  -fx-font-weight:bold;"/>
+
+                    <Label text="Jamón y piña"
+                           style="-fx-text-fill:#666;"/>
+
+                    <Label text="\$169.00"
+                           style="-fx-font-size:18px;
+                                  -fx-text-fill:#2da52d;
+                                  -fx-font-weight:bold;"/>
+                </VBox>
+
+                <Button text="+ Agregar"
+                        style="-fx-background-color:#2da52d;
+                               -fx-text-fill:white;
+                               -fx-font-weight:bold;"/>
+            </HBox>
+
+
+            <!-- PRODUCTO 3 -->
+            <HBox spacing="15"
+                  alignment="CENTER_LEFT"
+                  style="-fx-background-color:#f8f8f8;
+                         -fx-background-radius:8;
+                         -fx-padding:15;">
+
+                <VBox spacing="5" prefWidth="240">
+                    <Label text="Refresco Coca Cola"
+                           style="-fx-font-size:16px;
+                                  -fx-font-weight:bold;"/>
+
+                    <Label text="600ml"
+                           style="-fx-text-fill:#666;"/>
+
+                    <Label text="\$35.00"
+                           style="-fx-font-size:18px;
+                                  -fx-text-fill:#2da52d;
+                                  -fx-font-weight:bold;"/>
+                </VBox>
+
+                <Button text="+ Agregar"
+                        style="-fx-background-color:#2da52d;
+                               -fx-text-fill:white;
+                               -fx-font-weight:bold;"/>
+            </HBox>
+
+
+            <!-- PRODUCTO 4 -->
+            <HBox spacing="15"
+                  alignment="CENTER_LEFT"
+                  style="-fx-background-color:#f8f8f8;
+                         -fx-background-radius:8;
+                         -fx-padding:15;">
+
+                <VBox spacing="5" prefWidth="240">
+                    <Label text="Pan de ajo"
+                           style="-fx-font-size:16px;
+                                  -fx-font-weight:bold;"/>
+
+                    <Label text="Orden individual"
+                           style="-fx-text-fill:#666;"/>
+
+                    <Label text="\$55.00"
+                           style="-fx-font-size:18px;
+                                  -fx-text-fill:#2da52d;
+                                  -fx-font-weight:bold;"/>
+                </VBox>
+
+                <Button text="+ Agregar"
+                        style="-fx-background-color:#2da52d;
+                               -fx-text-fill:white;
+                               -fx-font-weight:bold;"/>
+            </HBox>
+
+        </VBox>
+
+    </content>
+
+</ScrollPane>
+         </children>
+                      </VBox>
+      
+                      <VBox prefWidth="620" spacing="15" style="-fx-background-color:white; -fx-background-radius:8; -fx-padding:20;">
+         <children>
+                             <Label style="-fx-font-size:18px; -fx-font-weight:bold;" text="Pedido actual" />
+         
+                             <TableView prefHeight="420">
+                                 <columns>
+                                     <TableColumn prefWidth="250" text="Producto" />
+                                     <TableColumn prefWidth="80" text="Cant." />
+                                     <TableColumn prefWidth="120" text="Precio" />
+                                     <TableColumn prefWidth="150" text="Subtotal" />
+                                 </columns>
+                             </TableView>
+         
+                             <HBox alignment="CENTER_RIGHT" spacing="20">
+            <children>
+                                    <Label style="-fx-font-size:18px; -fx-font-weight:bold;" text="Total:" />
+                                    <Label style="-fx-font-size:22px; -fx-font-weight:bold; -fx-text-fill:#2da52d;" text="\$468.00" />
+            </children>
+                             </HBox>
+         
+                             <HBox alignment="CENTER_RIGHT" spacing="20">
+            <children>
+                                    <Button style="-fx-background-color:#2da52d; -fx-text-fill:white; -fx-font-weight:bold;" text="Guardar Pedido" />
+                                    <Button style="-fx-background-color:#d61d1d; -fx-text-fill:white; -fx-font-weight:bold;" text="Eliminar Pedido" />
+            </children>
+                             </HBox>
+         </children>
+                      </VBox>
+      </children>
+   
+               </HBox>
+           </children>
+        </VBox>
+    </center>
+    <bottom>
+        <HBox alignment="CENTER_RIGHT" style="-fx-padding:20;">
+           <children>
+               <Button style="-fx-background-color:#222; -fx-text-fill:white; -fx-font-weight:bold;" text="Salir" />
+           </children>
+        </HBox>
+    </bottom>
+
+</BorderPane>
