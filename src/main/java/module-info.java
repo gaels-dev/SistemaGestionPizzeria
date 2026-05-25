@@ -4,6 +4,7 @@ module mx.uv.sistemagestionpizzeria {
     requires java.sql;
     requires java.logging;
     requires itextpdf;
+    requires java.base;
 
     opens mx.uv.sistemagestionpizzeria to javafx.fxml;
     opens mx.uv.sistemagestionpizzeria.controller to javafx.fxml;

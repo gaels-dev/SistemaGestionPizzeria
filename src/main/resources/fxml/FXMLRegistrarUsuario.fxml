@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="450.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.uv.sistemagestionpizzeria.controller.FXMLRegistrarUsuarioController">
+   <children>
+      <Label alignment="TOP_CENTER" text="Datos del usuario" textAlignment="CENTER">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+         <VBox.margin>
+            <Insets />
+         </VBox.margin>
+         <padding>
+            <Insets top="20.0" />
+         </padding>
+      </Label>
+      <ToolBar prefHeight="36.0" prefWidth="207.0">
+        <items>
+            <RadioButton fx:id="rbEmpleado" mnemonicParsing="false" text="Empleado">
+               <font>
+                  <Font size="14.0" />
+               </font>
+               <padding>
+                  <Insets right="50.0" />
+               </padding>
+            </RadioButton>
+            <RadioButton mnemonicParsing="false" text="Cliente">
+               <font>
+                  <Font size="14.0" />
+               </font>
+               <padding>
+                  <Insets left="50.0" />
+               </padding>
+            </RadioButton>
+        </items>
+         <VBox.margin>
+            <Insets left="50.0" right="50.0" />
+         </VBox.margin>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+      </ToolBar>
+      <ScrollPane prefHeight="498.0" prefWidth="450.0" VBox.vgrow="ALWAYS">
+         <VBox.margin>
+            <Insets />
+         </VBox.margin>
+         <content>
+            <VBox prefHeight="200.0" prefWidth="417.0">
+               <children>
+                  <Label text="Nombre">
+                     <font>
+                        <Font size="13.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets top="10.0" />
+                     </VBox.margin>
+                  </Label>
+                  <TextField fx:id="tfNombre">
+                     <VBox.margin>
+                        <Insets top="5.0" />
+                     </VBox.margin>
+                  </TextField>
+                  <Label layoutX="10.0" layoutY="10.0" text="Apellidos">
+                     <font>
+                        <Font size="13.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets top="10.0" />
+                     </VBox.margin>
+                  </Label>
+                  <TextField fx:id="tfApellidos" layoutX="10.0" layoutY="34.0">
+                     <VBox.margin>
+                        <Insets top="5.0" />
+                     </VBox.margin>
+                  </TextField>
+                  <Label layoutX="10.0" layoutY="69.0" text="Teléfono">
+                     <font>
+                        <Font size="13.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets top="10.0" />
+                     </VBox.margin>
+                  </Label>
+                  <TextField fx:id="tfTelefono" layoutX="10.0" layoutY="93.0">
+                     <VBox.margin>
+                        <Insets top="5.0" />
+                     </VBox.margin>
+                  </TextField>
+                  <Label layoutX="10.0" layoutY="128.0" text="Email">
+                     <font>
+                        <Font size="13.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets top="10.0" />
+                     </VBox.margin>
+                  </Label>
+                  <TextField fx:id="tfEmail" layoutX="10.0" layoutY="152.0">
+                     <VBox.margin>
+                        <Insets top="5.0" />
+                     </VBox.margin>
+                  </TextField>
+                  <Label layoutX="10.0" layoutY="177.0" text="Dirección">
+                     <font>
+                        <Font size="13.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets top="10.0" />
+                     </VBox.margin>
+                  </Label>
+                  <TextField fx:id="tfDireccion" layoutX="10.0" layoutY="196.0">
+                     <VBox.margin>
+                        <Insets top="5.0" />
+                     </VBox.margin>
+                  </TextField>
+                  <Label layoutX="10.0" layoutY="246.0" text="Código Postal">
+                     <font>
+                        <Font size="13.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets top="10.0" />
+                     </VBox.margin>
+                  </Label>
+                  <TextField fx:id="tfCodigoPostal" layoutX="10.0" layoutY="270.0">
+                     <VBox.margin>
+                        <Insets top="5.0" />
+                     </VBox.margin>
+                  </TextField>
+                  <Label layoutX="10.0" layoutY="295.0" text="Ciudad">
+                     <font>
+                        <Font size="13.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets top="10.0" />
+                     </VBox.margin>
+                  </Label>
+                  <TextField fx:id="tfCiudad" layoutX="10.0" layoutY="314.0">
+                     <VBox.margin>
+                        <Insets top="5.0" />
+                     </VBox.margin>
+                  </TextField>
+                  <StackPane prefHeight="150.0" prefWidth="200.0">
+                     <children>
+                        <VBox fx:id="vboxEmpleado" prefHeight="200.0" prefWidth="100.0">
+                           <children>
+                              <Label text="Nombre de usuario">
+                                 <VBox.margin>
+                                    <Insets top="10.0" />
+                                 </VBox.margin>
+                                 <font>
+                                    <Font size="13.0" />
+                                 </font>
+                              </Label>
+                              <TextField fx:id="tfUsername">
+                                 <VBox.margin>
+                                    <Insets top="5.0" />
+                                 </VBox.margin>
+                              </TextField>
+                              <Label layoutX="10.0" layoutY="20.0" text="Contraseña">
+                                 <VBox.margin>
+                                    <Insets top="10.0" />
+                                 </VBox.margin>
+                                 <font>
+                                    <Font size="13.0" />
+                                 </font>
+                              </Label>
+                              <TextField fx:id="tfContrasenia" layoutX="10.0" layoutY="42.0">
+                                 <VBox.margin>
+                                    <Insets top="5.0" />
+                                 </VBox.margin>
+                              </TextField>
+                              <Label layoutX="10.0" layoutY="77.0" text="Rol">
+                                 <VBox.margin>
+                                    <Insets top="10.0" />
+                                 </VBox.margin>
+                                 <font>
+                                    <Font size="13.0" />
+                                 </font>
+                              </Label>
+                              <ComboBox fx:id="cboxRol" prefWidth="150.0" promptText="Seleccione rol">
+                                 <VBox.margin>
+                                    <Insets bottom="10.0" top="5.0" />
+                                 </VBox.margin>
+                              </ComboBox>
+                           </children>
+                           <StackPane.margin>
+                              <Insets />
+                           </StackPane.margin>
+                        </VBox>
+                     </children>
+                  </StackPane>
+               </children>
+               <padding>
+                  <Insets left="33.0" right="33.0" />
+               </padding>
+            </VBox>
+         </content>
+      </ScrollPane>
+      <HBox alignment="CENTER_RIGHT" prefHeight="71.0" prefWidth="440.0" spacing="20.0">
+         <children>
+            <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="122.0" style="-fx-background-color: #222;" text="Registrar" textFill="WHITE">
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
+            </Button>
+            <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="75.0" text="Cancelar" />
+         </children>
+         <VBox.margin>
+            <Insets right="10.0" />
+         </VBox.margin>
+      </HBox>
+   </children>
+</VBox>

@@ -68,7 +68,7 @@ public class FXMLMenuPrincipalController implements Initializable {
 
     @FXML
     private void abrirUsuarios(ActionEvent event) {
-        cargarVista("FXMLPrueba.fxml");
+        cargarVista("FXMLGestionUsuarios.fxml");
     }
     
     @FXML
@@ -94,15 +94,8 @@ public class FXMLMenuPrincipalController implements Initializable {
 
     @FXML
     private void abrirAcercaDe(ActionEvent event) {
-        Alert info = new Alert(AlertType.INFORMATION);
-        info.setTitle("Acerca de");
-        info.setHeaderText("Sistema de Gestión Pizzería \"Italia Pizza\"");
-        info.setContentText(
-                "Por ahora está así pero más adelante será una vista completa" + 
-                "Versión 1.0\n" +
-                "Desarrollado con Java 8 + JavaFX\n\n" +
-                "Programación para Aplicaciones de Escritorio");
-        info.showAndWait();
+        System.out.println("Holi c:");
+        cargarVista("FXMLAcercaDe.fxml");
     }
 
     @FXML

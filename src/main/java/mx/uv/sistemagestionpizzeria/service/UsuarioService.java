@@ -63,6 +63,22 @@ public class UsuarioService {
         }
         return usuarioDAO.listarPorTipo(tipo.trim());
     }
+    
+    public List<UsuarioDTO> buscarUsuarios(String filtro, String tipoBusqueda) throws SQLException {
+        if(filtro == null){
+            filtro = "";
+        }
+        
+        String texto = filtro.trim();
+        
+        if("Dirección".equals(tipoBusqueda)){
+            return usuarioDAO.buscarPorDireccion(texto);
+        } else if ("Teléfono".equals(tipoBusqueda)){
+            return usuarioDAO.buscarPorTelefono(filtro.trim());
+        }else{
+            return usuarioDAO.buscarPorNombre(filtro.trim());
+        }
+    }
 
     public List<UsuarioDTO> buscarPorNombre(String nombre) throws NegocioException, SQLException {
         if (nombre == null || nombre.trim().isEmpty()) {
