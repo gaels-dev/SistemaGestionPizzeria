@@ -219,7 +219,12 @@ public class UsuarioDAO {
             ps.setString(9, u.getUsername());
             ps.setString(10, u.getContrasenia());
   
-            ps.setInt(11, u.getRol() != null ? u.getRol().getIdRol() : 0);
+            /*ps.setInt(11, u.getRol() != null ? u.getRol().getIdRol() : 0);*/
+            if(u.getRol() != null && u.getRol().getIdRol() > 0) {
+                ps.setInt(11, u.getRol().getIdRol());
+            } else {
+                ps.setNull(11, java.sql.Types.INTEGER);
+            }
  
             ps.executeUpdate();
  
@@ -250,7 +255,13 @@ public class UsuarioDAO {
             ps.setString(7, u.getCiudad());
             ps.setString(8, u.getTipo());
             ps.setString(9, u.getUsername());
-            ps.setInt(10, u.getRol() != null ? u.getRol().getIdRol() : 0);
+            //ps.setInt(10, u.getRol() != null ? u.getRol().getIdRol() : 0);
+            if(u.getRol() != null && u.getRol().getIdRol() > 0) {
+                ps.setInt(10, u.getRol().getIdRol());
+            } else {
+                ps.setNull(10, java.sql.Types.INTEGER);
+            }
+            
             ps.setInt(11, u.getIdUsuario());
  
             ps.executeUpdate();

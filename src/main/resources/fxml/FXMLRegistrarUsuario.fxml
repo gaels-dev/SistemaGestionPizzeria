@@ -7,6 +7,7 @@
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
@@ -28,15 +29,18 @@
       </Label>
       <ToolBar prefHeight="36.0" prefWidth="207.0">
         <items>
-            <RadioButton fx:id="rbEmpleado" mnemonicParsing="false" text="Empleado">
+            <RadioButton fx:id="rbEmpleado" mnemonicParsing="false" onAction="#cambiarFormulario" text="Empleado">
                <font>
                   <Font size="14.0" />
                </font>
                <padding>
                   <Insets right="50.0" />
                </padding>
+               <toggleGroup>
+                  <ToggleGroup fx:id="grupoTipo" />
+               </toggleGroup>
             </RadioButton>
-            <RadioButton mnemonicParsing="false" text="Cliente">
+            <RadioButton fx:id="rbCliente" mnemonicParsing="false" onAction="#cambiarFormulario" text="Cliente" toggleGroup="$grupoTipo">
                <font>
                   <Font size="14.0" />
                </font>
@@ -209,12 +213,12 @@
       </ScrollPane>
       <HBox alignment="CENTER_RIGHT" prefHeight="71.0" prefWidth="440.0" spacing="20.0">
          <children>
-            <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="122.0" style="-fx-background-color: #222;" text="Registrar" textFill="WHITE">
+            <Button fx:id="btnGuardar" mnemonicParsing="false" onAction="#clicGuardar" prefHeight="25.0" prefWidth="122.0" style="-fx-background-color: #222;" text="Guardar" textFill="WHITE">
                <HBox.margin>
                   <Insets />
                </HBox.margin>
             </Button>
-            <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="75.0" text="Cancelar" />
+            <Button fx:id="btnCancelar" mnemonicParsing="false" onAction="#clicCancelar" prefHeight="25.0" prefWidth="75.0" text="Cancelar" />
          </children>
          <VBox.margin>
             <Insets right="10.0" />

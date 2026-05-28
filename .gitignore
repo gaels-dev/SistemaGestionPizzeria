@@ -40,3 +40,5 @@ Desktop.ini
 
 database/
 settings.json
+db.properties
+src/main/resources/db.properties

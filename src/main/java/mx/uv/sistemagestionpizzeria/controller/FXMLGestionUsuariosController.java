@@ -15,6 +15,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -25,6 +26,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import mx.uv.sistemagestionpizzeria.dto.UsuarioDTO;
 import mx.uv.sistemagestionpizzeria.service.UsuarioService;
+import mx.uv.sistemagestionpizzeria.util.Sesion;
 
 /**
  * FXML Controller class
@@ -122,18 +124,67 @@ public class FXMLGestionUsuariosController implements Initializable {
 
     @FXML
     private void editarUsuario(ActionEvent event) {
+        UsuarioDTO selecion = tvUsuarios.getSelectionModel().getSelectedItem();
+        
+        if(selecion == null){
+            return;
+        }
+        
+        try{
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/FXMLRegistrarUsuario.fxml"));
+            Parent root = loader.load();
+            FXMLRegistrarUsuarioController controller = loader.getController();
+            controller.inicializarUsuario(selecion);
+            
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.showAndWait();
+            
+            cargarUsuarios("");
+        } catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     @FXML
     private void eliminarUsuario(ActionEvent event) {
+        UsuarioDTO seleccion = tvUsuarios.getSelectionModel().getSelectedItem();
+        
+        if(seleccion == null) return;
+        
+        Alert confirmacion = new Alert(Alert.AlertType.CONFIRMATION);
+        confirmacion.setTitle("Confirmar eliminación");
+        confirmacion.setContentText("¿Está seguro de eliminar el usuario?");
+        
+        if(confirmacion.showAndWait().orElse(ButtonType.CANCEL) == ButtonType.OK) {
+            try {
+                int idUsuarioSesion = Sesion.getUsuario().getIdUsuario();
+                UsuarioService.eliminar(seleccion.getIdUsuario(), idUsuarioSesion);
+                mostrarAlerta(Alert.AlertType.INFORMATION, 
+                        "", "Usuario eliminado correctatamente");
+                
+                cargarUsuarios("");
+            } catch (Exception e) {
+                        mostrarAlerta(Alert.AlertType.ERROR, 
+                        "Error", 
+                        e.getMessage());
+            }
+        }
     }
 
     @FXML
     private void salirUsuarios(ActionEvent event) {
         StackPane mainContainer = (StackPane) btnSalir.getScene().lookup("#contenidoPrincipal");
-            if (mainContainer != null) {
-                mainContainer.getChildren().clear();
-            }
+        if (mainContainer != null) {
+            mainContainer.getChildren().clear();
+        }
     }
     
+    private void mostrarAlerta(Alert.AlertType tipo, String titulo, String contenido){
+        Alert alerta = new Alert(tipo);
+        alerta.setTitle(titulo);
+        alerta.setContentText(contenido);
+        alerta.showAndWait();
+    }
 }
