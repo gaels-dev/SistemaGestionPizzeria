@@ -73,16 +73,22 @@ public class FXMLMenuPrincipalController implements Initializable {
     
     @FXML
     private void abrirProductos(ActionEvent event) {
+        System.out.println("When haces tus momos en el código de tu "
+                + "proyecto final");
         cargarVista("FXMLProductos.fxml");
     }
 
     @FXML
     private void abrirRecetas(ActionEvent event) {
+        System.out.println("El futuro es hoy, hola mundo");
         cargarVista("FXMLRecetas.fxml");
     }
 
     @FXML
     private void abrirGestionInventario(ActionEvent event) {
+        System.out.println("Pero te terminan reprobando");
+        System.out.println("oooooh mi examen de titulo de suficiencia "
+                + "xDxDXXDXXXDxXDxDXD");
         cargarVista("FXMLGestionInventario.fxml");
     }
 

@@ -28,11 +28,12 @@ public class ProductoDAO {
             "WHERE nombre LIKE ? AND (? IS NULL OR tipo = ?) AND activo = 1 " +
             "ORDER BY nombre";
  
-    private static final String SQL_BUSCAR_POR_CODIGO =
-            "SELECT id_producto, codigo, nombre, descripcion, precio, restriccion, " +
-            "cantidad, unidad, foto, tipo, activo " +
-            "FROM Producto " +
-            "WHERE codigo = ?";
+    private static final String SQL_BUSCAR_POR_CODIGO
+            = "SELECT id_producto, codigo, nombre, descripcion, precio, restriccion, "
+            + "cantidad, unidad, foto, tipo, activo "
+            + "FROM Producto "
+            + "WHERE codigo LIKE ? AND (? IS NULL OR tipo = ?) AND activo = 1 "
+            + "ORDER BY codigo";
  
     private static final String SQL_LISTAR_ACTIVOS =
             "SELECT id_producto, codigo, nombre, descripcion, precio, restriccion, " +
@@ -242,4 +243,25 @@ public class ProductoDAO {
                 rs.getInt("activo")
         );
     }
+    
+    public List<ProductoDTO> buscarProductosPorCodigo(String filtro) throws SQLException {
+    return buscarProductosPorCodigo(filtro, null);
+}
+
+public List<ProductoDTO> buscarProductosPorCodigo(String filtro, String tipo) throws SQLException {
+    List<ProductoDTO> productos = new ArrayList<>();
+    try (Connection con = ConexionBD.getConexion();
+         PreparedStatement ps = con.prepareStatement(SQL_BUSCAR_POR_CODIGO)) {
+        String query = "%" + filtro + "%";
+        ps.setString(1, query);
+        ps.setString(2, tipo);
+        ps.setString(3, tipo);
+        try (ResultSet rs = ps.executeQuery()) {
+            while (rs.next()) {
+                productos.add(mapearProducto(rs));
+            }
+        }
+    }
+    return productos;
+}
 }
