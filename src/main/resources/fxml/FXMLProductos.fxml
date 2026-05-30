@@ -53,7 +53,6 @@
                   <TableColumn fx:id="colUnidad" prefWidth="98.39990234375" text="Unidad" />
                   <TableColumn fx:id="colTipo" prefWidth="104.79998779296875" text="Tipo" />
                   <TableColumn fx:id="colActivo" prefWidth="131.2000732421875" text="Activo" />
-                  <TableColumn fx:id="colSubtotal" prefWidth="57.5999755859375" text="Subtotal" />
                </columns>
                <columnResizePolicy>
                   <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />

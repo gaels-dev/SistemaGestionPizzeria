@@ -11,8 +11,10 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import mx.uv.sistemagestionpizzeria.dto.RolDTO;
@@ -28,8 +30,6 @@ public class FXMLRegistrarUsuarioController implements Initializable {
 
     @FXML
     private RadioButton rbEmpleado;
-    @FXML
-    private ToggleGroup grupoTipo;
     @FXML
     private TextField tfNombre;
     @FXML
@@ -53,14 +53,16 @@ public class FXMLRegistrarUsuarioController implements Initializable {
     @FXML
     private ComboBox<String> cboxRol;
     @FXML
-    private Button btnGuardar;
-    @FXML
     private RadioButton rbCliente;
     @FXML
     private Button btnCancelar;
     
     private final UsuarioService usuarioService = new UsuarioService();
     private UsuarioDTO usuarioEdicion;
+    @FXML
+    private ToggleGroup grupoTipo;
+    @FXML
+    private Button btnGuardar;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -161,5 +163,6 @@ public class FXMLRegistrarUsuarioController implements Initializable {
         Stage stage = (Stage) rbEmpleado.getScene().getWindow();
         stage.close();
     }
+
     
 }

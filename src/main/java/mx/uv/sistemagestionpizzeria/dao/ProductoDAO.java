@@ -153,6 +153,9 @@ public class ProductoDAO {
                     return keys.getInt(1);
                 }
             }
+        } catch (SQLException ex) {
+            
+            ex.printStackTrace();
         }
         return -1;
     }

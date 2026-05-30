@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="602.0" prefWidth="411.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.uv.sistemagestionpizzeria.controller.FXMLRegistrarProductoController">
+   <children>
+      <Label layoutX="123.0" layoutY="30.0" text="Registrar producto">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <Label layoutX="18.0" layoutY="84.0" text="Nombre*" />
+      <Label layoutX="20.0" layoutY="119.0" text="Código*" />
+      <Label layoutX="18.0" layoutY="286.0" text="Descripción*" />
+      <Label layoutX="16.0" layoutY="188.0" text="Precio" />
+      <Label layoutX="30.0" layoutY="402.0" text="Restricción" />
+      <Label layoutX="16.0" layoutY="222.0" text="Cantidad" />
+      <Label layoutX="20.0" layoutY="254.0" text="Unidad" />
+      <Label layoutX="20.0" layoutY="153.0" text="Tipo*" />
+      <TextField fx:id="tfCodigo" layoutX="77.0" layoutY="115.0" />
+      <TextField fx:id="tfNombre" layoutX="77.0" layoutY="80.0" prefHeight="25.0" prefWidth="308.0" />
+      <TextField fx:id="tfTipo" layoutX="77.0" layoutY="149.0" />
+      <TextField fx:id="tfPrecio" layoutX="77.0" layoutY="184.0" />
+      <TextField fx:id="tfCantidad" layoutX="77.0" layoutY="218.0" />
+      <TextField fx:id="tfUnidad" layoutX="77.0" layoutY="250.0" />
+      <TextArea fx:id="taDescripcion" layoutX="23.0" layoutY="310.0" prefHeight="79.0" prefWidth="368.0" />
+      <TextField fx:id="tfRestriccion" layoutX="23.0" layoutY="427.0" prefHeight="25.0" prefWidth="368.0" />
+      <ImageView fx:id="ivFoto" fitHeight="115.0" fitWidth="122.0" layoutX="250.0" layoutY="131.0" pickOnBounds="true" preserveRatio="true" />
+      <Button fx:id="btnSubirFoto" layoutX="261.0" layoutY="250.0" mnemonicParsing="false" onAction="#clickBtnSubirFoto" prefHeight="25.0" prefWidth="100.0" text="Subir foto" />
+      <Button fx:id="btnCancelar" layoutX="30.0" layoutY="534.0" mnemonicParsing="false" onAction="#clickBtnCancelar" prefHeight="25.0" prefWidth="149.0" text="Cancelar registro" />
+      <Button fx:id="btnRegistrar" layoutX="242.0" layoutY="534.0" mnemonicParsing="false" onAction="#clickBtnRegistrar" prefHeight="25.0" prefWidth="138.0" text="Registrar producto" />
+      <Label layoutX="31.0" layoutY="469.0" text="* Campo obligatorio" />
+      <Label fx:id="lblError" layoutX="22.0" layoutY="562.0" prefHeight="17.0" prefWidth="368.0" textFill="#dd0c0c">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Label>
+      <RadioButton fx:id="rbtnActivo" layoutX="242.0" layoutY="469.0" mnemonicParsing="false" selected="true" text="Producto activo">
+         <toggleGroup>
+            <ToggleGroup fx:id="group1" />
+         </toggleGroup>
+      </RadioButton>
+      <RadioButton fx:id="rbtnInactivo" layoutX="242.0" layoutY="498.0" mnemonicParsing="false" text="Producto inactivo" toggleGroup="$group1" />
+   </children>
+</AnchorPane>
