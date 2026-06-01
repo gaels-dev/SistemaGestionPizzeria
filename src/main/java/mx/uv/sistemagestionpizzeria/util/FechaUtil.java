@@ -14,7 +14,7 @@ import java.util.Locale;
  */
 public class FechaUtil {
     
-    public static final String ZONA_HORARIA = "America/Costa_Rica";
+    public static final String ZONA_HORARIA = "America/Mexico_City";
     public static final String FORMATO_FECHA_HORA = "dd/MMM/yyyy HH:mm";
     
     private static final ZoneId ZONE_ID = ZoneId.of(ZONA_HORARIA);

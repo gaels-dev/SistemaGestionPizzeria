@@ -1,0 +1,187 @@
+/* 
+    Sistema de Gestión de Pizzería "Italia Pizza"
+    Unified Stylesheet - FIXED RECURSION
+*/
+
+.root {
+    /* Paleta de Colores (Nombres personalizados para evitar colisiones) */
+    color-primary-dark: #1E1E1E;
+    color-primary-gray: #222222;
+    color-accent-blue: #2491B9;
+    color-success-green: #2DA52D;
+    color-danger-red: #D61D1D;
+    color-warning-orange: #CF8F4A;
+    color-bg-blue: #C7D3EB;
+    color-header-gray: #D9D9D9;
+    color-white: #FFFFFF;
+    color-border-std: #CCCCCC;
+    
+    /* Fuentes y Radios */
+    -fx-font-family: "Segoe UI", "System", "sans-serif";
+    radius-std: 8;
+}
+
+/* --- Estilos de Contenedores --- */
+.main-container {
+    -fx-background-color: color-bg-blue;
+}
+
+.header-panel {
+    -fx-background-color: color-header-gray;
+}
+
+.white-card {
+    -fx-background-color: color-white;
+    -fx-background-radius: radius-std;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 10, 0, 0, 3);
+}
+
+/* --- Tipografía --- */
+.title-main {
+    -fx-font-size: 30px;
+    -fx-font-weight: bold;
+}
+
+.title-header {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+}
+
+.title-sub {
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+}
+
+.label-standard {
+    -fx-font-size: 13px;
+}
+
+/* --- Botones --- */
+.button {
+    -fx-background-radius: 4;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+    -fx-padding: 8 16;
+}
+
+.btn-primary {
+    -fx-background-color: color-primary-gray;
+    -fx-text-fill: white;
+}
+.btn-primary:hover { -fx-background-color: #333333; }
+
+.btn-success {
+    -fx-background-color: color-success-green;
+    -fx-text-fill: white;
+}
+.btn-success:hover { -fx-background-color: #35c035; }
+
+.btn-danger {
+    -fx-background-color: color-danger-red;
+    -fx-text-fill: white;
+}
+.btn-danger:hover { -fx-background-color: #f12525; }
+
+.btn-info {
+    -fx-background-color: color-accent-blue;
+    -fx-text-fill: white;
+}
+.btn-info:hover { -fx-background-color: #2ea8d6; }
+
+.btn-warning {
+    -fx-background-color: color-warning-orange;
+    -fx-text-fill: white;
+}
+
+/* --- Entradas (Inputs) --- */
+.text-field, .password-field, .combo-box, .date-picker {
+    -fx-background-color: #EFEFEF;
+    -fx-background-radius: 4;
+    -fx-border-color: color-border-std;
+    -fx-border-radius: 4;
+    -fx-font-size: 13px;
+}
+
+.text-field:focused, .password-field:focused {
+    -fx-border-color: color-accent-blue;
+    -fx-background-color: color-white;
+}
+
+/* --- Tablas --- */
+.table-view {
+    -fx-background-color: transparent;
+    -fx-border-color: color-border-std;
+    -fx-border-width: 0 1 1 1;
+}
+
+.table-view .column-header {
+    -fx-background-color: color-primary-gray;
+    -fx-text-fill: white;
+}
+
+.table-view .column-header .label {
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
+.table-view .cell {
+    -fx-alignment: center;
+}
+
+/* --- Menús --- */
+.menu-bar {
+    -fx-background-color: #A9A7A7;
+    -fx-padding: 0;
+    -fx-pref-height: 40px;
+    -fx-min-height: 40px;
+}
+
+.menu-bar .container {
+    -fx-padding: 0;
+}
+
+.menu-bar .menu-button {
+    -fx-background-color: transparent;
+    -fx-pref-height: 40px;
+    -fx-min-height: 40px;
+    -fx-padding: 0 15px;
+}
+
+.menu-bar .menu-button:hover,
+.menu-bar .menu-button:focused,
+.menu-bar .menu-button:showing {
+    -fx-background-color: color-accent-blue;
+}
+
+.menu-bar .menu-button .label {
+    -fx-font-weight: bold;
+    -fx-text-fill: black;
+}
+
+.menu-bar .menu-button:hover .label,
+.menu-bar .menu-button:focused .label,
+.menu-bar .menu-button:showing .label {
+    -fx-text-fill: white;
+}
+
+.context-menu {
+    -fx-background-color: color-white;
+    -fx-border-color: color-border-std;
+}
+
+.menu-item:focused {
+    -fx-background-color: color-accent-blue;
+}
+
+.menu-item:focused .label {
+    -fx-text-fill: white;
+}
+
+/* --- Otros --- */
+.scroll-pane {
+    -fx-background-color: transparent;
+}
+
+.list-view {
+    -fx-background-color: transparent;
+}

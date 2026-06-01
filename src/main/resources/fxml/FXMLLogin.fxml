@@ -18,11 +18,11 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane prefHeight="600.0" prefWidth="820.0" style="-fx-background-color: #C7D3EB;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.uv.sistemagestionpizzeria.controller.FXMLLoginController">
+<BorderPane prefHeight="600.0" prefWidth="820.0" styleClass="main-container" stylesheets="@../css/estilos.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.uv.sistemagestionpizzeria.controller.FXMLLoginController">
    <center>
       <StackPane prefHeight="600.0" prefWidth="820.0" BorderPane.alignment="CENTER">
          <children>
-            <VBox alignment="CENTER" maxHeight="400.0" maxWidth="340.0" prefHeight="400.0" prefWidth="340.0" spacing="14" style="-fx-background-color: white; -fx-background-radius: 12; -fx-border-radius: 12; -fx-border-color: #cccccc; -fx-border-width: 1; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 10, 0, 0, 3);" StackPane.alignment="CENTER">
+            <VBox alignment="CENTER" maxHeight="400.0" maxWidth="340.0" prefHeight="400.0" prefWidth="340.0" spacing="14" styleClass="white-card" StackPane.alignment="CENTER">
                <children>
                   <StackPane alignment="CENTER" prefHeight="70" prefWidth="70">
                      <children>
@@ -32,18 +32,18 @@
                   </StackPane>
                   <VBox spacing="4">
                      <children>
-                        <Label style="-fx-font-size: 13;" text="Usuario" />
-                        <TextField fx:id="txtUsername" onAction="#handleLogin" prefWidth="268" style="-fx-background-color: #efefef; -fx-background-radius: 4; -fx-border-color: #cccccc; -fx-border-radius: 4; -fx-font-size: 13;" />
+                        <Label styleClass="label-standard" text="Usuario" />
+                        <TextField fx:id="txtUsername" onAction="#handleLogin" prefWidth="268" />
                      </children>
                   </VBox>
                   <VBox spacing="4">
                      <children>
-                        <Label style="-fx-font-size: 13;" text="Contraseña" />
-                        <PasswordField fx:id="txtContrasenia" onAction="#handleLogin" prefWidth="268" style="-fx-background-color: #efefef; -fx-background-radius: 4; -fx-border-color: #cccccc; -fx-border-radius: 4; -fx-font-size: 13;" />
+                        <Label styleClass="label-standard" text="Contraseña" />
+                        <PasswordField fx:id="txtContrasenia" onAction="#handleLogin" prefWidth="268" />
                      </children>
                   </VBox>
                   <Label fx:id="lblError" style="-fx-text-fill: #cc0000; -fx-font-size: 12;" text="Usuario y/o contraseña incorrecta" visible="false" />
-                  <Button fx:id="btnLogin" defaultButton="true" onAction="#handleLogin" prefHeight="38" prefWidth="268" style="-fx-background-color: #1a1a1a; -fx-text-fill: white; -fx-background-radius: 6; -fx-font-size: 13; -fx-cursor: hand;" text="Iniciar sesión">
+                  <Button fx:id="btnLogin" defaultButton="true" onAction="#handleLogin" prefHeight="38" prefWidth="268" styleClass="btn-primary" text="Iniciar sesión">
                      <VBox.margin>
                         <Insets top="6" />
                      </VBox.margin>
@@ -57,7 +57,7 @@
       </StackPane>
    </center>
    <top>
-      <AnchorPane prefHeight="70.0" prefWidth="820.0" style="-fx-background-color: #d9d9d9;" BorderPane.alignment="CENTER">
+      <AnchorPane prefHeight="70.0" prefWidth="820.0" styleClass="header-panel" BorderPane.alignment="CENTER">
          <children>
             <Label layoutX="20.0" layoutY="22.0" text="Sistema de Gestion Pizzería &quot;Italia Pizza&quot;">
                <font>
