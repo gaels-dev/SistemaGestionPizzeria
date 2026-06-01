@@ -22,6 +22,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import mx.uv.sistemagestionpizzeria.dto.ProductoDTO;
@@ -142,14 +143,83 @@ public class FXMLProductosController implements Initializable {
 
     @FXML
     private void clickBtnEditar(ActionEvent event) {
+        ProductoDTO seleccionado = tvProductos.getSelectionModel().getSelectedItem();
+
+        if (seleccionado == null) {
+            javafx.scene.control.Alert alerta = new javafx.scene.control.Alert(
+                    javafx.scene.control.Alert.AlertType.WARNING);
+            alerta.setTitle("Sin selección");
+            alerta.setHeaderText(null);
+            alerta.setContentText("Por favor selecciona un producto de la tabla.");
+            alerta.showAndWait();
+            return;
+        }
+
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(
+                    "/fxml/FXMLEditarProducto.fxml"));
+
+            Parent root = loader.load();
+
+            // Le pasamos el producto seleccionado al controller de edición
+            FXMLEditarProductoController controller = loader.getController();
+            controller.setProducto(seleccionado);
+
+            Stage stageModal = new Stage();
+            stageModal.setScene(new Scene(root));
+            stageModal.initModality(Modality.APPLICATION_MODAL);
+            stageModal.showAndWait();
+
+            cargarProductos(tfBusqueda.getText()); // Refrescar tabla al cerrar
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
     private void clickBtnEliminar(ActionEvent event) {
+        ProductoDTO seleccionado = tvProductos.getSelectionModel().getSelectedItem();
+
+        if (seleccionado == null) {
+            javafx.scene.control.Alert alerta = new javafx.scene.control.Alert(
+                    javafx.scene.control.Alert.AlertType.WARNING);
+            alerta.setTitle("Sin selección");
+            alerta.setHeaderText(null);
+            alerta.setContentText("Por favor selecciona un producto de la tabla.");
+            alerta.showAndWait();
+            return;
+        }
+
+        javafx.scene.control.Alert confirmacion = new javafx.scene.control.Alert(
+                javafx.scene.control.Alert.AlertType.CONFIRMATION);
+        confirmacion.setTitle("Confirmar baja");
+        confirmacion.setHeaderText(null);
+        confirmacion.setContentText("¿Deseas dar de baja el producto \""
+                + seleccionado.getNombre() + "\"?");
+
+        confirmacion.showAndWait().ifPresent(respuesta -> {
+            if (respuesta == javafx.scene.control.ButtonType.OK) {
+                try {
+                    ProductoService.eliminar(seleccionado.getIdProducto());
+                    cargarProductos(tfBusqueda.getText());
+                } catch (Exception ex) {
+                    javafx.scene.control.Alert error = new javafx.scene.control.Alert(
+                            javafx.scene.control.Alert.AlertType.ERROR);
+                    error.setTitle("Error");
+                    error.setHeaderText(null);
+                    error.setContentText("No se pudo dar de baja el producto: " + ex.getMessage());
+                    error.showAndWait();
+                }
+            }
+        });
     }
 
     @FXML
     private void clickBtnSalir(ActionEvent event) {
+        StackPane mainContainer = (StackPane) btnSalir.getScene().lookup("#contenidoPrincipal");
+        if (mainContainer != null) {
+            mainContainer.getChildren().clear();
+        }
     }
     
 }
