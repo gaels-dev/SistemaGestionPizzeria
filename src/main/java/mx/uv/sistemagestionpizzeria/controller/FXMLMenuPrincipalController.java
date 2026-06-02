@@ -26,8 +26,6 @@ import mx.uv.sistemagestionpizzeria.dto.UsuarioDTO;
 public class FXMLMenuPrincipalController implements Initializable {
 
     @FXML
-    private Label lblBienvenido;
-    @FXML
     private Menu menuAdministracion;
     @FXML
     private Menu menuInventarios;
@@ -40,8 +38,11 @@ public class FXMLMenuPrincipalController implements Initializable {
     @FXML
     private StackPane contenidoPrincipal;
 
-
     private UsuarioDTO usuarioActual;
+    @FXML
+    private Label lblPrimario;
+    @FXML
+    private Label lblSecundario;
     
     /**
      * Initializes the controller class.
@@ -53,8 +54,13 @@ public class FXMLMenuPrincipalController implements Initializable {
     
     public void inicializarConUsuario(UsuarioDTO usuario) {
         this.usuarioActual = usuario;
-        lblBienvenido.setText("Bienvenido, " + usuario.getNombreCompleto());
+        lblSecundario.setText("Bienvenido, " + usuario.getNombreCompleto());
         configurarMenusPorRol(usuario.getRol().getNombre());
+    }
+
+    public void cambiarEncabezado(String titulo, String subtitulo) {
+        lblPrimario.setText(titulo);
+        lblSecundario.setText(subtitulo);
     }
     
     private void configurarMenusPorRol(String nombreRol) {
@@ -67,40 +73,32 @@ public class FXMLMenuPrincipalController implements Initializable {
 
     @FXML
     private void abrirUsuarios(ActionEvent event) {
-        cargarVista("FXMLGestionUsuarios.fxml");
+        cargarVista("FXMLGestionUsuarios.fxml", "Gestión de Usuarios", "Administre los usuarios y empleados del sistema.");
     }
     
     @FXML
     private void abrirProductos(ActionEvent event) {
-        System.out.println("When haces tus momos en el código de tu "
-                + "proyecto final");
-        cargarVista("FXMLProductos.fxml");
+        cargarVista("FXMLProductos.fxml", "Gestión de Productos", "Administre el catálogo de productos e insumos.");
     }
 
     @FXML
     private void abrirRecetas(ActionEvent event) {
-        System.out.println("El futuro es hoy, hola mundo");
-        cargarVista("FXMLRecetas.fxml");
+        cargarVista("FXMLRecetas.fxml", "Composición de Productos", "Busque un producto para ver o editar sus ingredientes.");
     }
 
     @FXML
     private void abrirGestionInventario(ActionEvent event) {
-        System.out.println("Pero te terminan reprobando");
-        System.out.println("oooooh mi examen de titulo de suficiencia "
-                + "xDxDXXDXXXDxXDxDXD");
-        cargarVista("FXMLGestionInventario.fxml");
+        cargarVista("FXMLGestionInventario.fxml", "Inventario de Insumos", "Consulte existencias o realice una valoración física del inventario.");
     }
 
     @FXML
     private void abrirPedidos(ActionEvent event) {
-        System.out.println("Holaaaa");
-        cargarVista("FXMLAdministracionPedidos.fxml");
+        cargarVista("FXMLAdministracionPedidos.fxml", "Administración de Pedidos", "Gestione los pedidos actuales y su estatus.");
     }
 
     @FXML
     private void abrirAcercaDe(ActionEvent event) {
-        System.out.println("Holi c:");
-        cargarVista("FXMLAcercaDe.fxml");
+        cargarVista("FXMLAcercaDe.fxml", "Acerca de", "Información del sistema y desarrolladores.");
     }
 
     @FXML
@@ -118,7 +116,7 @@ public class FXMLMenuPrincipalController implements Initializable {
         }
     }
 
-    private void cargarVista(String nombreFxml) {
+    private void cargarVista(String nombreFxml, String titulo, String subtitulo) {
         try {
             URL url = getClass().getResource("/fxml/" + nombreFxml);
 
@@ -128,6 +126,9 @@ public class FXMLMenuPrincipalController implements Initializable {
         
             FXMLLoader loader = new FXMLLoader(url);
             Parent vista = loader.load();
+            
+            cambiarEncabezado(titulo, subtitulo);
+            
             contenidoPrincipal.getChildren().setAll(vista);
  
         } catch (IOException e) {

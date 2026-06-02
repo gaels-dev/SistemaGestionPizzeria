@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.effect.*?>
-<?import javafx.geometry.*?>
-<?import javafx.scene.shape.*?>
-<?import javafx.scene.text.*?>
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.SeparatorMenuItem?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
 
-<BorderPane prefHeight="720.0" prefWidth="1280.0" styleClass="main-container" stylesheets="@../css/estilos.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.uv.sistemagestionpizzeria.controller.FXMLMenuPrincipalController">
+<BorderPane prefHeight="720.0" prefWidth="1280.0" styleClass="main-container" stylesheets="@../css/estilos.css" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.uv.sistemagestionpizzeria.controller.FXMLMenuPrincipalController">
    <top>
       <VBox prefHeight="150.0" BorderPane.alignment="CENTER">
          <children>
             <AnchorPane prefHeight="115.0" styleClass="header-panel">
                <children>
-                  <Label layoutX="20.0" layoutY="16.0" styleClass="title-main" text="Menu Principal">
+                  <Label fx:id="lblPrimario" layoutX="20.0" layoutY="16.0" styleClass="title-main" text="Menu Principal">
                   </Label>
-                  <Label fx:id="lblBienvenido" layoutX="20.0" layoutY="61.0" styleClass="title-header" text="Bienvenido, X persona">
+                  <Label fx:id="lblSecundario" layoutX="20.0" layoutY="61.0" styleClass="title-header" text="Bienvenido, X persona">
                   </Label>
                </children>
             </AnchorPane>
@@ -61,6 +61,6 @@
       </VBox>
    </top>
    <center>
-      <StackPane fx:id="contenidoPrincipal" id="contenidoPrincipal" BorderPane.alignment="CENTER" />
+      <StackPane id="contenidoPrincipal" fx:id="contenidoPrincipal" BorderPane.alignment="CENTER" />
    </center>
 </BorderPane>
