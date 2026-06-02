@@ -9,6 +9,10 @@ public class RecetaDTO {
     private int idProductoVenta;  
     private int idInsumo;  
     private double cantidadRequerida;
+    
+    // Campos adicionales para visualización
+    private String nombreInsumo;
+    private String unidadInsumo;
 
     public RecetaDTO() {
     }
@@ -18,6 +22,15 @@ public class RecetaDTO {
         this.idProductoVenta = idProductoVenta;
         this.idInsumo = idInsumo;
         this.cantidadRequerida = cantidadRequerida;
+    }
+
+    public RecetaDTO(int idReceta, int idProductoVenta, int idInsumo, double cantidadRequerida, String nombreInsumo, String unidadInsumo) {
+        this.idReceta = idReceta;
+        this.idProductoVenta = idProductoVenta;
+        this.idInsumo = idInsumo;
+        this.cantidadRequerida = cantidadRequerida;
+        this.nombreInsumo = nombreInsumo;
+        this.unidadInsumo = unidadInsumo;
     }
 
     public int getIdReceta() {
@@ -50,6 +63,22 @@ public class RecetaDTO {
 
     public void setCantidadRequerida(double cantidadRequerida) {
         this.cantidadRequerida = cantidadRequerida;
+    }
+
+    public String getNombreInsumo() {
+        return nombreInsumo;
+    }
+
+    public void setNombreInsumo(String nombreInsumo) {
+        this.nombreInsumo = nombreInsumo;
+    }
+
+    public String getUnidadInsumo() {
+        return unidadInsumo;
+    }
+
+    public void setUnidadInsumo(String unidadInsumo) {
+        this.unidadInsumo = unidadInsumo;
     }
     
 }

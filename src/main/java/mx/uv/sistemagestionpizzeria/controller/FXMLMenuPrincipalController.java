@@ -92,6 +92,11 @@ public class FXMLMenuPrincipalController implements Initializable {
     }
 
     @FXML
+    private void abrirHistorialInventario(ActionEvent event) {
+        cargarVista("FXMLHistorialInventario.fxml", "Historial de Inventarios", "Consulte el historial de validaciones y ajustes realizados.");
+    }
+
+    @FXML
     private void abrirPedidos(ActionEvent event) {
         cargarVista("FXMLAdministracionPedidos.fxml", "Administración de Pedidos", "Gestione los pedidos actuales y su estatus.");
     }

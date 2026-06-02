@@ -18,6 +18,10 @@ public class ProductoDTO {
     private int activo;
     private double subtotal;
     
+    // Campos para validación de inventario
+    private double cantidadReal;
+    private double diferencia;
+    
     public ProductoDTO() {
     }
 
@@ -35,6 +39,25 @@ public class ProductoDTO {
         this.tipo = tipo;
         this.activo = activo;
         this.subtotal = precio * cantidad;
+        this.cantidadReal = cantidad; // Inicialmente igual
+        this.diferencia = 0;
+    }
+
+    public double getCantidadReal() {
+        return cantidadReal;
+    }
+
+    public void setCantidadReal(double cantidadReal) {
+        this.cantidadReal = cantidadReal;
+        this.diferencia = cantidadReal - this.cantidad;
+    }
+
+    public double getDiferencia() {
+        return diferencia;
+    }
+
+    public void setDiferencia(double diferencia) {
+        this.diferencia = diferencia;
     }
 
     public double getSubtotal() {
