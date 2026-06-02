@@ -213,7 +213,7 @@ public class FXMLGestionPedidoController implements Initializable {
             this.detalleList.setAll(pedidoCompleto.getDetalles());
             this.pedidoActual.setDetalles(detalleList);
             
-            lbNumeroPedido.setText(String.valueOf(pedidoActual.getIdPedido()));
+            lbNumeroPedido.setText(String.valueOf("#" + pedidoActual.getIdPedido()));
             lbNumeroPedido.setVisible(true);
             
             if (pedidoActual.getFechaPedido() != null) {
