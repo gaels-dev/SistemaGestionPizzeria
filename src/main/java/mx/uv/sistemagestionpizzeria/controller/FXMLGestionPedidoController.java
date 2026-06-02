@@ -310,7 +310,7 @@ public class FXMLGestionPedidoController implements Initializable {
 
     private void cargarProductos(String filtro) {
         try {
-            productosList.setAll(productoService.buscarProductos(filtro, TIPO_PRODUCTO));
+            productosList.setAll(productoService.buscarProductos(filtro, "Nombre", TIPO_PRODUCTO));
         } catch (SQLException ex) {
             ex.printStackTrace();
         }

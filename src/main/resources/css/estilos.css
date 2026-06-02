@@ -4,7 +4,7 @@
 */
 
 .root {
-    /* Paleta de Colores (Nombres personalizados para evitar colisiones) */
+    /* Paleta de Colores */
     color-primary-dark: #1E1E1E;
     color-primary-gray: #222222;
     color-accent-blue: #2491B9;
@@ -16,9 +16,8 @@
     color-white: #FFFFFF;
     color-border-std: #CCCCCC;
     
-    /* Fuentes y Radios */
+    /* Fuentes */
     -fx-font-family: "Segoe UI", "System", "sans-serif";
-    radius-std: 8;
 }
 
 /* --- Estilos de Contenedores --- */
@@ -32,7 +31,7 @@
 
 .white-card {
     -fx-background-color: color-white;
-    -fx-background-radius: radius-std;
+    -fx-background-radius: 8;
     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 10, 0, 0, 3);
 }
 
@@ -102,7 +101,10 @@
     -fx-font-size: 13px;
 }
 
-.text-field:focused, .password-field:focused {
+.text-field:focused,
+.password-field:focused,
+.combo-box:focused,
+.date-picker:focused {
     -fx-border-color: color-accent-blue;
     -fx-background-color: color-white;
 }
@@ -153,15 +155,15 @@
     -fx-background-color: color-accent-blue;
 }
 
-.menu-bar .menu-button .label {
+.menu-bar .menu .label {
     -fx-font-weight: bold;
     -fx-text-fill: black;
 }
 
-.menu-bar .menu-button:hover .label,
-.menu-bar .menu-button:focused .label,
-.menu-bar .menu-button:showing .label {
-    -fx-text-fill: white;
+.menu-bar .menu:hover .label,
+.menu-bar .menu:focused .label,
+.menu-bar .menu:showing .label {
+    -fx-text-fill: black;
 }
 
 .context-menu {
