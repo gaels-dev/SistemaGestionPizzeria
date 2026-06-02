@@ -9,7 +9,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
@@ -86,18 +85,26 @@ public class FXMLLoginController implements Initializable {
     
     private void abrirMenuPrincipal(UsuarioDTO usuario) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/FXMLMenuPrincipal.fxml"));
- 
+
         Parent root = loader.load();
- 
+
         // Pasar el usuario al controller del menu antes de mostrarlo
         FXMLMenuPrincipalController menuController = loader.getController();
         menuController.inicializarConUsuario(usuario);
- 
-        // Obtener el Stage actual desde cualquier componente del FXML
+
+        // Obtener el Stage actual y cambiar la raíz de la escena para evitar parpadeos
         Stage stage = (Stage) btnLogin.getScene().getWindow();
-        stage.setScene(new Scene(root));
+        stage.getScene().setRoot(root);
         stage.setTitle("Sistema de Gestión Pizzería \"Italia Pizza\"");
-        stage.show();
+
+        // Re-asegurar pantalla completa
+        stage.setFullScreen(true);
+    }
+    
+    @FXML
+    private void handleCerrarApp(ActionEvent event) {
+        javafx.application.Platform.exit();
+        System.exit(0);
     }
     
     private void mostrarError(String mensaje) {

@@ -144,6 +144,7 @@ public class FXMLRegistrarUsuarioController implements Initializable {
                 usuarioService.editar(usuarioEdicion);
                 
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.initOwner(rbEmpleado.getScene().getWindow());
                 alert.setContentText(rbEmpleado.isSelected() ? 
                         "Empleado actualizado correctamente" : 
                         "Cliente actualizado correctamente");

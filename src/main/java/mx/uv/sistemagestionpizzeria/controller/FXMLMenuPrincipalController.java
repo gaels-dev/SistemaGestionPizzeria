@@ -9,7 +9,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
@@ -107,6 +106,7 @@ public class FXMLMenuPrincipalController implements Initializable {
     @FXML
     private void cerrarSesion(ActionEvent event) {
         Alert confirmacion = new Alert(AlertType.CONFIRMATION);
+        confirmacion.initOwner(contenidoPrincipal.getScene().getWindow());
         confirmacion.setTitle("Cerrar sesión");
         confirmacion.setHeaderText("¿Deseas cerrar la sesión?");
         confirmacion.setContentText("Se cerrará la sesión de " + usuarioActual.getNombreCompleto() + ".");
@@ -146,12 +146,17 @@ public class FXMLMenuPrincipalController implements Initializable {
             Parent root = loader.load();
  
             Stage stage = (Stage) contenidoPrincipal.getScene().getWindow();
-            stage.setScene(new Scene(root));
+            stage.getScene().setRoot(root);
             stage.setTitle("Iniciar sesión - Italia Pizza");
-            stage.show();
+            
+            // Re-asegurar pantalla completa
+            stage.setFullScreen(true);
  
         } catch (IOException | IllegalStateException e) {
             Alert error = new Alert(AlertType.ERROR);
+            if (contenidoPrincipal.getScene() != null && contenidoPrincipal.getScene().getWindow() != null) {
+                error.initOwner(contenidoPrincipal.getScene().getWindow());
+            }
             error.setTitle("Error");
             error.setHeaderText("No se pudo regresar al login.");
             error.setContentText("Intentelo más tarde");

@@ -309,6 +309,9 @@ public class FXMLAdministracionPedidosController implements Initializable {
  
         } catch (IOException e) {
             Alert error = new Alert(Alert.AlertType.ERROR);
+            if (tvPedidos.getScene() != null && tvPedidos.getScene().getWindow() != null) {
+                error.initOwner(tvPedidos.getScene().getWindow());
+            }
             error.setTitle("Error");
             error.setHeaderText("No se pudo cargar la pantalla.");
             error.setContentText("Módulo: " + nombreFxml + "\nIntente de nuevo.");
@@ -374,6 +377,9 @@ public class FXMLAdministracionPedidosController implements Initializable {
                 documento.close();
 
                 Alert alerta = new Alert(Alert.AlertType.INFORMATION);
+                if (tvPedidos.getScene() != null && tvPedidos.getScene().getWindow() != null) {
+                    alerta.initOwner(tvPedidos.getScene().getWindow());
+                }
                 alerta.setTitle("Exportación Exitosa");
                 alerta.setHeaderText(null);
                 alerta.setContentText("PDF generado correctamente.");
@@ -430,6 +436,9 @@ public class FXMLAdministracionPedidosController implements Initializable {
                 }
 
                 Alert alerta = new Alert(Alert.AlertType.INFORMATION);
+                if (tvPedidos.getScene() != null && tvPedidos.getScene().getWindow() != null) {
+                    alerta.initOwner(tvPedidos.getScene().getWindow());
+                }
                 alerta.setTitle("Exportación Exitosa");
                 alerta.setHeaderText(null);
                 alerta.setContentText("CSV exportado correctamente.");
@@ -463,6 +472,9 @@ public class FXMLAdministracionPedidosController implements Initializable {
         }
 
         Alert confirmacion = new Alert(Alert.AlertType.CONFIRMATION);
+        if (tvPedidos.getScene() != null && tvPedidos.getScene().getWindow() != null) {
+            confirmacion.initOwner(tvPedidos.getScene().getWindow());
+        }
         confirmacion.setTitle("Confirmar cambio de estado");
         confirmacion.setHeaderText(null);
         confirmacion.setContentText("¿Quiere marcar el pedido " + seleccionado.getIdPedido() + " como " + nuevoEstado + "?");
@@ -486,6 +498,9 @@ public class FXMLAdministracionPedidosController implements Initializable {
 
     private void mostrarAlertaInformacion(String titulo, String mensaje) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        if (tvPedidos.getScene() != null && tvPedidos.getScene().getWindow() != null) {
+            alert.initOwner(tvPedidos.getScene().getWindow());
+        }
         alert.setTitle("Información");
         alert.setHeaderText(null);
         alert.setContentText(mensaje);
@@ -494,6 +509,9 @@ public class FXMLAdministracionPedidosController implements Initializable {
     
     private void mostrarAlertaError(String titulo, String mensaje) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
+        if (tvPedidos.getScene() != null && tvPedidos.getScene().getWindow() != null) {
+            alert.initOwner(tvPedidos.getScene().getWindow());
+        }
         alert.setTitle("Error");
         alert.setHeaderText(titulo);
         alert.setContentText(mensaje);

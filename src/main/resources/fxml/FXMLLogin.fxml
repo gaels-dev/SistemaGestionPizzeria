@@ -64,6 +64,7 @@
                   <Font name="System Bold" size="18" />
                </font>
             </Label>
+            <Button layoutX="700.0" layoutY="22.0" mnemonicParsing="false" onAction="#handleCerrarApp" styleClass="btn-danger" text="Cerrar App" AnchorPane.rightAnchor="20.0" />
          </children>
       </AnchorPane>
    </top>

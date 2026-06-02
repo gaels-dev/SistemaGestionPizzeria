@@ -12,9 +12,9 @@
 
 <BorderPane prefHeight="720.0" prefWidth="1280.0" styleClass="main-container" stylesheets="@../css/estilos.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.uv.sistemagestionpizzeria.controller.FXMLMenuPrincipalController">
    <top>
-      <VBox prefHeight="150.0" prefWidth="820.0" BorderPane.alignment="CENTER">
+      <VBox prefHeight="150.0" BorderPane.alignment="CENTER">
          <children>
-            <AnchorPane prefHeight="115.0" prefWidth="820" styleClass="header-panel">
+            <AnchorPane prefHeight="115.0" styleClass="header-panel">
                <children>
                   <Label layoutX="20.0" layoutY="16.0" styleClass="title-main" text="Menu Principal">
                   </Label>
@@ -22,7 +22,7 @@
                   </Label>
                </children>
             </AnchorPane>
-            <MenuBar prefHeight="40.0" prefWidth="820.0">
+            <MenuBar prefHeight="40.0">
                <menus>
                   <Menu fx:id="menuAdministracion" mnemonicParsing="false" text="Administración">
                      <items>

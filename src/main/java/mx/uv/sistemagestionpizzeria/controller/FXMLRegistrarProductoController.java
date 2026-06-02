@@ -161,14 +161,14 @@ public class FXMLRegistrarProductoController implements Initializable {
             ex.printStackTrace();
             Alerta.mostrarAlertaSimple("ERROR", 
                     "No se pudo registrar el producto en la base de datos..."
-                            + "", Alert.AlertType.ERROR);
+                            + "", Alert.AlertType.ERROR, stage);
             stage.close();
             return;
         }
         
         Alerta.mostrarAlertaSimple("EXITO", 
                 "El producto se registro en la base de datos con exito", 
-                Alert.AlertType.INFORMATION);
+                Alert.AlertType.INFORMATION, stage);
         stage.close();
     }
 

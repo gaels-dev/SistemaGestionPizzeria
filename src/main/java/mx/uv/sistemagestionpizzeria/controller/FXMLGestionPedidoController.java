@@ -362,6 +362,9 @@ public class FXMLGestionPedidoController implements Initializable {
 
     private void mostrarAlertaInformacion(String titulo, String mensaje) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        if (tvPedido.getScene() != null && tvPedido.getScene().getWindow() != null) {
+            alert.initOwner(tvPedido.getScene().getWindow());
+        }
         alert.setTitle("Información");
         alert.setHeaderText(titulo);
         alert.setContentText(mensaje);
@@ -380,6 +383,9 @@ public class FXMLGestionPedidoController implements Initializable {
 
     private void mostrarAlertaError(String titulo, String mensaje) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
+        if (tvPedido.getScene() != null && tvPedido.getScene().getWindow() != null) {
+            alert.initOwner(tvPedido.getScene().getWindow());
+        }
         alert.setTitle("Error");
         alert.setHeaderText(titulo);
         alert.setContentText(mensaje);
