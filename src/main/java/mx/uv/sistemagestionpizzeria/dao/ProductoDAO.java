@@ -32,6 +32,12 @@ public class ProductoDAO {
             = "SELECT id_producto, codigo, nombre, descripcion, precio, restriccion, "
             + "cantidad, unidad, foto, tipo, activo "
             + "FROM Producto "
+            + "WHERE codigo = ? AND activo = 1";
+            
+    private static final String SQL_FILTRAR_POR_CODIGO
+            = "SELECT id_producto, codigo, nombre, descripcion, precio, restriccion, "
+            + "cantidad, unidad, foto, tipo, activo "
+            + "FROM Producto "
             + "WHERE codigo LIKE ? AND (? IS NULL OR tipo = ?) AND activo = 1 "
             + "ORDER BY codigo";
  
@@ -254,7 +260,7 @@ public class ProductoDAO {
 public List<ProductoDTO> buscarProductosPorCodigo(String filtro, String tipo) throws SQLException {
     List<ProductoDTO> productos = new ArrayList<>();
     try (Connection con = ConexionBD.getConexion();
-         PreparedStatement ps = con.prepareStatement(SQL_BUSCAR_POR_CODIGO)) {
+         PreparedStatement ps = con.prepareStatement(SQL_FILTRAR_POR_CODIGO)) {
         String query = "%" + filtro + "%";
         ps.setString(1, query);
         ps.setString(2, tipo);

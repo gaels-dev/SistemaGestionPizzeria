@@ -111,10 +111,13 @@ public class FXMLGestionUsuariosController implements Initializable {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/FXMLRegistrarUsuario.fxml"));
             Parent root = loader.load();
             
+            Stage stageMain = (Stage) btnSalir.getScene().getWindow();
             Stage stageModal = new Stage();
             stageModal.setScene(new Scene(root));
             stageModal.initModality(Modality.APPLICATION_MODAL);
+            stageModal.initOwner(stageMain); // Vincular con la principal
             stageModal.showAndWait();
+            
             cargarUsuarios("");
 
         } catch (IOException e) {
@@ -136,10 +139,12 @@ public class FXMLGestionUsuariosController implements Initializable {
             FXMLRegistrarUsuarioController controller = loader.getController();
             controller.inicializarUsuario(selecion);
             
-            Stage stage = new Stage();
-            stage.setScene(new Scene(root));
-            stage.initModality(Modality.APPLICATION_MODAL);
-            stage.showAndWait();
+            Stage stageMain = (Stage) btnSalir.getScene().getWindow();
+            Stage stageModal = new Stage();
+            stageModal.setScene(new Scene(root));
+            stageModal.initModality(Modality.APPLICATION_MODAL);
+            stageModal.initOwner(stageMain); // Vincular con la principal
+            stageModal.showAndWait();
             
             cargarUsuarios("");
         } catch (Exception e){
@@ -154,6 +159,9 @@ public class FXMLGestionUsuariosController implements Initializable {
         if(seleccion == null) return;
         
         Alert confirmacion = new Alert(Alert.AlertType.CONFIRMATION);
+        if (tvUsuarios.getScene() != null && tvUsuarios.getScene().getWindow() != null) {
+            confirmacion.initOwner(tvUsuarios.getScene().getWindow());
+        }
         confirmacion.setTitle("Confirmar eliminación");
         confirmacion.setContentText("¿Está seguro de eliminar el usuario?");
         
@@ -183,6 +191,9 @@ public class FXMLGestionUsuariosController implements Initializable {
     
     private void mostrarAlerta(Alert.AlertType tipo, String titulo, String contenido){
         Alert alerta = new Alert(tipo);
+        if (tvUsuarios.getScene() != null && tvUsuarios.getScene().getWindow() != null) {
+            alerta.initOwner(tvUsuarios.getScene().getWindow());
+        }
         alerta.setTitle(titulo);
         alerta.setContentText(contenido);
         alerta.showAndWait();

@@ -43,19 +43,23 @@ public class ProductoService {
         return productoDAO.listarActivos();
     }
 
-    public List<ProductoDTO> buscarProductos(String filtro, String tipoBusqueda)
+    public List<ProductoDTO> buscarProductos(String filtro, String criterioBusqueda)
+            throws SQLException {
+        return buscarProductos(filtro, criterioBusqueda, null);
+    }
+
+    public List<ProductoDTO> buscarProductos(String filtro, String criterioBusqueda, String tipoProducto)
             throws SQLException {
         if (filtro == null) {
             filtro = "";
         }
         
         String texto = filtro.trim();
-        if ("Nombre".equals(tipoBusqueda)) 
-            return productoDAO.buscarProductosPorNombre(texto);
-        else if ("Código".equals(tipoBusqueda))
-            return productoDAO.buscarProductosPorCodigo(filtro.trim());
-        else
-            return productoDAO.buscarProductosPorNombre(filtro.trim());
+        if ("Código".equals(criterioBusqueda)) {
+            return productoDAO.buscarProductosPorCodigo(texto, tipoProducto);
+        } else {
+            return productoDAO.buscarProductosPorNombre(texto, tipoProducto);
+        }
     }
  
     public List<ProductoDTO> obtenerPorTipo(String tipo) throws NegocioException, SQLException {

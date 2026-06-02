@@ -8,34 +8,16 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="570.0" prefWidth="1280.0" style="-fx-background-color: #C7D3EB;" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.uv.sistemagestionpizzeria.controller.FXMLAcercaDeController">
-   <top>
-      <VBox prefHeight="68.0" prefWidth="1280.0" style="-fx-background-color: #D9D9D9;" BorderPane.alignment="CENTER">
-         <children>
-            <AnchorPane prefHeight="65.0" prefWidth="1280.0">
-               <children>
-                  <Label layoutX="20.0" layoutY="16.0" text="Acerca de">
-                     <font>
-                        <Font name="System Bold" size="25.0" />
-                     </font>
-                  </Label>
-               </children>
-            </AnchorPane>
-         </children>
-      </VBox>
-   </top>
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="570.0" prefWidth="1280.0" styleClass="main-container" stylesheets="@../css/estilos.css" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.uv.sistemagestionpizzeria.controller.FXMLAcercaDeController">
    <center>
       <VBox alignment="TOP_CENTER" prefHeight="611.0" prefWidth="848.0" BorderPane.alignment="TOP_CENTER">
          <children>
-            <AnchorPane layoutY="20.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="397.0" prefWidth="1011.0" style="-fx-background-color: white;">
+            <AnchorPane layoutY="20.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="397.0" prefWidth="1011.0" styleClass="white-card">
                <VBox.margin>
                   <Insets top="15.0" />
                </VBox.margin>
                <children>
-                  <Label layoutX="33.0" layoutY="14.0" text="Sistema de Gestión de Pizzería “Italia Pizza“">
-                     <font>
-                        <Font name="System Bold" size="30.0" />
-                     </font>
+                  <Label layoutX="33.0" layoutY="14.0" styleClass="title-main" text="Sistema de Gestión de Pizzería “Italia Pizza“">
                   </Label>
                   <Label layoutX="33.0" layoutY="51.0" lineSpacing="1.0" prefHeight="344.0" prefWidth="777.0" text="Versión 1.0&#10;&#10;  Este sistema fue desarrollado por:&#10;&#10;- Amores Rivas Gael Samei&#10;- González Herrera Germán Vicente&#10;- Ortega Méndez Leslie Verónica&#10;- Turrent Peña Oscar  &#10;&#10;Carrera: Licenciatura en Ingeniería de Software   Semestre: 4°  &#10;Universidad Veracruzana&#10;Facultad de Estadística e Informática  © 2026 - Todos los derechos reservados&#10;" wrapText="true" AnchorPane.leftAnchor="33.0">
                      <font>
@@ -47,13 +29,10 @@
                   </Label>
                </children>
             </AnchorPane>
-            <Button fx:id="btnSalir" mnemonicParsing="false" onAction="#clickSalir" prefHeight="30.0" prefWidth="70.0" style="-fx-background-color: #1E1E1E;" text="Salir" textFill="WHITE">
+            <Button fx:id="btnSalir" mnemonicParsing="false" onAction="#clickSalir" prefHeight="30.0" prefWidth="70.0" styleClass="btn-primary" text="Salir">
                <VBox.margin>
                   <Insets left="1000.0" top="25.0" />
                </VBox.margin>
-               <font>
-                  <Font name="System Bold" size="14.0" />
-               </font>
             </Button>
          </children>
       </VBox>

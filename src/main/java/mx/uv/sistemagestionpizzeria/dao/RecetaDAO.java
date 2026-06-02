@@ -16,14 +16,18 @@ import mx.uv.sistemagestionpizzeria.dto.RecetaDTO;
 public class RecetaDAO {
  
     private static final String SQL_BUSCAR_POR_ID =
-            "SELECT id_receta, id_producto_venta, id_insumo, cantidad_requerida " +
-            "FROM Receta " +
-            "WHERE id_receta = ?";
+            "SELECT r.id_receta, r.id_producto_venta, r.id_insumo, r.cantidad_requerida, " +
+            "p.nombre AS nombre_insumo, p.unidad AS unidad_insumo " +
+            "FROM Receta r " +
+            "INNER JOIN Producto p ON r.id_insumo = p.id_producto " +
+            "WHERE r.id_receta = ?";
  
     private static final String SQL_BUSCAR_POR_PRODUCTO =
-            "SELECT id_receta, id_producto_venta, id_insumo, cantidad_requerida " +
-            "FROM Receta " +
-            "WHERE id_producto_venta = ?";
+            "SELECT r.id_receta, r.id_producto_venta, r.id_insumo, r.cantidad_requerida, " +
+            "p.nombre AS nombre_insumo, p.unidad AS unidad_insumo " +
+            "FROM Receta r " +
+            "INNER JOIN Producto p ON r.id_insumo = p.id_producto " +
+            "WHERE r.id_producto_venta = ?";
  
     private static final String SQL_INSERTAR =
             "INSERT INTO Receta (id_producto_venta, id_insumo, cantidad_requerida) " +
@@ -122,7 +126,9 @@ public class RecetaDAO {
                 rs.getInt("id_receta"),
                 rs.getInt("id_producto_venta"),
                 rs.getInt("id_insumo"),
-                rs.getDouble("cantidad_requerida")
+                rs.getDouble("cantidad_requerida"),
+                rs.getString("nombre_insumo"),
+                rs.getString("unidad_insumo")
         );
     }
 }

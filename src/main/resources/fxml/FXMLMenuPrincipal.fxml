@@ -1,34 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.effect.*?>
-<?import javafx.geometry.*?>
-<?import javafx.scene.shape.*?>
-<?import javafx.scene.text.*?>
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.SeparatorMenuItem?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
 
-<BorderPane prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: #C7D3EB;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.uv.sistemagestionpizzeria.controller.FXMLMenuPrincipalController">
+<BorderPane prefHeight="720.0" prefWidth="1280.0" styleClass="main-container" stylesheets="@../css/estilos.css" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.uv.sistemagestionpizzeria.controller.FXMLMenuPrincipalController">
    <top>
-      <VBox prefHeight="150.0" prefWidth="820.0" BorderPane.alignment="CENTER">
+      <VBox prefHeight="150.0" BorderPane.alignment="CENTER">
          <children>
-            <AnchorPane prefHeight="115.0" prefWidth="820" style="-fx-background-color: #D9D9D9;">
+            <AnchorPane prefHeight="115.0" styleClass="header-panel">
                <children>
-                  <Label layoutX="20.0" layoutY="16.0" text="Menu Principal">
-                     <font>
-                        <Font name="System Bold" size="30.0" />
-                     </font>
+                  <Label fx:id="lblPrimario" layoutX="20.0" layoutY="16.0" styleClass="title-main" text="Menu Principal">
                   </Label>
-                  <Label fx:id="lblBienvenido" layoutX="20.0" layoutY="61.0" text="Bienvenido, X persona">
-                     <font>
-                        <Font name="System Bold" size="24.0" />
-                     </font>
+                  <Label fx:id="lblSecundario" layoutX="20.0" layoutY="61.0" styleClass="title-header" text="Bienvenido, X persona">
                   </Label>
                </children>
             </AnchorPane>
-            <MenuBar prefHeight="35.0" prefWidth="820.0" style="-fx-background-color: #A9A7A7;">
+            <MenuBar prefHeight="40.0">
                <menus>
                   <Menu fx:id="menuAdministracion" mnemonicParsing="false" text="Administración">
                      <items>
@@ -44,6 +38,8 @@
                         <MenuItem mnemonicParsing="false" onAction="#abrirRecetas" text="Recetas" />
                         <SeparatorMenuItem mnemonicParsing="false" />
                         <MenuItem mnemonicParsing="false" onAction="#abrirGestionInventario" text="Gestión Inventarios" />
+                        <SeparatorMenuItem mnemonicParsing="false" />
+                        <MenuItem mnemonicParsing="false" onAction="#abrirHistorialInventario" text="Historial Inventarios" />
                      </items>
                   </Menu>
                   <Menu fx:id="menuPedidos" mnemonicParsing="false" text="Pedidos">
@@ -67,6 +63,6 @@
       </VBox>
    </top>
    <center>
-      <StackPane fx:id="contenidoPrincipal" id="contenidoPrincipal" BorderPane.alignment="CENTER" />
+      <StackPane id="contenidoPrincipal" fx:id="contenidoPrincipal" BorderPane.alignment="CENTER" />
    </center>
 </BorderPane>

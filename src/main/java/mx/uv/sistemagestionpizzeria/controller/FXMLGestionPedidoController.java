@@ -213,7 +213,7 @@ public class FXMLGestionPedidoController implements Initializable {
             this.detalleList.setAll(pedidoCompleto.getDetalles());
             this.pedidoActual.setDetalles(detalleList);
             
-            lbNumeroPedido.setText(String.valueOf(pedidoActual.getIdPedido()));
+            lbNumeroPedido.setText(String.valueOf("#" + pedidoActual.getIdPedido()));
             lbNumeroPedido.setVisible(true);
             
             if (pedidoActual.getFechaPedido() != null) {
@@ -310,7 +310,7 @@ public class FXMLGestionPedidoController implements Initializable {
 
     private void cargarProductos(String filtro) {
         try {
-            productosList.setAll(productoService.buscarProductos(filtro, TIPO_PRODUCTO));
+            productosList.setAll(productoService.buscarProductos(filtro, "Nombre", TIPO_PRODUCTO));
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
@@ -362,6 +362,9 @@ public class FXMLGestionPedidoController implements Initializable {
 
     private void mostrarAlertaInformacion(String titulo, String mensaje) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        if (tvPedido.getScene() != null && tvPedido.getScene().getWindow() != null) {
+            alert.initOwner(tvPedido.getScene().getWindow());
+        }
         alert.setTitle("Información");
         alert.setHeaderText(titulo);
         alert.setContentText(mensaje);
@@ -380,6 +383,9 @@ public class FXMLGestionPedidoController implements Initializable {
 
     private void mostrarAlertaError(String titulo, String mensaje) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
+        if (tvPedido.getScene() != null && tvPedido.getScene().getWindow() != null) {
+            alert.initOwner(tvPedido.getScene().getWindow());
+        }
         alert.setTitle("Error");
         alert.setHeaderText(titulo);
         alert.setContentText(mensaje);

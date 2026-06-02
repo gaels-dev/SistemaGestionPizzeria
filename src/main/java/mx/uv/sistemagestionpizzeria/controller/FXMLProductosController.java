@@ -130,10 +130,13 @@ public class FXMLProductosController implements Initializable {
             
             Parent root = loader.load();
             
+            Stage stageMain = (Stage) btnSalir.getScene().getWindow();
             Stage stageModal = new Stage();
             stageModal.setScene(new Scene(root));
             stageModal.initModality(Modality.APPLICATION_MODAL);
+            stageModal.initOwner(stageMain); // Vincular con la principal
             stageModal.showAndWait();
+            
             cargarProductos("");
 
         } catch (IOException e) {
