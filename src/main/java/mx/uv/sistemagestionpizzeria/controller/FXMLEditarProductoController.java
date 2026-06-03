@@ -172,13 +172,13 @@ public class FXMLEditarProductoController implements Initializable {
             ex.printStackTrace();
             Alerta.mostrarAlertaSimple("ERROR",
                     "No se pudo actualizar el producto en la base de datos.",
-                    Alert.AlertType.ERROR);
+                    Alert.AlertType.ERROR, tfNombre.getScene().getWindow());
             return;
         }
 
         Alerta.mostrarAlertaSimple("ÉXITO",
                 "El producto se actualizó correctamente.",
-                Alert.AlertType.INFORMATION);
+                Alert.AlertType.INFORMATION, tfNombre.getScene().getWindow());;
         stage.close();
     }
 }

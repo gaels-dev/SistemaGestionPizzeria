@@ -11,20 +11,16 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane id="AnchorPane" prefHeight="570.0" prefWidth="1280.0" stylesheets="@../css/estilos.css" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.uv.sistemagestionpizzeria.controller.FXMLProductosController">
+<AnchorPane id="AnchorPane" prefHeight="570.0" prefWidth="1280.0" stylesheets="@../css/estilos.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.uv.sistemagestionpizzeria.controller.FXMLProductosController">
    <children>
       <VBox layoutX="179.0" layoutY="14.0" prefHeight="511.0" prefWidth="923.0" AnchorPane.bottomAnchor="13.0" AnchorPane.leftAnchor="179.0" AnchorPane.rightAnchor="178.0" AnchorPane.topAnchor="14.0">
          <children>
-            <HBox alignment="TOP_CENTER" prefHeight="31.0" prefWidth="791.0">
-               <children>
-                  <ComboBox fx:id="cbTipoBusqueda" prefHeight="25.0" prefWidth="658.0" />
-               </children>
-            </HBox>
+            <HBox alignment="TOP_CENTER" prefHeight="31.0" prefWidth="791.0" />
             <HBox prefHeight="48.0" prefWidth="791.0" spacing="20.0">
                <children>
-                  <TextField fx:id="tfBusqueda" prefHeight="25.0" prefWidth="230.0" promptText="Buscar producto ..." />
-                  <Button fx:id="btnBuscar" mnemonicParsing="false" onAction="#clickBtnBuscar" prefHeight="31.0" prefWidth="100.0" styleClass="btn-primary" text="Buscar" />
-                  <Separator opacity="0.0" prefHeight="7.0" prefWidth="326.0" />
+                  <TextField fx:id="tfBusqueda" prefHeight="27.0" prefWidth="254.0" promptText="Buscar producto ..." />
+                  <ComboBox fx:id="cbTipoBusqueda" prefHeight="27.0" prefWidth="140.0" />
+                  <Separator opacity="0.0" prefHeight="10.0" prefWidth="76.0" />
                   <Button fx:id="btnNuevo" mnemonicParsing="false" onAction="#clickBtnNuevo" prefHeight="31.0" prefWidth="115.0" styleClass="btn-success" text="+ Nuevo" />
                   <Button fx:id="btnEditar" mnemonicParsing="false" onAction="#clickBtnEditar" prefHeight="31.0" prefWidth="100.0" styleClass="btn-info" text="Editar" />
                   <Button fx:id="btnEliminar" mnemonicParsing="false" onAction="#clickBtnEliminar" prefHeight="31.0" prefWidth="110.0" styleClass="btn-danger" text="Eliminar" />
