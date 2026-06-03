@@ -102,15 +102,10 @@ public class UsuarioService {
     }
  
     public int registrar(UsuarioDTO usuario) throws NegocioException, SQLException {
-        validarCamposObligatorios(usuario);
+        validarUsuario(usuario);
  
         if ("EMPLEADO".equalsIgnoreCase(usuario.getTipo())) {
-            if (usuario.getContrasenia() == null || usuario.getContrasenia().trim().isEmpty()) {
-                throw new ValidacionException("Los empleados deben tener una contraseña.");
-            }
-            if (usuario.getRol() == null || usuario.getRol().getIdRol() <= 0) {
-                throw new ValidacionException("Los empleados deben tener un rol asignado.");
-            }
+            validarEmpleadoNuevo(usuario);
             usuario.setContrasenia(HasheoContrasenia.hashPassword(usuario.getContrasenia()));
         }
  
@@ -120,7 +115,11 @@ public class UsuarioService {
     public void editar(UsuarioDTO usuario) throws NegocioException, SQLException {
         if (usuario.getIdUsuario() <= 0)
             throw new ValidacionException("El id de usuario no es válido.");
-        validarCamposObligatorios(usuario);
+        validarUsuario(usuario);
+        
+        if ("EMPLEADO".equalsIgnoreCase(usuario.getTipo())) {
+            validarEmpleadoEdicion(usuario);
+        }
         
         try (Connection con = mx.uv.sistemagestionpizzeria.config.ConexionBD.getConexion()) {
             try {
@@ -156,7 +155,31 @@ public class UsuarioService {
         }
     }
  
-    private void validarCamposObligatorios(UsuarioDTO u) throws ValidacionException {
+    private void validarUsuario(UsuarioDTO u) throws ValidacionException {
+        validarCamposObligatoriosGenerales(u);
+        validarFormatoTelefono(u.getTelefono());
+        validarFormatoCodigoPostal(u.getCodigoPostal());
+        validarFormatoEmail(u.getEmail());
+    }
+
+    private void validarEmpleadoNuevo(UsuarioDTO u) throws ValidacionException {
+        validarUsername(u.getUsername());
+        if (u.getContrasenia() == null || u.getContrasenia().trim().isEmpty()) {
+            throw new ValidacionException("Los empleados deben tener una contraseña.");
+        }
+        if (u.getRol() == null || u.getRol().getIdRol() <= 0) {
+            throw new ValidacionException("Los empleados deben tener un rol asignado.");
+        }
+    }
+
+    private void validarEmpleadoEdicion(UsuarioDTO u) throws ValidacionException {
+        validarUsername(u.getUsername());
+        if (u.getRol() == null || u.getRol().getIdRol() <= 0) {
+            throw new ValidacionException("Los empleados deben tener un rol asignado.");
+        }
+    }
+
+    private void validarCamposObligatoriosGenerales(UsuarioDTO u) throws ValidacionException {
         if (u.getNombre() == null || u.getNombre().trim().isEmpty()) {
             throw new ValidacionException("El nombre es obligatorio.");
         }
@@ -168,6 +191,39 @@ public class UsuarioService {
         }
         if (u.getTipo() == null || u.getTipo().trim().isEmpty()) {
             throw new ValidacionException("El tipo de usuario es obligatorio.");
+        }
+        if (u.getEmail() == null || u.getEmail().trim().isEmpty()) {
+            throw new ValidacionException("El correo electrónico es obligatorio.");
+        }
+        if (u.getCodigoPostal() == null || u.getCodigoPostal().trim().isEmpty()) {
+            throw new ValidacionException("El código postal es obligatorio.");
+        }
+    }
+
+    private void validarFormatoTelefono(String telefono) throws ValidacionException {
+        if (telefono != null && !telefono.matches("\\d{10}")) {
+            throw new ValidacionException("El teléfono debe contener exactamente 10 números.");
+        }
+    }
+
+    private void validarFormatoCodigoPostal(String cp) throws ValidacionException {
+        if (cp != null && !cp.matches("\\d{5}")) {
+            throw new ValidacionException("El código postal debe contener exactamente 5 números.");
+        }
+    }
+
+    private void validarFormatoEmail(String email) throws ValidacionException {
+        if (email != null && !email.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$")) {
+            throw new ValidacionException("Por favor, ingresa un correo electrónico válido.");
+        }
+    }
+
+    private void validarUsername(String username) throws ValidacionException {
+        if (username == null || username.trim().isEmpty()) {
+            throw new ValidacionException("El nombre de usuario es obligatorio para los empleados.");
+        }
+        if (username.contains(" ")) {
+            throw new ValidacionException("El nombre de usuario no puede contener espacios en blanco.");
         }
     }
 }
