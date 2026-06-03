@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMLController.java to edit this template
- */
 package mx.uv.sistemagestionpizzeria.controller;
 
 import java.io.IOException;
@@ -18,6 +14,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -27,6 +24,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import mx.uv.sistemagestionpizzeria.dto.ProductoDTO;
 import mx.uv.sistemagestionpizzeria.service.ProductoService;
+import mx.uv.sistemagestionpizzeria.util.Alerta;
 
 public class FXMLProductosController implements Initializable {
 
@@ -96,7 +94,26 @@ public class FXMLProductosController implements Initializable {
         colCantidad.setCellValueFactory(new PropertyValueFactory<>("cantidad"));
         colUnidad.setCellValueFactory(new PropertyValueFactory<>("unidad"));
         colTipo.setCellValueFactory(new PropertyValueFactory<>("tipo"));
+        
         colActivo.setCellValueFactory(new PropertyValueFactory<>("activo"));
+        colActivo.setCellFactory(column -> new TableCell<ProductoDTO, Integer>() {
+            @Override
+            protected void updateItem(Integer activo, boolean empty) {
+                super.updateItem(activo, empty);
+                if (empty || activo == null) {
+                    setText(null);
+                    setStyle("");
+                } else {
+                    if (activo == 1) {
+                        setText("ACTIVO");
+                        setStyle("-fx-text-fill: #2da52d; -fx-font-weight: bold;");
+                    } else {
+                        setText("INACTIVO");
+                        setStyle("-fx-text-fill: #d61d1d; -fx-font-weight: bold;");
+                    }
+                }
+            }
+        });
         
         tvProductos.setItems(productoList);
     }
@@ -134,7 +151,7 @@ public class FXMLProductosController implements Initializable {
             Stage stageModal = new Stage();
             stageModal.setScene(new Scene(root));
             stageModal.initModality(Modality.APPLICATION_MODAL);
-            stageModal.initOwner(stageMain); // Vincular con la principal
+            stageModal.initOwner(stageMain); 
             stageModal.showAndWait();
             
             cargarProductos("");
@@ -147,14 +164,12 @@ public class FXMLProductosController implements Initializable {
     @FXML
     private void clickBtnEditar(ActionEvent event) {
         ProductoDTO seleccionado = tvProductos.getSelectionModel().getSelectedItem();
+        Stage stageMain = (Stage) btnSalir.getScene().getWindow();
 
         if (seleccionado == null) {
-            javafx.scene.control.Alert alerta = new javafx.scene.control.Alert(
-                    javafx.scene.control.Alert.AlertType.WARNING);
-            alerta.setTitle("Sin selección");
-            alerta.setHeaderText(null);
-            alerta.setContentText("Por favor selecciona un producto de la tabla.");
-            alerta.showAndWait();
+            Alerta.mostrarAlertaSimple("Sin selección", 
+                    "Por favor selecciona un producto de la tabla.", 
+                    javafx.scene.control.Alert.AlertType.WARNING, stageMain);
             return;
         }
 
@@ -171,6 +186,7 @@ public class FXMLProductosController implements Initializable {
             Stage stageModal = new Stage();
             stageModal.setScene(new Scene(root));
             stageModal.initModality(Modality.APPLICATION_MODAL);
+            stageModal.initOwner(stageMain);
             stageModal.showAndWait();
 
             cargarProductos(tfBusqueda.getText()); // Refrescar tabla al cerrar
@@ -182,19 +198,18 @@ public class FXMLProductosController implements Initializable {
     @FXML
     private void clickBtnEliminar(ActionEvent event) {
         ProductoDTO seleccionado = tvProductos.getSelectionModel().getSelectedItem();
+        Stage stageMain = (Stage) btnSalir.getScene().getWindow();
 
         if (seleccionado == null) {
-            javafx.scene.control.Alert alerta = new javafx.scene.control.Alert(
-                    javafx.scene.control.Alert.AlertType.WARNING);
-            alerta.setTitle("Sin selección");
-            alerta.setHeaderText(null);
-            alerta.setContentText("Por favor selecciona un producto de la tabla.");
-            alerta.showAndWait();
+            Alerta.mostrarAlertaSimple("Sin selección", 
+                    "Por favor selecciona un producto de la tabla.", 
+                    javafx.scene.control.Alert.AlertType.WARNING, stageMain);
             return;
         }
 
         javafx.scene.control.Alert confirmacion = new javafx.scene.control.Alert(
                 javafx.scene.control.Alert.AlertType.CONFIRMATION);
+        confirmacion.initOwner(stageMain);
         confirmacion.setTitle("Confirmar baja");
         confirmacion.setHeaderText(null);
         confirmacion.setContentText("¿Deseas dar de baja el producto \""
@@ -206,12 +221,9 @@ public class FXMLProductosController implements Initializable {
                     ProductoService.eliminar(seleccionado.getIdProducto());
                     cargarProductos(tfBusqueda.getText());
                 } catch (Exception ex) {
-                    javafx.scene.control.Alert error = new javafx.scene.control.Alert(
-                            javafx.scene.control.Alert.AlertType.ERROR);
-                    error.setTitle("Error");
-                    error.setHeaderText(null);
-                    error.setContentText("No se pudo dar de baja el producto: " + ex.getMessage());
-                    error.showAndWait();
+                    Alerta.mostrarAlertaSimple("Error", 
+                            "No se pudo dar de baja el producto: " + ex.getMessage(), 
+                            javafx.scene.control.Alert.AlertType.ERROR, stageMain);
                 }
             }
         });

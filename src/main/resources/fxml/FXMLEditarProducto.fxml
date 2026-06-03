@@ -1,51 +1,158 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="602.0" prefWidth="411.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.uv.sistemagestionpizzeria.controller.FXMLEditarProductoController">
+
+<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="450.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.uv.sistemagestionpizzeria.controller.FXMLEditarProductoController">
    <children>
-      <Label layoutX="123.0" layoutY="30.0" text="Editar producto">
+      <Label alignment="TOP_CENTER" text="Editar datos del producto" textAlignment="CENTER">
          <font>
-            <Font size="20.0" />
+            <Font name="System Bold" size="18.0" />
          </font>
+         <VBox.margin>
+            <Insets />
+         </VBox.margin>
+         <padding>
+            <Insets top="20.0" />
+         </padding>
       </Label>
-      <Label layoutX="18.0" layoutY="84.0" text="Nombre*" />
-      <Label layoutX="20.0" layoutY="119.0" text="Código*" />
-      <Label layoutX="18.0" layoutY="286.0" text="Descripción*" />
-      <Label layoutX="16.0" layoutY="188.0" text="Precio" />
-      <Label layoutX="30.0" layoutY="402.0" text="Restricción" />
-      <Label layoutX="16.0" layoutY="222.0" text="Cantidad" />
-      <Label layoutX="20.0" layoutY="254.0" text="Unidad" />
-      <Label layoutX="20.0" layoutY="153.0" text="Tipo*" />
-      <TextField fx:id="tfCodigo" layoutX="77.0" layoutY="115.0" />
-      <TextField fx:id="tfNombre" layoutX="77.0" layoutY="80.0" prefHeight="25.0" prefWidth="308.0" />
-      <TextField fx:id="tfTipo" layoutX="77.0" layoutY="149.0" />
-      <TextField fx:id="tfPrecio" layoutX="77.0" layoutY="184.0" />
-      <TextField fx:id="tfCantidad" layoutX="77.0" layoutY="218.0" />
-      <TextField fx:id="tfUnidad" layoutX="77.0" layoutY="250.0" />
-      <TextArea fx:id="taDescripcion" layoutX="23.0" layoutY="310.0" prefHeight="79.0" prefWidth="368.0" />
-      <TextField fx:id="tfRestriccion" layoutX="23.0" layoutY="427.0" prefHeight="25.0" prefWidth="368.0" />
-      <ImageView fx:id="ivFoto" fitHeight="115.0" fitWidth="122.0" layoutX="250.0" layoutY="131.0" pickOnBounds="true" preserveRatio="true" />
-      <Button fx:id="btnSubirFoto" layoutX="261.0" layoutY="250.0" mnemonicParsing="false" onAction="#clickBtnSubirFoto" prefHeight="25.0" prefWidth="100.0" text="Subir foto" />
-      <Button fx:id="btnCancelar" layoutX="30.0" layoutY="534.0" mnemonicParsing="false" onAction="#clickBtnCancelar" prefHeight="25.0" prefWidth="149.0" text="Cancelar edición" />
-      <Button fx:id="btnGuardar" layoutX="242.0" layoutY="534.0" mnemonicParsing="false" onAction="#clickBtnGuardar" prefHeight="25.0" prefWidth="138.0" text="Guardar cambios" />
-      <Label layoutX="31.0" layoutY="469.0" text="* Campo obligatorio" />
-      <Label fx:id="lblError" layoutX="22.0" layoutY="562.0" prefHeight="17.0" prefWidth="368.0" textFill="#dd0c0c">
+      <Label fx:id="lbTipoProducto" text="TIPO" textFill="#5b5b5b">
          <font>
-            <Font name="System Bold" size="12.0" />
+            <Font name="System Bold Italic" size="14.0" />
          </font>
+         <VBox.margin>
+            <Insets top="5.0" />
+         </VBox.margin>
       </Label>
-      <RadioButton fx:id="rbtnActivo" layoutX="242.0" layoutY="469.0" mnemonicParsing="false" selected="true" text="Producto activo">
-         <toggleGroup>
-            <ToggleGroup fx:id="group1" />
-         </toggleGroup>
-      </RadioButton>
-      <RadioButton fx:id="rbtnInactivo" layoutX="242.0" layoutY="498.0" mnemonicParsing="false" text="Producto inactivo" toggleGroup="$group1" />
+      <ScrollPane fitToWidth="true" prefHeight="498.0" prefWidth="450.0" VBox.vgrow="ALWAYS">
+         <VBox.margin>
+            <Insets />
+         </VBox.margin>
+         <content>
+            <VBox prefWidth="417.0" spacing="10.0">
+               <children>
+                  <Label text="Nombre*">
+                     <font>
+                        <Font size="13.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets top="10.0" />
+                     </VBox.margin>
+                  </Label>
+                  <TextField fx:id="tfNombre" promptText="Nombre del producto/insumo" />
+                  
+                  <Label text="Código (No editable)">
+                     <font>
+                        <Font size="13.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="tfCodigo" editable="false" style="-fx-background-color: #f4f4f4;" />
+
+                  <StackPane>
+                     <children>
+                        <VBox fx:id="vboxInsumo" managed="${vboxInsumo.visible}" spacing="10.0" visible="false">
+                           <children>
+                              <Label text="Cantidad*">
+                                 <font>
+                                    <Font size="13.0" />
+                                 </font>
+                              </Label>
+                              <TextField fx:id="tfCantidad" promptText="0" />
+                              <Label text="Unidad*">
+                                 <font>
+                                    <Font size="13.0" />
+                                 </font>
+                              </Label>
+                              <TextField fx:id="tfUnidad" promptText="kg, l, pz..." />
+                           </children>
+                        </VBox>
+                        <VBox fx:id="vboxProducto" managed="${vboxProducto.visible}" spacing="10.0">
+                           <children>
+                              <Label text="Precio*">
+                                 <font>
+                                    <Font size="13.0" />
+                                 </font>
+                              </Label>
+                              <TextField fx:id="tfPrecio" promptText="0.00" />
+                           </children>
+                        </VBox>
+                     </children>
+                  </StackPane>
+
+                  <Label text="Descripción">
+                     <font>
+                        <Font size="13.0" />
+                     </font>
+                  </Label>
+                  <TextArea fx:id="taDescripcion" prefHeight="80.0" promptText="Descripción opcional" wrapText="true" />
+
+                  <Label text="Restricción">
+                     <font>
+                        <Font size="13.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="tfRestriccion" promptText="Restricciones de venta/uso" />
+
+                  <Label text="Foto">
+                     <font>
+                        <Font size="13.0" />
+                     </font>
+                  </Label>
+                  <HBox alignment="CENTER_LEFT" spacing="15.0">
+                     <children>
+                        <ImageView fx:id="ivFoto" fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" style="-fx-border-color: #ccc;" />
+                        <Button fx:id="btnSubirFoto" onAction="#clickBtnSubirFoto" text="Seleccionar..." />
+                     </children>
+                  </HBox>
+
+                  <Label text="Estado">
+                     <font>
+                        <Font size="13.0" />
+                     </font>
+                  </Label>
+                  <HBox spacing="20.0">
+                     <children>
+                        <RadioButton fx:id="rbtnActivo" text="Activo">
+                           <toggleGroup>
+                              <ToggleGroup fx:id="grupoEstado" />
+                           </toggleGroup>
+                        </RadioButton>
+                        <RadioButton fx:id="rbtnInactivo" text="Inactivo" toggleGroup="$grupoEstado" />
+                     </children>
+                  </HBox>
+                  
+                  <Label text="* Campos obligatorios" textFill="#757575">
+                     <font>
+                        <Font size="11.0" />
+                     </font>
+                  </Label>
+               </children>
+               <padding>
+                  <Insets bottom="20.0" left="33.0" right="33.0" />
+               </padding>
+            </VBox>
+         </content>
+      </ScrollPane>
+      <HBox alignment="CENTER_RIGHT" prefHeight="71.0" prefWidth="440.0" spacing="20.0">
+         <children>
+            <Button fx:id="btnGuardar" mnemonicParsing="false" onAction="#clickBtnGuardar" prefHeight="25.0" prefWidth="122.0" style="-fx-background-color: #2da52d;" text="Guardar" textFill="WHITE" />
+            <Button fx:id="btnCancelar" mnemonicParsing="false" onAction="#clickBtnCancelar" prefHeight="25.0" prefWidth="75.0" text="Cancelar" />
+         </children>
+         <VBox.margin>
+            <Insets right="10.0" />
+         </VBox.margin>
+      </HBox>
    </children>
-</AnchorPane>
+</VBox>

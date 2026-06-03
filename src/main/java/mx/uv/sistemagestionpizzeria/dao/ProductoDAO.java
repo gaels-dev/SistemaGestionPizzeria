@@ -58,11 +58,11 @@ public class ProductoDAO {
     private static final String SQL_INSERTAR =
             "INSERT INTO Producto (codigo, nombre, descripcion, precio, restriccion, " +
             "cantidad, unidad, foto, tipo, activo) " +
-            "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 1)";
+            "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
  
     private static final String SQL_ACTUALIZAR =
             "UPDATE Producto SET nombre=?, descripcion=?, precio=?, restriccion=?, " +
-            "cantidad=?, unidad=?, foto=?, tipo=? " +
+            "cantidad=?, unidad=?, foto=?, tipo=?, activo=? " +
             "WHERE id_producto=?";
  
     private static final String SQL_BAJA_LOGICA =
@@ -151,6 +151,7 @@ public class ProductoDAO {
             ps.setString(7, p.getUnidad());
             ps.setBytes(8, p.getFoto());
             ps.setString(9, p.getTipo());
+            ps.setInt(10, p.getActivo());
  
             ps.executeUpdate();
  
@@ -159,9 +160,6 @@ public class ProductoDAO {
                     return keys.getInt(1);
                 }
             }
-        } catch (SQLException ex) {
-            
-            ex.printStackTrace();
         }
         return -1;
     }
@@ -183,7 +181,8 @@ public class ProductoDAO {
             ps.setString(6, p.getUnidad());
             ps.setBytes(7, p.getFoto());
             ps.setString(8, p.getTipo());
-            ps.setInt(9, p.getIdProducto());
+            ps.setInt(9, p.getActivo());
+            ps.setInt(10, p.getIdProducto());
  
             ps.executeUpdate();
         }
