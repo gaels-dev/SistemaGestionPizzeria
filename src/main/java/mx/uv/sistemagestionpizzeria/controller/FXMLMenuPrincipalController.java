@@ -91,7 +91,6 @@ public class FXMLMenuPrincipalController implements Initializable {
         cargarVista("FXMLGestionInventario.fxml", "Inventario de Insumos", "Consulte existencias o realice una valoración física del inventario.");
     }
 
-    @FXML
     private void abrirHistorialInventario(ActionEvent event) {
         cargarVista("FXMLHistorialInventario.fxml", "Historial de Inventarios", "Consulte el historial de validaciones y ajustes realizados.");
     }
