@@ -170,7 +170,7 @@ public class FXMLGestionUsuariosController implements Initializable {
                 int idUsuarioSesion = Sesion.getUsuario().getIdUsuario();
                 UsuarioService.eliminar(seleccion.getIdUsuario(), idUsuarioSesion);
                 mostrarAlerta(Alert.AlertType.INFORMATION, 
-                        "", "Usuario eliminado correctatamente");
+                        "", "Usuario eliminado correctamente");
                 
                 cargarUsuarios("");
             } catch (Exception e) {

@@ -20,6 +20,7 @@ import javafx.stage.Stage;
 import mx.uv.sistemagestionpizzeria.dto.RolDTO;
 import mx.uv.sistemagestionpizzeria.dto.UsuarioDTO;
 import mx.uv.sistemagestionpizzeria.service.UsuarioService;
+import mx.uv.sistemagestionpizzeria.util.Alerta;
 
 /**
  * FXML Controller class
@@ -113,21 +114,60 @@ public class FXMLRegistrarUsuarioController implements Initializable {
 
     @FXML
     private void clicGuardar(ActionEvent event) {
+        
+        javafx.stage.Window ventanaActual = rbEmpleado.getScene().getWindow();
+        
+        String nombre = tfNombre.getText().trim();
+        String apellidos = tfApellidos.getText().trim();
+        String telefono = tfTelefono.getText().trim();
+        String email = tfEmail.getText().trim();
+        String direccion = tfDireccion.getText().trim();
+        String cp = tfCodigoPostal.getText().trim();
+        String ciudad = tfCiudad.getText().trim();
+        
+        if (faltanDatos(nombre, apellidos, telefono, email, direccion, cp, ciudad)) {
+            Alerta.mostrarAlertaSimple("Campos incompletos", 
+                    "Por favor, completa todos los campos",
+                    Alert.AlertType.WARNING, ventanaActual);
+            return;
+        }
+        
+        boolean esNuevo = (usuarioEdicion == null);
+        
+        if (rbEmpleado.isSelected()) {
+            String username = tfUsername.getText().trim();
+            String contrasenia = tfContrasenia.getText().trim();
+            
+            if (faltanDatos(username)) {
+                Alerta.mostrarAlertaSimple("Campos incompletos", 
+                    "Por favor, ingresa el nombre de usuario",
+                    Alert.AlertType.WARNING, ventanaActual);
+                return;
+            }
+            
+            if (esNuevo && faltanDatos(contrasenia)) {
+                Alerta.mostrarAlertaSimple("Campos incompletos", 
+                    "Por favor, ingresa la contraseña para el nuevo empleado.",
+                    Alert.AlertType.WARNING, ventanaActual);
+                return;
+            }
+        }
+                
         try{
-            boolean esNuevo = (usuarioEdicion == null);
             if (esNuevo) usuarioEdicion = new UsuarioDTO();
             
-            usuarioEdicion.setNombre(tfNombre.getText());
-            usuarioEdicion.setApellidos(tfApellidos.getText());
-            usuarioEdicion.setTelefono(tfTelefono.getText());
-            usuarioEdicion.setEmail(tfEmail.getText());
-            usuarioEdicion.setCalleNumero(tfDireccion.getText());
-            usuarioEdicion.setCodigoPostal(tfCodigoPostal.getText());
-            usuarioEdicion.setCiudad(tfCiudad.getText());
+            usuarioEdicion.setNombre(nombre);
+            usuarioEdicion.setApellidos(apellidos);
+            usuarioEdicion.setTelefono(telefono);
+            usuarioEdicion.setEmail(email);
+            usuarioEdicion.setCalleNumero(direccion);
+            usuarioEdicion.setCodigoPostal(cp);
+            usuarioEdicion.setCiudad(ciudad);
             
             if(rbEmpleado.isSelected()){
                 usuarioEdicion.setTipo("EMPLEADO");
                 usuarioEdicion.setUsername(tfUsername.getText());
+                
                 if(!tfContrasenia.getText().isEmpty() || esNuevo) 
                     usuarioEdicion.setContrasenia(tfContrasenia.getText());
                 
@@ -140,15 +180,19 @@ public class FXMLRegistrarUsuarioController implements Initializable {
             
             if (esNuevo) {
                 usuarioService.registrar(usuarioEdicion);
+                Alerta.mostrarAlertaSimple("Éxito", 
+                        rbEmpleado.isSelected() ? 
+                                "Empleado registrado correctamente" : 
+                                "Cliente registrado correctamente", 
+                        javafx.scene.control.Alert.AlertType.INFORMATION, ventanaActual);
             } else {
                 usuarioService.editar(usuarioEdicion);
                 
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.initOwner(rbEmpleado.getScene().getWindow());
-                alert.setContentText(rbEmpleado.isSelected() ? 
-                        "Empleado actualizado correctamente" : 
-                        "Cliente actualizado correctamente");
-                alert.showAndWait();
+                Alerta.mostrarAlertaSimple("Información", 
+                        rbEmpleado.isSelected() ? 
+                                "Empleado actualizado correctamente" :
+                                "Cliente actualizado correctamente", 
+                        javafx.scene.control.Alert.AlertType.INFORMATION, ventanaActual);
             }
             
             Stage stage = (Stage) rbEmpleado.getScene().getWindow();
@@ -156,6 +200,9 @@ public class FXMLRegistrarUsuarioController implements Initializable {
             
         } catch (Exception e) {
             e.printStackTrace();
+            Alerta.mostrarAlertaSimple("Error",
+                    "Ocurrió un error al procesar la solicitud: " + e.getMessage(),
+                    javafx.scene.control.Alert.AlertType.ERROR, ventanaActual);
         } 
     }
 
@@ -165,5 +212,13 @@ public class FXMLRegistrarUsuarioController implements Initializable {
         stage.close();
     }
 
+    private boolean faltanDatos(String... campos) {
+        for (String campo : campos) {
+            if (campo == null || campo.trim().isEmpty()) {
+                return true;
+            }
+        }
+        return false;
+    }
     
 }
