@@ -13,6 +13,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
@@ -32,8 +33,6 @@ public class FXMLProductosController implements Initializable {
     private ComboBox<String> cbTipoBusqueda;
     @FXML
     private TextField tfBusqueda;
-    @FXML
-    private Button btnBuscar;
     @FXML
     private Button btnNuevo;
     @FXML
@@ -66,6 +65,8 @@ public class FXMLProductosController implements Initializable {
     private final ObservableList<ProductoDTO> productoList =
             FXCollections.observableArrayList();
     private final ProductoService ProductoService = new ProductoService();
+    @FXML
+    private CheckBox checkProductosInactivos;
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         configurarComboBox();
@@ -119,13 +120,12 @@ public class FXMLProductosController implements Initializable {
     }
     
     public void cargarProductos(String filtro) {
-        
         try {
             productoList.clear();
+            boolean incluirInactivos = checkProductosInactivos.isSelected();
             productoList.addAll(ProductoService.buscarProductos(filtro,
-                    cbTipoBusqueda.getValue()));
+                    cbTipoBusqueda.getValue(), incluirInactivos));
         } catch (SQLException ex) {
-            
             ex.printStackTrace();
         }
     }
@@ -133,9 +133,6 @@ public class FXMLProductosController implements Initializable {
     public void buscarProducto(ActionEvent event) {
         
         cargarProductos(tfBusqueda.getText());
-    }
-    @FXML
-    private void clickBtnBuscar(ActionEvent event) {
     }
 
     @FXML
@@ -235,6 +232,12 @@ public class FXMLProductosController implements Initializable {
         if (mainContainer != null) {
             mainContainer.getChildren().clear();
         }
+    }
+
+    @FXML
+    private void actionCheckProductosInactivos(ActionEvent event) {
+        
+        cargarProductos(tfBusqueda.getText());
     }
     
 }

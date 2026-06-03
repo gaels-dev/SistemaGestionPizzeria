@@ -15,6 +15,20 @@ import mx.uv.sistemagestionpizzeria.dto.ProductoDTO;
  */
 public class ProductoDAO {
  
+    private static final String SQL_BUSCAR_POR_NOMBRE_TODOS
+            = "SELECT id_producto, codigo, nombre, descripcion, precio, restriccion, "
+            + "cantidad, unidad, foto, tipo, activo "
+            + "FROM Producto "
+            + "WHERE nombre LIKE ? AND (? IS NULL OR tipo = ?) "
+            + "ORDER BY nombre";
+
+    private static final String SQL_FILTRAR_POR_CODIGO_TODOS
+            = "SELECT id_producto, codigo, nombre, descripcion, precio, restriccion, "
+            + "cantidad, unidad, foto, tipo, activo "
+            + "FROM Producto "
+            + "WHERE codigo LIKE ? AND (? IS NULL OR tipo = ?) "
+            + "ORDER BY codigo";
+    
     private static final String SQL_BUSCAR_POR_ID =
             "SELECT id_producto, codigo, nombre, descripcion, precio, restriccion, " +
             "cantidad, unidad, foto, tipo, activo " +
@@ -71,7 +85,38 @@ public class ProductoDAO {
     private static final String SQL_ACTUALIZAR_CANTIDAD =
             "UPDATE Producto SET cantidad = ? WHERE id_producto = ?";
     
+    public List<ProductoDTO> buscarProductosPorNombreTodos(String filtro, String tipo) throws SQLException {
+        List<ProductoDTO> productos = new ArrayList<>();
+        try (Connection con = ConexionBD.getConexion(); PreparedStatement ps = con.prepareStatement(SQL_BUSCAR_POR_NOMBRE_TODOS)) {
+            String query = "%" + filtro + "%";
+            ps.setString(1, query);
+            ps.setString(2, tipo);
+            ps.setString(3, tipo);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    productos.add(mapearProducto(rs));
+                }
+            }
+        }
+        return productos;
+    }
 
+    public List<ProductoDTO> buscarProductosPorCodigoTodos(String filtro, String tipo) throws SQLException {
+        List<ProductoDTO> productos = new ArrayList<>();
+        try (Connection con = ConexionBD.getConexion(); PreparedStatement ps = con.prepareStatement(SQL_FILTRAR_POR_CODIGO_TODOS)) {
+            String query = "%" + filtro + "%";
+            ps.setString(1, query);
+            ps.setString(2, tipo);
+            ps.setString(3, tipo);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    productos.add(mapearProducto(rs));
+                }
+            }
+        }
+        return productos;
+    }
+    
     public ProductoDTO buscarPorId(int idProducto) throws SQLException {
         try (Connection con = ConexionBD.getConexion();
              PreparedStatement ps = con.prepareStatement(SQL_BUSCAR_POR_ID)) {

@@ -61,6 +61,28 @@ public class ProductoService {
             return productoDAO.buscarProductosPorNombre(texto, tipoProducto);
         }
     }
+    
+    public List<ProductoDTO> buscarProductos(String filtro, String criterioBusqueda, boolean incluirInactivos)
+            throws SQLException {
+        if (filtro == null) {
+            filtro = "";
+        }
+        String texto = filtro.trim();
+
+        if (incluirInactivos) {
+            if ("Código".equals(criterioBusqueda)) {
+                return productoDAO.buscarProductosPorCodigoTodos(texto, null);
+            } else {
+                return productoDAO.buscarProductosPorNombreTodos(texto, null);
+            }
+        } else {
+            if ("Código".equals(criterioBusqueda)) {
+                return productoDAO.buscarProductosPorCodigo(texto, null);
+            } else {
+                return productoDAO.buscarProductosPorNombre(texto, null);
+            }
+        }
+    }
  
     public List<ProductoDTO> obtenerPorTipo(String tipo) throws NegocioException, SQLException {
         if (tipo == null || tipo.trim().isEmpty()) {

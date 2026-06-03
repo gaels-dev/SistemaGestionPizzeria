@@ -2,8 +2,8 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
@@ -20,10 +20,10 @@
                <children>
                   <TextField fx:id="tfBusqueda" prefHeight="27.0" prefWidth="254.0" promptText="Buscar producto ..." />
                   <ComboBox fx:id="cbTipoBusqueda" prefHeight="27.0" prefWidth="140.0" />
-                  <Separator opacity="0.0" prefHeight="10.0" prefWidth="76.0" />
-                  <Button fx:id="btnNuevo" mnemonicParsing="false" onAction="#clickBtnNuevo" prefHeight="31.0" prefWidth="115.0" styleClass="btn-success" text="+ Nuevo" />
+                  <Button fx:id="btnNuevo" mnemonicParsing="false" onAction="#clickBtnNuevo" prefHeight="31.0" prefWidth="88.0" styleClass="btn-success" text="+ Nuevo" />
                   <Button fx:id="btnEditar" mnemonicParsing="false" onAction="#clickBtnEditar" prefHeight="31.0" prefWidth="100.0" styleClass="btn-info" text="Editar" />
-                  <Button fx:id="btnEliminar" mnemonicParsing="false" onAction="#clickBtnEliminar" prefHeight="31.0" prefWidth="110.0" styleClass="btn-danger" text="Eliminar" />
+                  <Button fx:id="btnEliminar" mnemonicParsing="false" onAction="#clickBtnEliminar" prefHeight="31.0" prefWidth="88.0" styleClass="btn-danger" text="Eliminar" />
+                  <CheckBox fx:id="checkProductosInactivos" mnemonicParsing="false" onAction="#actionCheckProductosInactivos" prefHeight="30.0" prefWidth="179.0" text="Mostrar productos inactivos" />
                </children>
                <padding>
                   <Insets top="10.0" />
