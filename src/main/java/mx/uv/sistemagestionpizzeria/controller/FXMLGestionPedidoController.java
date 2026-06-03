@@ -63,7 +63,7 @@ public class FXMLGestionPedidoController implements Initializable {
     @FXML
     private Label lbFecha;
     @FXML
-    private ComboBox<String> cbEstado;
+    private Label lbEstado;
     @FXML
     private ComboBox<UsuarioDTO> cbCliente;
 
@@ -90,11 +90,6 @@ public class FXMLGestionPedidoController implements Initializable {
     }
 
     private void configurarComboBoxes() {
-        cbEstado.setItems(FXCollections.observableArrayList(
-            "PENDIENTE", "ENTREGADO", "CANCELADO"
-        ));
-        cbEstado.getSelectionModel().select("PENDIENTE");
-        
         cbCliente.setConverter(new StringConverter<UsuarioDTO>() {
             @Override
             public String toString(UsuarioDTO usuario) {
@@ -219,7 +214,7 @@ public class FXMLGestionPedidoController implements Initializable {
             if (pedidoActual.getFechaPedido() != null) {
                 lbFecha.setText(FechaUtil.formatearFecha(pedidoActual.getFechaPedido()));
             }
-            cbEstado.getSelectionModel().select(pedidoActual.getEstatus());
+            lbEstado.setText(pedidoActual.getEstatus());
             
             if (pedidoActual.getIdCliente() != null) {
                 for (UsuarioDTO u : cbCliente.getItems()) {
@@ -246,7 +241,7 @@ public class FXMLGestionPedidoController implements Initializable {
         lbNumeroPedido.setText("");
         lbNumeroPedido.setVisible(false);
         lbFecha.setText(FechaUtil.formatearFecha(FechaUtil.getFechaActualDate()));
-        cbEstado.getSelectionModel().select("PENDIENTE");
+        lbEstado.setText("PENDIENTE");
         cbCliente.getSelectionModel().clearSelection();
         
         recalcularTotalGlobal();
@@ -330,12 +325,10 @@ public class FXMLGestionPedidoController implements Initializable {
     @FXML
     private void guardarPedido(ActionEvent event) {
         try {
-            // Configurar datos del pedido desde la UI
-            pedidoActual.setEstatus(cbEstado.getValue());
+            pedidoActual.setEstatus(lbEstado.getText());
             UsuarioDTO cliente = cbCliente.getValue();
             pedidoActual.setIdCliente(cliente != null ? cliente.getIdUsuario() : null);
             
-            // Empleado en sesión
             UsuarioDTO empleado = Sesion.getUsuario();
             if (empleado == null) {
                 mostrarAlertaError("Error de Sesión", "No hay un empleado en sesión. Vuelva a iniciar sesión.");
@@ -344,12 +337,10 @@ public class FXMLGestionPedidoController implements Initializable {
             pedidoActual.setIdEmpleado(empleado.getIdUsuario());
 
             if (pedidoActual.getIdPedido() == 0) {
-                // Registrar nuevo
                 pedidoActual.setFechaPedido(FechaUtil.getFechaActualDate());
                 int idGenerado = pedidoService.registrar(pedidoActual);
                 mostrarAlertaInformacion("Pedido Guardado", "Se ha registrado el pedido #" + idGenerado);
             } else {
-                // Actualizar existente
                 pedidoService.actualizar(pedidoActual);
                 mostrarAlertaInformacion("Pedido Actualizado", "Se ha actualizado el pedido #" + pedidoActual.getIdPedido());
             }
