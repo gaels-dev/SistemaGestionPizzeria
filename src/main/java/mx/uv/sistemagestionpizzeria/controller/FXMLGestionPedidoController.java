@@ -10,7 +10,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-import javafx.scene.control.Button; 
+import javafx.scene.control.Button;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Spinner;
@@ -27,7 +27,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 import javafx.util.StringConverter;
-import mx.uv.sistemagestionpizzeria.dto.DetallePedidoDTO; 
+import mx.uv.sistemagestionpizzeria.dto.DetallePedidoDTO;
 import mx.uv.sistemagestionpizzeria.dto.PedidoDTO;
 import mx.uv.sistemagestionpizzeria.dto.ProductoDTO;
 import mx.uv.sistemagestionpizzeria.dto.UsuarioDTO;
@@ -73,9 +73,8 @@ public class FXMLGestionPedidoController implements Initializable {
     private final ObservableList<ProductoDTO> productosList = FXCollections.observableArrayList();
     private final ObservableList<DetallePedidoDTO> detalleList = FXCollections.observableArrayList();
     private static final String TIPO_PRODUCTO = "Producto";
-    
-    private PedidoDTO pedidoActual = new PedidoDTO();
 
+    private PedidoDTO pedidoActual = new PedidoDTO();
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -119,11 +118,11 @@ public class FXMLGestionPedidoController implements Initializable {
                 if (empty || precio == null) {
                     setText(null);
                 } else {
-                    setText(String.format("$%.2f", precio)); 
+                    setText(String.format("$%.2f", precio));
                 }
             }
         });
-            
+
         colSubtotal.setCellValueFactory(new PropertyValueFactory<>("subtotal"));
         colCantidad.setCellValueFactory(new PropertyValueFactory<>("cantidad"));
 
@@ -134,23 +133,29 @@ public class FXMLGestionPedidoController implements Initializable {
                 if (empty || subtotal == null) {
                     setText(null);
                 } else {
-                    setText(String.format("$%.2f", subtotal)); 
+                    setText(String.format("$%.2f", subtotal));
                 }
             }
         });
-        
+
         colCantidad.setCellFactory(column -> new TableCell<DetallePedidoDTO, Integer>() {
             private final Spinner<Integer> spinner = new Spinner<>();
 
             {
                 spinner.setEditable(true);
-                spinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 100, 1));
-                
+                spinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 50, 1));
+
                 spinner.valueProperty().addListener((obs, oldValue, newValue) -> {
                     if (getTableRow() != null && getTableRow().getItem() != null) {
+                        if (newValue > 50) {
+                            mostrarAlertaError("Cantidad inválida", "No puedes pedir más de 50 unidades de un producto.");
+                            spinner.getValueFactory().setValue(oldValue); 
+                            return;
+                        }
+
                         DetallePedidoDTO item = (DetallePedidoDTO) getTableRow().getItem();
                         item.setCantidad(newValue);
-                        
+
                         double subtotalCrudo = item.getPrecioUnitario() * item.getCantidad();
                         double subtotalRedondeado = Math.round(subtotalCrudo * 100.0) / 100.0;
                         item.setSubtotal(subtotalRedondeado);
@@ -175,16 +180,18 @@ public class FXMLGestionPedidoController implements Initializable {
 
         colEliminar.setCellFactory(column -> new TableCell<DetallePedidoDTO, Void>() {
             private final Button btnEliminarRow = new Button("❌");
+
             {
                 btnEliminarRow.setStyle("-fx-background-color: #ff4d4d; -fx-text-fill: white; -fx-cursor: hand;");
                 btnEliminarRow.setOnAction(event -> {
                     DetallePedidoDTO detalle = getTableRow().getItem();
                     if (detalle != null) {
-                        detalleList.remove(detalle); 
-                        recalcularTotalGlobal();    
+                        detalleList.remove(detalle);
+                        recalcularTotalGlobal();
                     }
                 });
             }
+
             @Override
             protected void updateItem(Void item, boolean empty) {
                 super.updateItem(item, empty);
@@ -195,7 +202,7 @@ public class FXMLGestionPedidoController implements Initializable {
                 }
             }
         });
-        
+
         tvPedido.setItems(detalleList);
     }
 
@@ -203,19 +210,18 @@ public class FXMLGestionPedidoController implements Initializable {
         try {
             PedidoDTO pedidoCompleto = pedidoService.obtenerPorId(pedido.getIdPedido());
             this.pedidoActual = pedidoCompleto;
-            
-            // Sincronizar la lista de la UI con el objeto pedido
+
             this.detalleList.setAll(pedidoCompleto.getDetalles());
             this.pedidoActual.setDetalles(detalleList);
-            
+
             lbNumeroPedido.setText(String.valueOf("#" + pedidoActual.getIdPedido()));
             lbNumeroPedido.setVisible(true);
-            
+
             if (pedidoActual.getFechaPedido() != null) {
                 lbFecha.setText(FechaUtil.formatearFecha(pedidoActual.getFechaPedido()));
             }
             lbEstado.setText(pedidoActual.getEstatus());
-            
+
             if (pedidoActual.getIdCliente() != null) {
                 for (UsuarioDTO u : cbCliente.getItems()) {
                     if (u.getIdUsuario() == pedidoActual.getIdCliente()) {
@@ -226,7 +232,7 @@ public class FXMLGestionPedidoController implements Initializable {
             } else {
                 cbCliente.getSelectionModel().clearSelection();
             }
-            
+
             recalcularTotalGlobal();
         } catch (SQLException | NegocioException e) {
             mostrarAlertaError("Error", "No se pudo cargar el pedido: " + e.getMessage());
@@ -237,13 +243,13 @@ public class FXMLGestionPedidoController implements Initializable {
         this.pedidoActual = new PedidoDTO();
         this.pedidoActual.setDetalles(detalleList);
         this.detalleList.clear();
-        
+
         lbNumeroPedido.setText("");
         lbNumeroPedido.setVisible(false);
         lbFecha.setText(FechaUtil.formatearFecha(FechaUtil.getFechaActualDate()));
         lbEstado.setText("PENDIENTE");
         cbCliente.getSelectionModel().clearSelection();
-        
+
         recalcularTotalGlobal();
     }
 
@@ -260,20 +266,24 @@ public class FXMLGestionPedidoController implements Initializable {
                 .findFirst().orElse(null);
 
         if (existe != null) {
+            if (existe.getCantidad() >= 50) {
+                mostrarAlertaError("Cantidad inválida", "No puedes pedir más de 50 unidades del mismo producto.");
+                return;
+            }
             existe.setCantidad(existe.getCantidad() + 1);
             existe.setSubtotal(Math.round(existe.getCantidad() * existe.getPrecioUnitario() * 100.0) / 100.0);
             tvPedido.refresh();
         } else {
             DetallePedidoDTO nuevoDetalle = new DetallePedidoDTO();
             nuevoDetalle.setIdProducto(producto.getIdProducto());
-            nuevoDetalle.setNombreProducto(producto.getNombre()); 
+            nuevoDetalle.setNombreProducto(producto.getNombre());
             nuevoDetalle.setPrecioUnitario(producto.getPrecio());
             nuevoDetalle.setCantidad(1);
             nuevoDetalle.setSubtotal(producto.getPrecio());
             this.detalleList.add(nuevoDetalle);
         }
         recalcularTotalGlobal();
-    } 
+    }
 
     private void configurarListView() {
         lvProductos.setItems(productosList);
@@ -310,13 +320,15 @@ public class FXMLGestionPedidoController implements Initializable {
             ex.printStackTrace();
         }
     }
-    
+
     private void cargarVista(String nombreFxml) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/" + nombreFxml));
             Parent vista = loader.load();
             StackPane mainContainer = (StackPane) tvPedido.getScene().lookup("#contenidoPrincipal");
-            if (mainContainer != null) mainContainer.getChildren().setAll(vista);
+            if (mainContainer != null) {
+                mainContainer.getChildren().setAll(vista);
+            }
         } catch (IOException e) {
             mostrarAlertaError("Error", "No se pudo cargar la pantalla: " + nombreFxml);
         }
@@ -328,7 +340,7 @@ public class FXMLGestionPedidoController implements Initializable {
             pedidoActual.setEstatus(lbEstado.getText());
             UsuarioDTO cliente = cbCliente.getValue();
             pedidoActual.setIdCliente(cliente != null ? cliente.getIdUsuario() : null);
-            
+
             UsuarioDTO empleado = Sesion.getUsuario();
             if (empleado == null) {
                 mostrarAlertaError("Error de Sesión", "No hay un empleado en sesión. Vuelva a iniciar sesión.");
@@ -344,7 +356,7 @@ public class FXMLGestionPedidoController implements Initializable {
                 pedidoService.actualizar(pedidoActual);
                 mostrarAlertaInformacion("Pedido Actualizado", "Se ha actualizado el pedido #" + pedidoActual.getIdPedido());
             }
-            
+
             salirDelPedido(null);
         } catch (SQLException | NegocioException e) {
             mostrarAlertaError("Error al guardar", e.getMessage());
