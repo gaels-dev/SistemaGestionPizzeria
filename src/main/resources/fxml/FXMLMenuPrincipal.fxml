@@ -39,6 +39,7 @@
                         <SeparatorMenuItem mnemonicParsing="false" />
                         <MenuItem mnemonicParsing="false" onAction="#abrirGestionInventario" text="Gestión Inventarios" />
                         <SeparatorMenuItem mnemonicParsing="false" />
+                        <MenuItem mnemonicParsing="false" onAction="#abrirHistorialInventario" text="Historial Inventarios" />
                      </items>
                   </Menu>
                   <Menu fx:id="menuPedidos" mnemonicParsing="false" text="Pedidos">
