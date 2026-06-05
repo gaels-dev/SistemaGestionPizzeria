@@ -65,8 +65,15 @@ public class FXMLGestionInventarioController implements Initializable {
         colCantReal.setCellValueFactory(new PropertyValueFactory<>("cantidadReal"));
         colCantReal.setCellFactory(TextFieldTableCell.forTableColumn(new DoubleStringConverter()));
         colCantReal.setOnEditCommit(event -> {
+            Double nuevoValor = event.getNewValue();
+            if (nuevoValor != null && nuevoValor < 0) {
+                Alerta.mostrarAlertaSimple("Validación", "La cantidad real no puede ser negativa.", 
+                        Alert.AlertType.WARNING, tvInventario.getScene().getWindow());
+                tvInventario.refresh();
+                return;
+            }
             ProductoDTO producto = event.getRowValue();
-            producto.setCantidadReal(event.getNewValue());
+            producto.setCantidadReal(nuevoValor);
             tvInventario.refresh(); // Para actualizar la columna Diferencia
         });
 
@@ -136,6 +143,16 @@ public class FXMLGestionInventarioController implements Initializable {
         if (masterData.isEmpty()) {
             Alerta.mostrarAlertaSimple("Información", "No hay insumos cargados para validar.", Alert.AlertType.INFORMATION, tvInventario.getScene().getWindow());
             return;
+        }
+
+        // Validar que no haya cantidades negativas
+        for (ProductoDTO p : masterData) {
+            if (p.getCantidadReal() < 0) {
+                Alerta.mostrarAlertaSimple("Error de validación", 
+                        "El insumo '" + p.getNombre() + "' tiene una cantidad negativa. Por favor verifique.", 
+                        Alert.AlertType.WARNING, tvInventario.getScene().getWindow());
+                return;
+            }
         }
 
         Alert confirmacion = new Alert(Alert.AlertType.CONFIRMATION);
