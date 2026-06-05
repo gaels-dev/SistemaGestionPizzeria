@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -39,12 +40,19 @@ public class FXMLRecetasController implements Initializable {
     @FXML private Button btnAgregar;
     @FXML private Button btnEliminar;
     @FXML private Button btnGuardarReceta;
+    @FXML private TextField tfFiltroProducto;
+    @FXML private TextField tfFiltroInsumo;
 
     private final ProductoDAO productoDAO = new ProductoDAO();
     private final RecetaService recetaService = new RecetaService();
     private ObservableList<RecetaDTO> listaReceta;
-    private ObservableList<ProductoDTO> listaProductos;
-    private ObservableList<ProductoDTO> listaInsumos;
+    private ObservableList<ProductoDTO> masterProductos = FXCollections.observableArrayList();
+    private ObservableList<ProductoDTO> masterInsumos = FXCollections.observableArrayList();
+    private FilteredList<ProductoDTO> filteredProductos;
+    private FilteredList<ProductoDTO> filteredInsumos;
+    
+    private static final double MAX_CANTIDAD_RECETA = 2000.0;
+
     @FXML
     private Button btnLimpiar;
 
@@ -53,6 +61,7 @@ public class FXMLRecetasController implements Initializable {
         configurarTabla();
         configurarComboBoxes();
         cargarDatos();
+        configurarFiltros();
     }
 
     private void configurarTabla() {
@@ -90,14 +99,34 @@ public class FXMLRecetasController implements Initializable {
 
     private void cargarDatos() {
         try {
-            listaProductos = FXCollections.observableArrayList(productoDAO.listarPorTipo("Producto"));
-            cbProductos.setItems(listaProductos);
+            masterProductos.setAll(productoDAO.listarPorTipo("Producto"));
+            filteredProductos = new FilteredList<>(masterProductos, p -> true);
+            cbProductos.setItems(filteredProductos);
 
-            listaInsumos = FXCollections.observableArrayList(productoDAO.listarPorTipo("Insumo"));
-            cbInsumos.setItems(listaInsumos);
+            masterInsumos.setAll(productoDAO.listarPorTipo("Insumo"));
+            filteredInsumos = new FilteredList<>(masterInsumos, p -> true);
+            cbInsumos.setItems(filteredInsumos);
         } catch (SQLException e) {
             Alerta.mostrarAlertaSimple("Error", "Error al cargar productos: " + e.getMessage(), Alert.AlertType.ERROR, tvReceta.getScene().getWindow());
         }
+    }
+
+    private void configurarFiltros() {
+        tfFiltroProducto.textProperty().addListener((obs, oldVal, newVal) -> {
+            filteredProductos.setPredicate(p -> {
+                if (newVal == null || newVal.isEmpty()) return true;
+                String lower = newVal.toLowerCase();
+                return p.getNombre().toLowerCase().contains(lower) || p.getCodigo().toLowerCase().contains(lower);
+            });
+        });
+
+        tfFiltroInsumo.textProperty().addListener((obs, oldVal, newVal) -> {
+            filteredInsumos.setPredicate(p -> {
+                if (newVal == null || newVal.isEmpty()) return true;
+                String lower = newVal.toLowerCase();
+                return p.getNombre().toLowerCase().contains(lower) || p.getCodigo().toLowerCase().contains(lower);
+            });
+        });
     }
 
     @FXML
@@ -142,6 +171,11 @@ public class FXMLRecetasController implements Initializable {
                 Alerta.mostrarAlertaSimple("Validación", "La cantidad debe ser mayor a cero.", Alert.AlertType.WARNING, tvReceta.getScene().getWindow());
                 return;
             }
+            
+            if (cantidad > MAX_CANTIDAD_RECETA) {
+                Alerta.mostrarAlertaSimple("Validación", "La cantidad excede el máximo permitido (" + MAX_CANTIDAD_RECETA + ").", Alert.AlertType.WARNING, tvReceta.getScene().getWindow());
+                return;
+            }
 
             // Verificar si el insumo ya está en la lista local
             for (RecetaDTO r : listaReceta) {
@@ -172,7 +206,9 @@ public class FXMLRecetasController implements Initializable {
         cbInsumos.getSelectionModel().clearSelection();
         tfCantidad.clear();
         lblUnidad.setText("---");
+        tfFiltroInsumo.clear();
     }
+
 
     @FXML
     private void clicBtnEliminar(ActionEvent event) {

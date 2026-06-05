@@ -20,8 +20,13 @@
             
             <HBox alignment="CENTER_LEFT" spacing="15.0" styleClass="white-card">
                <children>
-                  <Label styleClass="label-standard" text="Seleccionar Producto:" />
-                  <ComboBox fx:id="cbProductos" onAction="#seleccionarProducto" prefWidth="300.0" promptText="--- Seleccione un producto ---" />
+                  <VBox spacing="5.0">
+                     <children>
+                        <Label styleClass="label-standard" text="Buscar y Seleccionar Producto:" />
+                        <TextField fx:id="tfFiltroProducto" prefWidth="350.0" promptText="Escriba nombre o código para filtrar..." />
+                        <ComboBox fx:id="cbProductos" onAction="#seleccionarProducto" prefWidth="350.0" promptText="--- Seleccione un producto ---" />
+                     </children>
+                  </VBox>
                   <Separator orientation="VERTICAL" />
                   <Label fx:id="lblCodigoProducto" styleClass="label-standard" text="Código: ---" />
                </children>
@@ -33,13 +38,15 @@
             <HBox spacing="20.0" VBox.vgrow="ALWAYS">
                <children>
                   <!-- Panel Izquierdo: Formulario de Ingrediente -->
-                  <VBox prefWidth="300.0" spacing="15.0" styleClass="white-card">
+                  <VBox prefWidth="320.0" spacing="15.0" styleClass="white-card">
                      <children>
                         <Label styleClass="title-sub" text="Agregar/Editar Ingrediente" />
                         <VBox spacing="5.0">
                            <children>
+                              <Label styleClass="label-standard" text="Filtrar Insumo:" />
+                              <TextField fx:id="tfFiltroInsumo" promptText="Buscar insumo..." />
                               <Label styleClass="label-standard" text="Insumo:" />
-                              <ComboBox fx:id="cbInsumos" prefWidth="270.0" promptText="Seleccionar insumo" />
+                              <ComboBox fx:id="cbInsumos" prefWidth="280.0" promptText="Seleccionar insumo" />
                            </children>
                         </VBox>
                         <VBox spacing="5.0">
