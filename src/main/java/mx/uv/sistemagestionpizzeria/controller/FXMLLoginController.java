@@ -43,7 +43,6 @@ public class FXMLLoginController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         ocultarError();
-        //mostrarError("Usuario y/o contraseñas invalidas");
     }    
 
     @FXML
@@ -88,16 +87,13 @@ public class FXMLLoginController implements Initializable {
 
         Parent root = loader.load();
 
-        // Pasar el usuario al controller del menu antes de mostrarlo
         FXMLMenuPrincipalController menuController = loader.getController();
         menuController.inicializarConUsuario(usuario);
 
-        // Obtener el Stage actual y cambiar la raíz de la escena para evitar parpadeos
         Stage stage = (Stage) btnLogin.getScene().getWindow();
         stage.getScene().setRoot(root);
         stage.setTitle("Sistema de Gestión Pizzería \"Italia Pizza\"");
 
-        // Re-asegurar pantalla completa
         stage.setFullScreen(true);
     }
     

@@ -38,6 +38,7 @@ import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.stage.FileChooser;
 import javafx.util.StringConverter;
@@ -82,7 +83,6 @@ public class FXMLAdministracionPedidosController implements Initializable {
     private final UsuarioService usuarioService = new UsuarioService();
     private final ObservableList<PedidoDTO> pedidosList = FXCollections.observableArrayList();
     
-    // Bandera para evitar disparos infinitos de listeners al limpiar otros campos
     private boolean limpiandoFiltros = false;
 
     /**
@@ -97,7 +97,6 @@ public class FXMLAdministracionPedidosController implements Initializable {
     }    
 
     private void configurarListenersFiltros() {
-        // Al seleccionar un cliente, limpiamos combo y fecha
         cbCliente.valueProperty().addListener((obs, oldVal, newVal) -> {
             if (!limpiandoFiltros && newVal != null) {
                 limpiandoFiltros = true;
@@ -107,7 +106,6 @@ public class FXMLAdministracionPedidosController implements Initializable {
             }
         });
 
-        // Al seleccionar un estado, limpiamos cliente y fecha
         cbEstado.valueProperty().addListener((obs, oldVal, newVal) -> {
             if (!limpiandoFiltros && newVal != null && !"TODOS".equals(newVal)) {
                 limpiandoFiltros = true;
@@ -117,7 +115,6 @@ public class FXMLAdministracionPedidosController implements Initializable {
             }
         });
 
-        // Al seleccionar una fecha, limpiamos cliente y combo
         dpFecha.valueProperty().addListener((obs, oldVal, newVal) -> {
             if (!limpiandoFiltros && newVal != null) {
                 limpiandoFiltros = true;
@@ -159,7 +156,6 @@ public class FXMLAdministracionPedidosController implements Initializable {
         
         tvPedidos.setItems(pedidosList);
 
-        // Listener para mostrar/ocultar botones de cambio de estado según selección
         tvPedidos.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             boolean visible = newSelection != null;
             btnEntregar.setVisible(visible);
@@ -168,7 +164,6 @@ public class FXMLAdministracionPedidosController implements Initializable {
             btnCancelar.setManaged(visible);
         });
 
-        // Listener para doble clic en las filas de la tabla
         tvPedidos.setOnMouseClicked(event -> {
             if (event.getClickCount() == 2 && tvPedidos.getSelectionModel().getSelectedItem() != null) {
                 PedidoDTO pedidoSeleccionado = tvPedidos.getSelectionModel().getSelectedItem();
@@ -182,11 +177,9 @@ public class FXMLAdministracionPedidosController implements Initializable {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/FXMLGestionPedido.fxml"));
             Parent vista = loader.load();
             
-            // Obtener el controlador y pasarle el pedido
             FXMLGestionPedidoController controller = loader.getController();
             controller.inicializarConPedido(pedido);
             
-            // Cambiar la vista en el contenedor principal
             StackPane mainContainer = (StackPane) tvPedidos.getScene().lookup("#contenidoPrincipal");
             if (mainContainer != null) {
                 mainContainer.getChildren().setAll(vista);
@@ -210,7 +203,6 @@ public class FXMLAdministracionPedidosController implements Initializable {
             "PENDIENTE", "ENTREGADO", "CANCELADO"
         ));
         
-        // Configurar ComboBox de Clientes
         cbCliente.setConverter(new StringConverter<UsuarioDTO>() {
             @Override
             public String toString(UsuarioDTO usuario) {
@@ -219,7 +211,7 @@ public class FXMLAdministracionPedidosController implements Initializable {
 
             @Override
             public UsuarioDTO fromString(String string) {
-                return null; // No necesario para selección
+                return null; 
             }
         });
 
@@ -271,11 +263,9 @@ public class FXMLAdministracionPedidosController implements Initializable {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/FXMLGestionPedido.fxml"));
             Parent vista = loader.load();
             
-            // Obtener el controlador y prepararlo para un nuevo pedido
             FXMLGestionPedidoController controller = loader.getController();
             controller.prepararNuevoPedido();
             
-            // Cambiar la vista en el contenedor principal
             StackPane mainContainer = (StackPane) tvPedidos.getScene().lookup("#contenidoPrincipal");
             if (mainContainer != null) {
                 mainContainer.getChildren().setAll(vista);
@@ -485,10 +475,8 @@ public class FXMLAdministracionPedidosController implements Initializable {
                 pedidoService.actualizarEstatus(seleccionado.getIdPedido(), nuevoEstado);
                 mostrarAlertaInformacion("Estado Actualizado", "El pedido #" + seleccionado.getIdPedido() + " ahora está " + nuevoEstado + ".");
                 
-                // Limpiar selección y ocultar botones
                 tvPedidos.getSelectionModel().clearSelection();
                 
-                // Refrescar la tabla
                 cargarDatosIniciales();
             } catch (SQLException | NegocioException e) {
                 mostrarAlertaError("Error", "No se pudo actualizar el estado: " + e.getMessage());
@@ -504,6 +492,7 @@ public class FXMLAdministracionPedidosController implements Initializable {
         alert.setTitle("Información");
         alert.setHeaderText(null);
         alert.setContentText(mensaje);
+        alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
         alert.showAndWait();
     }
     
@@ -515,6 +504,7 @@ public class FXMLAdministracionPedidosController implements Initializable {
         alert.setTitle("Error");
         alert.setHeaderText(titulo);
         alert.setContentText(mensaje);
+        alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
         alert.showAndWait();
     }    
 }

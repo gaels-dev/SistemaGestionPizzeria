@@ -25,6 +25,7 @@ import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.util.StringConverter;
 import mx.uv.sistemagestionpizzeria.dto.DetallePedidoDTO;
@@ -371,6 +372,7 @@ public class FXMLGestionPedidoController implements Initializable {
         alert.setTitle("Información");
         alert.setHeaderText(titulo);
         alert.setContentText(mensaje);
+        alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
         alert.showAndWait();
     }
 
@@ -392,6 +394,7 @@ public class FXMLGestionPedidoController implements Initializable {
         alert.setTitle("Error");
         alert.setHeaderText(titulo);
         alert.setContentText(mensaje);
+        alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
         alert.showAndWait();
     }
 

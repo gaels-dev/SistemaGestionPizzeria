@@ -14,7 +14,6 @@ import com.itextpdf.text.pdf.PdfWriter;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.List;
 import mx.uv.sistemagestionpizzeria.dto.DetalleRegistroInventarioDTO;
 import mx.uv.sistemagestionpizzeria.dto.RegistroInventarioDTO;
 
@@ -31,13 +30,13 @@ public class GeneradorPDF {
         PdfWriter.getInstance(documento, new FileOutputStream(destino));
         documento.open();
 
-        // 1. Encabezado
+        // Encabezado
         Paragraph titulo = new Paragraph("ITALIA PIZZA - REPORTE DE INVENTARIO", FONT_TITULO);
         titulo.setAlignment(Element.ALIGN_CENTER);
         titulo.setSpacingAfter(20);
         documento.add(titulo);
 
-        // 2. Información del Registro
+        // Información del Registro
         documento.add(new Paragraph("Información General", FONT_SUBTITULO));
         documento.add(new Paragraph("ID Registro: " + registro.getIdRegistro(), FONT_TEXTO));
         documento.add(new Paragraph("Fecha de Validación: " + registro.getFecha(), FONT_TEXTO));
@@ -45,7 +44,7 @@ public class GeneradorPDF {
         documento.add(new Paragraph("Notas: " + (registro.getNotas() != null ? registro.getNotas() : "N/A"), FONT_TEXTO));
         documento.add(new Paragraph(" ", FONT_TEXTO)); // Espacio
 
-        // 3. Tabla de Detalles
+        // Tabla de Detalles
         PdfPTable tabla = new PdfPTable(6); // 6 columnas
         tabla.setWidthPercentage(100);
         tabla.setSpacingBefore(10f);
@@ -67,7 +66,6 @@ public class GeneradorPDF {
             tabla.addCell(new Phrase(String.format("%.2f", detalle.getCantidadSistema()), FONT_TEXTO));
             tabla.addCell(new Phrase(String.format("%.2f", detalle.getCantidadReal()), FONT_TEXTO));
             
-            // Celda de diferencia con color condicional si es posible (en iText 5 se hace en el Cell)
             PdfPCell celdaDif = new PdfPCell(new Phrase(String.format("%.2f", detalle.getDiferencia()), FONT_TEXTO));
             if (detalle.getDiferencia() < 0) {
                 celdaDif.setBackgroundColor(new BaseColor(255, 230, 230)); // Fondo rojizo suave
@@ -79,7 +77,7 @@ public class GeneradorPDF {
 
         documento.add(tabla);
 
-        // 4. Pie de página
+        // Pie de página
         Paragraph pie = new Paragraph("\nReporte generado automáticamente por Sistema de Gestión Italia Pizza.", FONT_TEXTO);
         pie.setAlignment(Element.ALIGN_RIGHT);
         documento.add(pie);
@@ -89,7 +87,7 @@ public class GeneradorPDF {
 
     private static void agregarCeldaCabecera(PdfPTable tabla, String texto) {
         PdfPCell celda = new PdfPCell(new Phrase(texto, FONT_TABLA_HDR));
-        celda.setBackgroundColor(new BaseColor(34, 34, 34)); // #222222
+        celda.setBackgroundColor(new BaseColor(34, 34, 34));
         celda.setHorizontalAlignment(Element.ALIGN_CENTER);
         celda.setPadding(5);
         tabla.addCell(celda);

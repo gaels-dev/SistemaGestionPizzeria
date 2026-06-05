@@ -176,7 +176,6 @@ public class FXMLProductosController implements Initializable {
 
             Parent root = loader.load();
 
-            // Le pasamos el producto seleccionado al controller de edición
             FXMLEditarProductoController controller = loader.getController();
             controller.setProducto(seleccionado);
 
@@ -186,7 +185,7 @@ public class FXMLProductosController implements Initializable {
             stageModal.initOwner(stageMain);
             stageModal.showAndWait();
 
-            cargarProductos(tfBusqueda.getText()); // Refrescar tabla al cerrar
+            cargarProductos(tfBusqueda.getText()); 
         } catch (IOException e) {
             e.printStackTrace();
         }
