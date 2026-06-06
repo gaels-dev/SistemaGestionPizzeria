@@ -57,6 +57,7 @@
                         <Label fx:id="lbEstado" style="-fx-font-weight: bold;" />
                         <Label text="Cliente:" />
                         <ComboBox fx:id="cbCliente" prefWidth="200.0" />
+                        <Button onAction="#registrarCliente" style="-fx-background-color: #2da52d; -fx-font-weight: bold;" text="+ Nuevo Cliente" textFill="WHITE" />
                      </children>
                   </HBox>
                   <TableView fx:id="tvPedido" VBox.vgrow="ALWAYS">

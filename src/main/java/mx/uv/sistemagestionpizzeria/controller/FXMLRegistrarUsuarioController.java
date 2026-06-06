@@ -219,4 +219,12 @@ public class FXMLRegistrarUsuarioController implements Initializable {
         return false;
     }
     
+    public void forzarCliente(){
+        rbCliente.setSelected(true);
+        cambiarFormulario(null);
+        
+        rbEmpleado.setDisable(true);
+        rbCliente.setDisable(true);
+    }
+    
 }

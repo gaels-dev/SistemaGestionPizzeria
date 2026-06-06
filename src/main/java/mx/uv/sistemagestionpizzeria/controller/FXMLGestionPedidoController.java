@@ -398,4 +398,30 @@ public class FXMLGestionPedidoController implements Initializable {
         alert.showAndWait();
     }
 
+    @FXML
+    private void registrarCliente(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/FXMLRegistrarUsuario.fxml"));
+            Parent root = loader.load();
+            FXMLRegistrarUsuarioController controller = loader.getController();
+            controller.forzarCliente();
+            
+            javafx.stage.Stage stage = new javafx.stage.Stage();
+            stage.initModality(javafx.stage.Modality.APPLICATION_MODAL);
+            if (cbCliente.getScene() != null && cbCliente.getScene().getWindow() != null) {
+                stage.initOwner(cbCliente.getScene().getWindow());
+            }
+            stage.setTitle("Nuevo Cliente");
+            stage.setScene(new javafx.scene.Scene(root));
+            stage.showAndWait();
+            
+            cbCliente.getItems().clear();
+            cbCliente.setItems(FXCollections.observableArrayList(usuarioService.obtenerPorTipo("CLIENTE")));
+            
+        }catch (Exception e) {
+            mostrarAlertaError("Error", "No se pudo abrir la pantalla de registro: " + e.getMessage());
+        }
+    }
+
+    
 }
